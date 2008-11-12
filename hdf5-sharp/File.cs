@@ -9,27 +9,21 @@ using System.Runtime.InteropServices;
 
 namespace Hdf5
 {
-    [Flags]
-    public enum FileAccessFlags
-    {
-        ReadOnly  = 0x0000,
-        ReadWrite = 0x0001,
-        Truncate  = 0x0002,
-        Exclusive = 0x0004,
-        Debug     = 0x0008,
-        Create    = 0x0010
-    }
-    
     public class File : Location
     {
         public File(string filename, FileAccessFlags flags)
         {
             raw = H5Fcreate(filename, (uint)flags, 0, 0);
+            if (raw < 0)
+                throw new ApplicationException();
         }
+        
+        // IDisposable stuff
         
         protected override void Dispose (bool disposing)
         {
             H5Fclose(raw);
+            base.Dispose(disposing);
         }
         
         // imports

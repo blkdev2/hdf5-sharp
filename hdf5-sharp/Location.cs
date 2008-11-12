@@ -8,28 +8,11 @@ using System;
 
 namespace Hdf5
 {
-    public abstract class Location : Base, IDisposable
+    public abstract class Location : Base
     {
-        ~Location()
-        {
-            Dispose();
-        }
-        
-        // IDisposable stuff
-        
-        private bool disposed = false;
-        
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-        
-        protected abstract void Dispose(bool disposing);
-        
         public void Close()
         {
             Dispose();
-        }        
+        }
     }
 }
