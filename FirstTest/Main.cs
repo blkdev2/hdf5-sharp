@@ -16,7 +16,8 @@ namespace Hdf5
             H5.GetVersion(out maj, out min, out rel);
             Console.WriteLine("HDF5 library version {0}.{1}.{2}", maj, min, rel);
             
-            File f = new File("first_test.h5", FileAccessFlags.Truncate);
+            File f = File.Create("first_test.h5", FileAccessFlags.Truncate);
+            Group g = Group.Create(f, "/G1");
             Console.WriteLine("Create file first_test.h5");
             Dataset ds1, ds2, ds3, ds4, ds5;
 //            ds = Dataset.CreateFromData<int>(f, "T1", new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
@@ -33,13 +34,13 @@ namespace Hdf5
                                                                          {12.0, 13.0, 14.0, 15.0}});
             Console.WriteLine("done.");
             Console.Write("Adding dataset ds3... ");
-            ds3 = Dataset.CreateFromData(f, "S1", new string[] {"String 1",
+            ds3 = Dataset.CreateFromData(g, "S1", new string[] {"String 1",
                                                                 "Some other string",
                                                                 "Third string which is quite a bit longer",
                                                                 "Last!"});
             Console.WriteLine("done.");
             Console.Write("Adding dataset ds4... ");
-            ds4 = Dataset.CreateFromData(f, "S2", new string[,] {{"S(1,1)", "S(1,2)"},
+            ds4 = Dataset.CreateFromData(g, "S2", new string[,] {{"S(1,1)", "S(1,2)"},
                                                                  {"S(2,1)", "S(2,2)"}});
             Console.WriteLine("done.");
             Console.Write("Adding dataset ds5... ");
@@ -105,6 +106,7 @@ namespace Hdf5
             ds2.Close();
             ds3.Close();
             ds4.Close();
+            ds5.Close();
             f.Close();
         }
     }
