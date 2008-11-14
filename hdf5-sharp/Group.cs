@@ -46,11 +46,5 @@ namespace Hdf5
 
         [DllImport("hdf5")]
         private static extern int H5Gclose(int group_id);
-
-        [DllImport("hdf5")]
-        private static extern int H5Fget_filesize(int file_id, out ulong size);
-
-        [DllImport("hdf5")]
-        private static extern int H5Fis_hdf5(string filename);
     }
 }

@@ -25,7 +25,7 @@ namespace Hdf5
         
         ~Base()
         {
-            Dispose();
+            Dispose(false);
         }
         
         // IDisposable stuff
