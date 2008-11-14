@@ -9,6 +9,13 @@ using System.Runtime.InteropServices;
 
 namespace Hdf5
 {
+    public enum FileScope
+    {
+        Local   = 0,
+        Global  = 1,
+        Down    = 2
+    }
+    
     public class File : Location
     {
         public File(string filename, FileAccessFlags flags)
@@ -16,6 +23,27 @@ namespace Hdf5
             raw = H5Fcreate(filename, (uint)flags, 0, 0);
             if (raw < 0)
                 throw new ApplicationException();
+        }
+        
+        public void Flush()
+        {
+            Flush(FileScope.Local);
+        }
+        
+        public void Flush(FileScope scope)
+        {
+        }
+        
+        public ulong Filesize
+        {
+            get
+            {
+                ulong size;
+                int err = H5Fget_filesize(raw, out size);
+                if (err < 0)
+                    throw new ApplicationException("Error getting file size.");
+                return size;
+            }
         }
         
         // IDisposable stuff
@@ -26,6 +54,14 @@ namespace Hdf5
             base.Dispose(disposing);
         }
         
+        public static bool IsHdf5(string filename)
+        {
+            int result = H5Fis_hdf5(filename);
+            if (result < 0)
+                throw new ApplicationException("Error determining file type.");
+            return result > 0;
+        }
+        
         // imports
 
         [DllImport("hdf5")]
@@ -33,5 +69,11 @@ namespace Hdf5
 
         [DllImport("hdf5")]
         private static extern int H5Fclose(int file_id);
+
+        [DllImport("hdf5")]
+        private static extern int H5Fget_filesize(int file_id, out ulong size);
+
+        [DllImport("hdf5")]
+        private static extern int H5Fis_hdf5(string filename);
     }
 }

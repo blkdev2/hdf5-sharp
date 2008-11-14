@@ -18,6 +18,8 @@ namespace Hdf5
         
         internal Base(int raw)
         {
+            if (raw < 0)
+                throw new ApplicationException("Invalid ID.");
             this.raw = raw;
         }
         

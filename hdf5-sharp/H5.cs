@@ -17,6 +17,13 @@ namespace Hdf5
     
     public class H5
     {
+        public static void Open()
+        {
+            int err = H5open();
+            if (err < 0)
+                throw new ApplicationException("Error opening HDF5 library.");
+        }
+        
         public static void CheckVersion(uint majnum, uint minnum, uint relnum)
         {
             H5check_version(majnum, minnum, relnum);
@@ -33,6 +40,9 @@ namespace Hdf5
         }
 
         // imports
+
+        [DllImport("hdf5")]
+        private static extern int H5open();
 
         [DllImport("hdf5")]
         private static extern int H5check_version(uint majnum, uint minnum, uint relnum);
