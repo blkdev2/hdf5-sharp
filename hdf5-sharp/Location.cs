@@ -9,8 +9,19 @@ using System.Runtime.InteropServices;
 
 namespace Hdf5
 {
+    public enum ObjectType
+    {
+        Unknown   =  -1, /* Unknown object type		*/
+        Link      =   0, /* Object is a symbolic link	*/
+        Group     =   1, /* Object is a group		*/
+        Dataset   =   2, /* Object is a dataset		*/
+        Type      =   3, /* Object is a named data type	*/
+    }
+    
     public abstract class Location : Base
     {
+        internal Location(int raw) : base(raw) {}
+        
         public void Close()
         {
             Dispose();
@@ -18,6 +29,8 @@ namespace Hdf5
         
         public string GetObjectName(int index)
         {
+            if (index < 0 || index >= NumObjects)
+                throw new ArgumentOutOfRangeException("index");
             long size = H5Gget_objname_by_idx(raw, (ulong)index, IntPtr.Zero, 0);
             if (size < 0)
                 throw new ApplicationException("Error determining length of object name.");
@@ -32,6 +45,13 @@ namespace Hdf5
             string name = Marshal.PtrToStringAnsi(hname);
             Marshal.FreeHGlobal(hname);
             return name;
+        }
+        
+        public ObjectType GetObjectType(int index)
+        {
+            if (index < 0 || index >= NumObjects)
+                throw new ArgumentOutOfRangeException("index");
+            return H5Gget_objtype_by_idx(raw, (ulong)index);
         }
         
         public int NumObjects
@@ -53,5 +73,8 @@ namespace Hdf5
         
         [DllImport("hdf5")]
         private static extern long H5Gget_objname_by_idx(int loc, ulong idx, IntPtr name, long size);
+        
+        [DllImport("hdf5")]
+        private static extern ObjectType H5Gget_objtype_by_idx(int loc, ulong idx);
     }
 }

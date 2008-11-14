@@ -18,11 +18,8 @@ namespace Hdf5
     
     public class File : Location
     {
-        public File(string filename, FileAccessFlags flags)
+        public File(int raw) : base(raw)
         {
-            raw = H5Fcreate(filename, (uint)flags, 0, 0);
-            if (raw < 0)
-                throw new ApplicationException();
         }
         
         public void Flush()
@@ -46,12 +43,43 @@ namespace Hdf5
             }
         }
         
+        public string Filename
+        {
+            get
+            {
+                long size = H5Fget_name(raw, IntPtr.Zero, 0);
+                if (size < 0)
+                    throw new ApplicationException("Error determining length of file name.");
+                else if (size == 0)
+                    return null;
+                IntPtr hname = Marshal.AllocHGlobal((int)size+1);
+                size = H5Fget_name(raw, hname, size+1);
+                if (size < 0)
+                    throw new ApplicationException("Error getting file name.");
+                else if (size == 0)
+                    return null;
+                string name = Marshal.PtrToStringAnsi(hname);
+                Marshal.FreeHGlobal(hname);
+                return name;
+            }
+        }
+        
         // IDisposable stuff
         
         protected override void Dispose (bool disposing)
         {
             H5Fclose(raw);
             base.Dispose(disposing);
+        }
+        
+        public static File Create(string filename, FileAccessFlags flags)
+        {
+            return new File(H5Fcreate(filename, (uint)flags, 0, 0));
+        }
+        
+        public static File Open(string filename, FileAccessFlags flags)
+        {
+            return new File(H5Fopen(filename, (uint)flags, 0));
         }
         
         public static bool IsHdf5(string filename)
@@ -68,10 +96,16 @@ namespace Hdf5
         private static extern int H5Fcreate(string filename, uint flags, int create_id, int access_id);
 
         [DllImport("hdf5")]
+        private static extern int H5Fopen(string filename, uint flags, int access_id);
+
+        [DllImport("hdf5")]
         private static extern int H5Fclose(int file_id);
 
         [DllImport("hdf5")]
         private static extern int H5Fget_filesize(int file_id, out ulong size);
+
+        [DllImport("hdf5")]
+        private static extern int H5Fget_name(int file_id, IntPtr name, long size);
 
         [DllImport("hdf5")]
         private static extern int H5Fis_hdf5(string filename);
