@@ -31,13 +31,13 @@ namespace Hdf5
         {
             if (index < 0 || index >= NumObjects)
                 throw new ArgumentOutOfRangeException("index");
-            long size = H5Gget_objname_by_idx(raw, (ulong)index, IntPtr.Zero, 0);
+            long size = (long)H5Gget_objname_by_idx(raw, (ulong)index, IntPtr.Zero, (IntPtr)0);
             if (size < 0)
                 throw new ApplicationException("Error determining length of object name.");
             else if (size == 0)
                 return null;
             IntPtr hname = Marshal.AllocHGlobal((int)size+1);
-            size = H5Gget_objname_by_idx(raw, (ulong)index, hname, size+1);
+            size = (long)H5Gget_objname_by_idx(raw, (ulong)index, hname, (IntPtr)(size+1));
             if (size < 0)
                 throw new ApplicationException("Error getting object name.");
             else if (size == 0)
@@ -72,7 +72,7 @@ namespace Hdf5
         private static extern int H5Gget_num_objs(int loc, out ulong num_obj);
         
         [DllImport("hdf5")]
-        private static extern long H5Gget_objname_by_idx(int loc, ulong idx, IntPtr name, long size);
+        private static extern IntPtr H5Gget_objname_by_idx(int loc, ulong idx, IntPtr name, IntPtr size);
         
         [DllImport("hdf5")]
         private static extern ObjectType H5Gget_objtype_by_idx(int loc, ulong idx);
