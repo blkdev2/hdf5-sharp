@@ -70,7 +70,7 @@ namespace Hdf5
         static Datatype()
         {
             H5.Open();
-            hdf5_handle = dlopen("libhdf5.so", RTLD_LAZY);
+            hdf5_handle = dlopen(null, RTLD_LAZY);
             if (hdf5_handle == IntPtr.Zero)
                 throw new ApplicationException(String.Format("Error loading libhdf5. Reason {0}", Marshal.PtrToStringAnsi(dlerror())));
             H5T_STD_I8LE_g        = dlsym(hdf5_handle, "H5T_STD_I8LE_g");
