@@ -9,6 +9,14 @@ namespace Hdf5
 {
     class MainClass
     {
+        private struct Triplet
+        {
+            public int i;
+            public int j;
+            public double v;
+            public Triplet(int i, int j, double v) { this.i=i; this.j=j; this.v=v; }
+        }
+        
         public static void Main(string[] args)
         {
             //H5.CheckVersion(1, 6, 4);
@@ -19,7 +27,7 @@ namespace Hdf5
             File f = File.Create("first_test.h5", FileAccessFlags.Truncate);
             Group g = Group.Create(f, "/G1");
             Console.WriteLine("Create file first_test.h5");
-            Dataset ds1, ds2, ds3, ds4, ds5;
+            Dataset ds1, ds2, ds3, ds4, ds5, ds6;
 //            ds = Dataset.CreateFromData<int>(f, "T1", new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
             Console.Write("Adding dataset ds1... ");
             ds1 = Dataset.CreateFromData<int>(f, "T1", new int[,] {{0, 1, 2, 3},
@@ -49,10 +57,20 @@ namespace Hdf5
                                                                           new double[] { 3.3,  4.4,  5.5},
                                                                           new double[] { 6.6,  7.7,  8.8,  9.9}});
             Console.WriteLine("done.");
+            Console.Write("Adding dataset ds6... ");
+            ds6 = Dataset.CreateFromData<Triplet>(f, "T4", new Triplet[] {new Triplet(0, 0, 5.0),
+                                                                          new Triplet(0, 1, 3.0),
+                                                                          new Triplet(1, 0, 8.0),
+                                                                          new Triplet(1, 2, 1.0),
+                                                                          new Triplet(2, 0, 6.0),
+                                                                          new Triplet(2, 3, 9.0),
+                                                                          new Triplet(3, 0, 2.0),
+                                                                          new Triplet(3, 4, 4.0)});
+            Console.WriteLine("done.");
             
-            Console.WriteLine("\nNumber of datasets: {0}", f.NumObjects);
-            Console.WriteLine("    dataset 0: {0}", f.GetObjectName(0));
-            Console.WriteLine("    dataset 1: {0}", f.GetObjectName(1));
+            Console.WriteLine("\nNumber of objects: {0}", f.NumObjects);
+            Console.WriteLine("    object 0: {0}", f.GetObjectName(0));
+            Console.WriteLine("    object 1: {0}", f.GetObjectName(1));
             
             Console.WriteLine("\nDatatype C_S1:");
             Console.WriteLine("    class: {0}", Datatype.C_S1.Class);
@@ -107,6 +125,7 @@ namespace Hdf5
             ds3.Close();
             ds4.Close();
             ds5.Close();
+            ds6.Close();
             f.Close();
         }
     }
