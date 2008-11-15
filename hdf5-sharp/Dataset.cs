@@ -13,16 +13,15 @@ namespace Hdf5
     {
         private struct VLen
         {
-            public long len;
-            public IntPtr ptr;
-            public VLen(long l, IntPtr p) { len = l; ptr = p; }
+            private IntPtr len;
+            private IntPtr ptr;
+            public VLen(long l, IntPtr p) { len = (IntPtr)l; ptr = p; }
+            public long Len { get { return (long)len; }}
+            public IntPtr Ptr { get { return ptr; }}
         }
         
-        public Dataset(Location loc, string name, Datatype type, Dataspace  space)
+        internal Dataset(int raw) : base(raw)
         {
-            raw = H5Dcreate(loc.raw, name, type.raw, space.raw, 0);
-            if (raw < 0)
-                throw new ApplicationException();
         }
         
         public void Close()
@@ -99,20 +98,18 @@ namespace Hdf5
             T[][] result = new T[len][];
             for (int i=0; i<len; i++)
             {
-                result[i] = new T[buf[i].len];
-                GCHandle hresult = GCHandle.Alloc(result[i], GCHandleType.Pinned);
-                long ptr = (long)hresult.AddrOfPinnedObject();
-                long size = Marshal.SizeOf(typeof(T));
-                for (int j=0; j<buf[i].len; j++)
+                result[i] = new T[buf[i].Len];
+                ulong ptr = (ulong)buf[i].Ptr;
+                uint size = (uint)Marshal.SizeOf(typeof(T));
+                for (uint j=0; j<buf[i].Len; j++)
                     result[i][j] = (T)Marshal.PtrToStructure((IntPtr)(ptr+j*size), typeof(T));
-                hresult.Free();
             }
             H5Dvlen_reclaim( Datatype.VariableLength<T>().raw, s.raw, 0, hbuf.AddrOfPinnedObject());
             hbuf.Free();
             return result;
         }
         
-        public void Write(Datatype t, Dataspace ms, Dataspace fs, IntPtr buf)
+        internal void Write(Datatype t, Dataspace ms, Dataspace fs, IntPtr buf)
         {
             int err = H5Dwrite(raw, t.raw, ms.raw, fs.raw, 0, buf);
             if (err < 0)
@@ -146,12 +143,17 @@ namespace Hdf5
         
         // static creation methods
 
+        public static Dataset Create(Location loc, string name, Datatype type, Dataspace space)
+        {
+            return new Dataset(H5Dcreate(loc.raw, name, type.raw, space.raw, 0));
+        }
+        
         public static Dataset CreateFromData<T>(Location loc, string name, T[] data) where T : struct
         {
             // create data set
             Datatype t = Datatype.Lookup(typeof(T));
             Dataspace s = new Dataspace(new ulong[] {(ulong)data.Length});
-            Dataset result = new Dataset(loc, name, t, s);
+            Dataset result = Dataset.Create(loc, name, t, s);
             // pin down data
             GCHandle hdata = GCHandle.Alloc(data, GCHandleType.Pinned);
             // write data
@@ -166,7 +168,7 @@ namespace Hdf5
             // create and write data set
             Datatype t = Datatype.Lookup(typeof(string));
             Dataspace s = new Dataspace(new ulong[] {(ulong)data.Length});
-            Dataset result = new Dataset(loc, name, t, s);
+            Dataset result = Dataset.Create(loc, name, t, s);
             // marshal strings
             IntPtr[] mdata = new IntPtr[data.Length];
             for (int i=0; i<data.Length; i++)
@@ -188,7 +190,7 @@ namespace Hdf5
             Datatype t = Datatype.Lookup(typeof(T));
             Dataspace s = new Dataspace(new ulong[] {(ulong)data.GetLength(0),
                                                      (ulong)data.GetLength(1)});
-            Dataset result = new Dataset(loc, name, t, s);
+            Dataset result = Dataset.Create(loc, name, t, s);
             // pin down data array
             GCHandle hdata = GCHandle.Alloc(data, GCHandleType.Pinned);
             // write data set
@@ -204,7 +206,7 @@ namespace Hdf5
             Datatype t = Datatype.Lookup(typeof(string));
             Dataspace s = new Dataspace(new ulong[] {(ulong)data.GetLength(0),
                                                      (ulong)data.GetLength(1)});
-            Dataset result = new Dataset(loc, name, t, s);
+            Dataset result = Dataset.Create(loc, name, t, s);
             // marshal strings
             IntPtr[,] mdata = new IntPtr[data.GetLength(0),data.GetLength(1)];
             for (int i=0; i<data.GetLength(0); i++)
@@ -228,7 +230,7 @@ namespace Hdf5
             // create data set
             Datatype t = Datatype.VariableLength<T>();
             Dataspace s = new Dataspace(new ulong[] {(ulong)len});
-            Dataset result = new Dataset(loc, name, t, s);
+            Dataset result = Dataset.Create(loc, name, t, s);
             // pin down all data arrays
             GCHandle[] hdata = new GCHandle[len];
             VLen[] buf = new VLen[len];
@@ -247,10 +249,18 @@ namespace Hdf5
             return result;
         }
         
+        public static Dataset Open(Location loc, string name)
+        {
+            return new Dataset(H5Dopen(loc.raw, name));
+        }
+        
         // imports
         
         [DllImport("hdf5")]
         private static extern int H5Dcreate(int loc_id, string name, int type_id, int space_id, int dcpl_id);
+        
+        [DllImport("hdf5")]
+        private static extern int H5Dopen(int loc_id, string name);
         
         [DllImport("hdf5")]
         private static extern int H5Dclose(int dataset_id);
