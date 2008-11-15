@@ -12,7 +12,7 @@ namespace Hdf5
 {
     public class Group : Location
     {
-        public Group(int raw) : base(raw)
+        internal Group(int raw) : base(raw)
         {
         }
         

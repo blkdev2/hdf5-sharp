@@ -18,7 +18,7 @@ namespace Hdf5
     
     public class File : Location
     {
-        public File(int raw) : base(raw)
+        internal File(int raw) : base(raw)
         {
         }
         
@@ -31,7 +31,7 @@ namespace Hdf5
         {
         }
         
-        public ulong Filesize
+        public long Filesize
         {
             get
             {
@@ -39,7 +39,7 @@ namespace Hdf5
                 int err = H5Fget_filesize(raw, out size);
                 if (err < 0)
                     throw new ApplicationException("Error getting file size.");
-                return size;
+                return (long)size;
             }
         }
         
