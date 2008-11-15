@@ -5,6 +5,7 @@
 //
 
 using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace Hdf5
@@ -44,8 +45,6 @@ namespace Hdf5
 
     public class Datatype : Base
     {
-        private static IntPtr hdf5_handle;
-
         private static IntPtr H5T_STD_I8LE_g;
         private static IntPtr H5T_STD_I16LE_g;
         private static IntPtr H5T_STD_I32LE_g;
@@ -70,27 +69,27 @@ namespace Hdf5
         static Datatype()
         {
             H5.Open();
-            hdf5_handle = dlopen(null, RTLD_LAZY);
-            if (hdf5_handle == IntPtr.Zero)
+            IntPtr dl_handle = dlopen(null, RTLD_LAZY);
+            if (dl_handle == IntPtr.Zero)
                 throw new ApplicationException(String.Format("Error loading libhdf5. Reason {0}", Marshal.PtrToStringAnsi(dlerror())));
-            H5T_STD_I8LE_g        = dlsym(hdf5_handle, "H5T_STD_I8LE_g");
-            H5T_STD_I16LE_g       = dlsym(hdf5_handle, "H5T_STD_I16LE_g");
-            H5T_STD_I32LE_g       = dlsym(hdf5_handle, "H5T_STD_I32LE_g");
-            H5T_STD_I64LE_g       = dlsym(hdf5_handle, "H5T_STD_I64LE_g");
-            H5T_STD_U8LE_g        = dlsym(hdf5_handle, "H5T_STD_U8LE_g");
-            H5T_STD_U16LE_g       = dlsym(hdf5_handle, "H5T_STD_U16LE_g");
-            H5T_STD_U32LE_g       = dlsym(hdf5_handle, "H5T_STD_U32LE_g");
-            H5T_STD_U64LE_g       = dlsym(hdf5_handle, "H5T_STD_U64LE_g");
-            H5T_STD_B8LE_g        = dlsym(hdf5_handle, "H5T_STD_B8LE_g");
-            H5T_STD_B16LE_g       = dlsym(hdf5_handle, "H5T_STD_B16LE_g");
-            H5T_STD_B32LE_g       = dlsym(hdf5_handle, "H5T_STD_B32LE_g");
-            H5T_STD_B64LE_g       = dlsym(hdf5_handle, "H5T_STD_B64LE_g");
-            H5T_STD_REF_OBJ_g     = dlsym(hdf5_handle, "H5T_STD_REF_OBJ_g");
-            H5T_STD_REF_DSETREG_g = dlsym(hdf5_handle, "H5T_STD_REF_DSETREG_g");
-            H5T_IEEE_F32LE_g      = dlsym(hdf5_handle, "H5T_IEEE_F32LE_g");
-            H5T_IEEE_F64LE_g      = dlsym(hdf5_handle, "H5T_IEEE_F64LE_g");
-//            H5T_NATIVE_CHAR_g     = dlsym(hdf5_handle, "H5T_NATIVE_CHAR_g");
-            H5T_C_S1_g            = dlsym(hdf5_handle, "H5T_C_S1_g");
+            H5T_STD_I8LE_g        = dlsym(dl_handle, "H5T_STD_I8LE_g");
+            H5T_STD_I16LE_g       = dlsym(dl_handle, "H5T_STD_I16LE_g");
+            H5T_STD_I32LE_g       = dlsym(dl_handle, "H5T_STD_I32LE_g");
+            H5T_STD_I64LE_g       = dlsym(dl_handle, "H5T_STD_I64LE_g");
+            H5T_STD_U8LE_g        = dlsym(dl_handle, "H5T_STD_U8LE_g");
+            H5T_STD_U16LE_g       = dlsym(dl_handle, "H5T_STD_U16LE_g");
+            H5T_STD_U32LE_g       = dlsym(dl_handle, "H5T_STD_U32LE_g");
+            H5T_STD_U64LE_g       = dlsym(dl_handle, "H5T_STD_U64LE_g");
+            H5T_STD_B8LE_g        = dlsym(dl_handle, "H5T_STD_B8LE_g");
+            H5T_STD_B16LE_g       = dlsym(dl_handle, "H5T_STD_B16LE_g");
+            H5T_STD_B32LE_g       = dlsym(dl_handle, "H5T_STD_B32LE_g");
+            H5T_STD_B64LE_g       = dlsym(dl_handle, "H5T_STD_B64LE_g");
+            H5T_STD_REF_OBJ_g     = dlsym(dl_handle, "H5T_STD_REF_OBJ_g");
+            H5T_STD_REF_DSETREG_g = dlsym(dl_handle, "H5T_STD_REF_DSETREG_g");
+            H5T_IEEE_F32LE_g      = dlsym(dl_handle, "H5T_IEEE_F32LE_g");
+            H5T_IEEE_F64LE_g      = dlsym(dl_handle, "H5T_IEEE_F64LE_g");
+//            H5T_NATIVE_CHAR_g     = dlsym(dl_handle, "H5T_NATIVE_CHAR_g");
+            H5T_C_S1_g            = dlsym(dl_handle, "H5T_C_S1_g");
             STD_I8LE        = new Datatype(Marshal.ReadInt32(H5T_STD_I8LE_g),        false);
             STD_I16LE       = new Datatype(Marshal.ReadInt32(H5T_STD_I16LE_g),       false);
             STD_I32LE       = new Datatype(Marshal.ReadInt32(H5T_STD_I32LE_g),       false);
@@ -111,7 +110,7 @@ namespace Hdf5
             C_S1            = new Datatype(Marshal.ReadInt32(H5T_C_S1_g),            false);
             CUSTOM_STRING   = C_S1.Copy();
             CUSTOM_STRING.Size = -1; // variable
-            dlclose(hdf5_handle);
+            dlclose(dl_handle);
         }
         
         internal Datatype(int raw, bool can_close) : base(raw)
@@ -131,7 +130,7 @@ namespace Hdf5
         
         public long Size
         {
-            get { return H5Tget_size(raw); }
+            get { return (long)H5Tget_size(raw); }
             set
             {
                 int err = H5Tset_size(raw, value);
@@ -209,9 +208,39 @@ namespace Hdf5
             throw new ArgumentException(String.Format("Unsupported type {0}", t));
         }
         
-        public static Datatype VariableLength<T>() where T : struct
+        internal static Datatype FromStruct(Type t)
         {
-            int id = H5Tvlen_create(Lookup(typeof(T)).raw);
+            if (!t.IsValueType)
+                throw new ArgumentException(String.Format("Type {0} is not a value type.", t));
+            long size = Marshal.SizeOf(t);
+            Console.WriteLine("*** size of compound type: {0}", size);
+            Datatype result = new Datatype(H5Tcreate(DatatypeClass.Compound, (IntPtr)size), true);
+            MemberInfo[] mi = t.FindMembers(MemberTypes.Field, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, null);
+            long offset = 0;
+            for (int i=0; i<mi.Length; i++)
+            {
+                string mname = mi[i].Name;
+                Datatype mtype = Lookup(((FieldInfo)mi[i]).FieldType);
+                long msize = Marshal.SizeOf(((FieldInfo)mi[i]).FieldType);
+                Console.WriteLine("*** offset of member type: {0}", offset);
+                Console.WriteLine("*** size of member type: {0}", msize);
+                int err = H5Tinsert(result.raw, mname, (IntPtr)offset, mtype.raw);
+                if (err < 0)
+                    throw new ApplicationException("Error inserting type into compound datatype.");
+                offset += msize;
+            }
+            return result;
+        }
+        
+        internal static Datatype VariableLength<T>() where T : struct
+        {
+            Type t = typeof(T);
+            Datatype dt;
+            if (t.IsPrimitive)
+                dt = Datatype.Lookup(t);
+            else
+                dt = Datatype.FromStruct(t);
+            int id = H5Tvlen_create(dt.raw);
             if (id < 0)
                 throw new ApplicationException(String.Format("Error creating variable length type (base {0})", typeof(T)));
             return new Datatype(id, true);
@@ -236,10 +265,16 @@ namespace Hdf5
         // hdf5 import
         
         [DllImport("hdf5")]
+        private static extern int H5Tcreate(DatatypeClass klass, IntPtr size);
+        
+        [DllImport("hdf5")]
         private static extern int H5Tvlen_create(int base_type_id);
         
         [DllImport("hdf5")]
         private static extern int H5Tcopy(int type_id);
+        
+        [DllImport("hdf5")]
+        private static extern int H5Tinsert(int type_id, string name, IntPtr offset, int field_id);
         
         [DllImport("hdf5")]
         private static extern int H5Tclose(int type_id);
@@ -248,7 +283,7 @@ namespace Hdf5
         private static extern DatatypeClass H5Tget_class(int type_id);
         
         [DllImport("hdf5")]
-        private static extern long H5Tget_size(int type_id);
+        private static extern IntPtr H5Tget_size(int type_id);
         
         [DllImport("hdf5")]
         private static extern int H5Tset_size(int type_id, long size);

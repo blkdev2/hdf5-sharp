@@ -151,13 +151,18 @@ namespace Hdf5
         public static Dataset CreateFromData<T>(Location loc, string name, T[] data) where T : struct
         {
             // create data set
-            Datatype t = Datatype.Lookup(typeof(T));
-            Dataspace s = new Dataspace(new ulong[] {(ulong)data.Length});
-            Dataset result = Dataset.Create(loc, name, t, s);
+            Type t = typeof(T);
+            Datatype dt;
+            if (t.IsPrimitive)
+                dt = Datatype.Lookup(t);
+            else
+                dt = Datatype.FromStruct(t);
+            Dataspace ds = new Dataspace(new ulong[] {(ulong)data.Length});
+            Dataset result = Dataset.Create(loc, name, dt, ds);
             // pin down data
             GCHandle hdata = GCHandle.Alloc(data, GCHandleType.Pinned);
             // write data
-            result.Write(t, Dataspace.All, s, hdata.AddrOfPinnedObject());
+            result.Write(dt, Dataspace.All, ds, hdata.AddrOfPinnedObject());
             // cleaning up
             hdata.Free();
             return result;
@@ -187,14 +192,19 @@ namespace Hdf5
         public static Dataset CreateFromData<T>(Location loc, string name, T[,] data) where T : struct
         {
             // create data set
-            Datatype t = Datatype.Lookup(typeof(T));
-            Dataspace s = new Dataspace(new ulong[] {(ulong)data.GetLength(0),
-                                                     (ulong)data.GetLength(1)});
-            Dataset result = Dataset.Create(loc, name, t, s);
+            Type t = typeof(T);
+            Datatype dt;
+            if (t.IsPrimitive)
+                dt = Datatype.Lookup(t);
+            else
+                dt = Datatype.FromStruct(t);
+            Dataspace ds = new Dataspace(new ulong[] {(ulong)data.GetLength(0),
+                                                      (ulong)data.GetLength(1)});
+            Dataset result = Dataset.Create(loc, name, dt, ds);
             // pin down data array
             GCHandle hdata = GCHandle.Alloc(data, GCHandleType.Pinned);
             // write data set
-            result.Write(t, Dataspace.All, s, hdata.AddrOfPinnedObject());
+            result.Write(dt, Dataspace.All, ds, hdata.AddrOfPinnedObject());
             // cleaning up
             hdata.Free();
             return result;
@@ -228,9 +238,9 @@ namespace Hdf5
         {
             int len = data.Length;
             // create data set
-            Datatype t = Datatype.VariableLength<T>();
-            Dataspace s = new Dataspace(new ulong[] {(ulong)len});
-            Dataset result = Dataset.Create(loc, name, t, s);
+            Datatype dt = Datatype.VariableLength<T>();
+            Dataspace ds = new Dataspace(new ulong[] {(ulong)len});
+            Dataset result = Dataset.Create(loc, name, dt, ds);
             // pin down all data arrays
             GCHandle[] hdata = new GCHandle[len];
             VLen[] buf = new VLen[len];
@@ -241,7 +251,7 @@ namespace Hdf5
             }
             GCHandle hbuf = GCHandle.Alloc(buf, GCHandleType.Pinned);
             // write data
-            result.Write(t, Dataspace.All, s, hbuf.AddrOfPinnedObject());
+            result.Write(dt, Dataspace.All, ds, hbuf.AddrOfPinnedObject());
             // cleaning up
             hbuf.Free();
             for (int i=0; i<len; i++)
