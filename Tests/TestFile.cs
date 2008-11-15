@@ -43,9 +43,12 @@ namespace Hdf5.Tests
             Assert.AreEqual(4, f2.NumObjects);
             
             Dataset ds;
+            Dataspace sp;
 
             // dataset T1
             ds = Dataset.Open(f2, "T1");
+            sp = ds.Space;
+            Assert.AreEqual(2, sp.NumDimensions);
             int[,] T1 = (int[,])ds.ReadValue<int>();
             Assert.AreEqual(4, T1.GetLength(0));
             Assert.AreEqual(4, T1.GetLength(1));
@@ -65,10 +68,13 @@ namespace Hdf5.Tests
             Assert.AreEqual(4, T1[3,1]);
             Assert.AreEqual(5, T1[3,2]);
             Assert.AreEqual(6, T1[3,3]);
+            sp.Close();
             ds.Close();
             
             // dataset T2
             ds = Dataset.Open(f2, "T2");
+            sp = ds.Space;
+            Assert.AreEqual(2, sp.NumDimensions);
             double[,] T2 = (double[,])ds.ReadValue<double>();
             Assert.AreEqual(4, T2.GetLength(0));
             Assert.AreEqual(4, T2.GetLength(1));
@@ -88,10 +94,13 @@ namespace Hdf5.Tests
             Assert.AreEqual(13.0, T2[3,1]);
             Assert.AreEqual(14.0, T2[3,2]);
             Assert.AreEqual(15.0, T2[3,3]);
+            sp.Close();
             ds.Close();
             
             // dataset T3
             ds = Dataset.Open(f2, "T3");
+            sp = ds.Space;
+            Assert.AreEqual(1, sp.NumDimensions);
             double[][] T3 = ds.ReadVariableLength<double>();
             Assert.AreEqual(4, T3.Length);
             Assert.AreEqual(1, T3[0].Length);
@@ -108,6 +117,7 @@ namespace Hdf5.Tests
             Assert.AreEqual(7.7, T3[3][1]);
             Assert.AreEqual(8.8, T3[3][2]);
             Assert.AreEqual(9.9, T3[3][3]);
+            sp.Close();
             ds.Close();
             
             Group g1 = Group.Open(f2, "G1");
@@ -115,16 +125,21 @@ namespace Hdf5.Tests
             
             // dataset S1
             ds = Dataset.Open(g1, "S1");
+            sp = ds.Space;
+            Assert.AreEqual(1, sp.NumDimensions);
             string[] S1 = (string[])ds.ReadString();
             Assert.AreEqual(4, S1.Length);
             Assert.AreEqual("String 1", S1[0]);
             Assert.AreEqual("Some other string", S1[1]);
             Assert.AreEqual("Third string which is quite a bit longer", S1[2]);
             Assert.AreEqual("Last!", S1[3]);
+            sp.Close();
             ds.Close();
             
             // dataset S2
             ds = Dataset.Open(f2, "G1/S2");
+            sp = ds.Space;
+            Assert.AreEqual(2, sp.NumDimensions);
             string[,] S2 = (string[,])ds.ReadString();
             Assert.AreEqual(2, S2.GetLength(0));
             Assert.AreEqual(2, S2.GetLength(1));
@@ -132,6 +147,7 @@ namespace Hdf5.Tests
             Assert.AreEqual("S(1,2)", S2[0,1]);
             Assert.AreEqual("S(2,1)", S2[1,0]);
             Assert.AreEqual("S(2,2)", S2[1,1]);
+            sp.Close();
             ds.Close();
             
         }
