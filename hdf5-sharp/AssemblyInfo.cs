@@ -10,11 +10,11 @@ using System.Runtime.CompilerServices;
 // Change them to the values specific to your project.
 
 [assembly: AssemblyTitle("hdf5-sharp")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Bindings of the HDF5 library for the .NET platform.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCopyright("Copyright (c) 2008 Markus Uhr")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
