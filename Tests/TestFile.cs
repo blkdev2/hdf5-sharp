@@ -14,6 +14,18 @@ namespace Hdf5.Tests
     [TestFixture]
     public class TestFile
     {
+        private struct Triplet
+        {
+//            public int row;
+//            public int col;
+//            public double val;
+            public int i;
+            public int j;
+            public double v;
+//            public Triplet(int i, int j, double v) { row=i; col=j; val=v; }
+            public Triplet(int i, int j, double v) { this.i=i; this.j=j; this.v=v; }
+        }
+        
         private File f1;
         private File f2;
         
@@ -40,7 +52,7 @@ namespace Hdf5.Tests
         {
             Assert.AreEqual("f2.h5", f2.Filename);
             
-            Assert.AreEqual(4, f2.NumObjects);
+            Assert.AreEqual(5, f2.NumObjects);
             
             Dataset ds;
             Dataspace sp;
@@ -117,6 +129,39 @@ namespace Hdf5.Tests
             Assert.AreEqual(7.7, T3[3][1]);
             Assert.AreEqual(8.8, T3[3][2]);
             Assert.AreEqual(9.9, T3[3][3]);
+            sp.Close();
+            ds.Close();
+            
+            // dataset T4
+            ds = Dataset.Open(f2, "T4");
+            sp = ds.Space;
+            Assert.AreEqual(1, sp.NumDimensions);
+            Triplet[] T4 = (Triplet[])ds.ReadValue<Triplet>();
+            Assert.AreEqual(8, T4.Length);
+            Assert.AreEqual(  0, T4[0].i);
+            Assert.AreEqual(  0, T4[0].j);
+            Assert.AreEqual(5.0, T4[0].v);
+            Assert.AreEqual(  0, T4[1].i);
+            Assert.AreEqual(  1, T4[1].j);
+            Assert.AreEqual(3.0, T4[1].v);
+            Assert.AreEqual(  1, T4[2].i);
+            Assert.AreEqual(  0, T4[2].j);
+            Assert.AreEqual(8.0, T4[2].v);
+            Assert.AreEqual(  1, T4[3].i);
+            Assert.AreEqual(  2, T4[3].j);
+            Assert.AreEqual(1.0, T4[3].v);
+            Assert.AreEqual(  2, T4[4].i);
+            Assert.AreEqual(  0, T4[4].j);
+            Assert.AreEqual(6.0, T4[4].v);
+            Assert.AreEqual(  2, T4[5].i);
+            Assert.AreEqual(  3, T4[5].j);
+            Assert.AreEqual(9.0, T4[5].v);
+            Assert.AreEqual(  3, T4[6].i);
+            Assert.AreEqual(  0, T4[6].j);
+            Assert.AreEqual(2.0, T4[6].v);
+            Assert.AreEqual(  3, T4[7].i);
+            Assert.AreEqual(  4, T4[7].j);
+            Assert.AreEqual(4.0, T4[7].v);
             sp.Close();
             ds.Close();
             
