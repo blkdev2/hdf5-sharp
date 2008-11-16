@@ -120,6 +120,13 @@ namespace Hdf5
                     Console.WriteLine("({0},{1}): {2}", i, j, T3[i][j]);
             }
             
+            Console.WriteLine("\nds6:");
+            Triplet[] T4 = (Triplet[])ds6.ReadValue<Triplet>();
+            for (int i=0; i<T4.Length; i++)
+            {
+                Console.WriteLine("({0},{1}): {2}", T4[i].i, T4[i].j, T4[i].v);
+            }
+            
             ds1.Close();
             ds2.Close();
             ds3.Close();
