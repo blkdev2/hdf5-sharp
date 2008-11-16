@@ -40,11 +40,17 @@ namespace Hdf5
         
         public Array ReadValue<T>() where T : struct
         {
-            Dataspace s = Space;
-            Array result = Array.CreateInstance(typeof(T), s.GetDimensions());
+            Type t = typeof(T);
+            Datatype dt;
+            if (t.IsPrimitive)
+                dt = Datatype.Lookup(t);
+            else
+                dt = Datatype.FromStruct(t);
+            Dataspace ds = Space;
+            Array result = Array.CreateInstance(typeof(T), ds.GetDimensions());
             GCHandle hres = GCHandle.Alloc(result, GCHandleType.Pinned);
-            int err = H5Dread(raw, Datatype.Lookup(typeof(T)).raw, Dataspace.All.raw,
-                              Dataspace.All.raw, 0, hres.AddrOfPinnedObject());
+            int err = H5Dread(raw, dt.raw, Dataspace.All.raw, Dataspace.All.raw, 0,
+                              hres.AddrOfPinnedObject());
             if (err < 0)
                 throw new ApplicationException("Error reading data from dataset.");
             hres.Free();

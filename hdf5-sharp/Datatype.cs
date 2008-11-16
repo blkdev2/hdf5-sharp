@@ -213,7 +213,7 @@ namespace Hdf5
             if (!t.IsValueType)
                 throw new ArgumentException(String.Format("Type {0} is not a value type.", t));
             long size = Marshal.SizeOf(t);
-            Console.WriteLine("*** size of compound type: {0}", size);
+//            Console.WriteLine("*** size of compound type: {0}", size);
             Datatype result = new Datatype(H5Tcreate(DatatypeClass.Compound, (IntPtr)size), true);
             MemberInfo[] mi = t.FindMembers(MemberTypes.Field, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, null);
             long offset = 0;
@@ -222,8 +222,8 @@ namespace Hdf5
                 string mname = mi[i].Name;
                 Datatype mtype = Lookup(((FieldInfo)mi[i]).FieldType);
                 long msize = Marshal.SizeOf(((FieldInfo)mi[i]).FieldType);
-                Console.WriteLine("*** offset of member type: {0}", offset);
-                Console.WriteLine("*** size of member type: {0}", msize);
+//                Console.WriteLine("*** offset of member type: {0}", offset);
+//                Console.WriteLine("*** size of member type: {0}", msize);
                 int err = H5Tinsert(result.raw, mname, (IntPtr)offset, mtype.raw);
                 if (err < 0)
                     throw new ApplicationException("Error inserting type into compound datatype.");
