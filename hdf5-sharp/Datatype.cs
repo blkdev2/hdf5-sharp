@@ -109,6 +109,7 @@ namespace Hdf5
 //            NATIVE_CHAR     = new Datatype(Marshal.ReadInt32(H5T_NATIVE_CHAR_g),     false);
             C_S1            = new Datatype(Marshal.ReadInt32(H5T_C_S1_g),            false);
             CUSTOM_STRING   = C_S1.Copy();
+            CUSTOM_STRING.can_close = false;
             CUSTOM_STRING.Size = -1; // variable
             dlclose(dl_handle);
         }
@@ -121,6 +122,11 @@ namespace Hdf5
         public Datatype Copy()
         {
             return new Datatype(H5Tcopy(raw), true);
+        }
+        
+        public void Close()
+        {
+            Dispose();
         }
         
         public DatatypeClass Class
@@ -152,7 +158,7 @@ namespace Hdf5
         
         // IDisposable stuff
         
-        protected override void Dispose (bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (can_close)
                 H5Tclose(raw);

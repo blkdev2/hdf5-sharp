@@ -30,35 +30,36 @@ namespace Hdf5
             Dataset ds1, ds2, ds3, ds4, ds5, ds6;
 //            ds = Dataset.CreateFromData<int>(f, "T1", new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
             Console.Write("Adding dataset ds1... ");
-            ds1 = Dataset.CreateFromData<int>(f, "T1", new int[,] {{0, 1, 2, 3},
+            ds1 = Dataset.CreateWithData<int>(f, "T1", new int[,] {{0, 1, 2, 3},
                                                                    {1, 2, 3, 4},
                                                                    {2, 3, 4, 5},
                                                                    {3, 4, 5, 6}});
             Console.WriteLine("done.");
             Console.Write("Adding dataset ds2... ");
-            ds2 = Dataset.CreateFromData<double>(f, "T2", new double[,] {{ 0.0,  1.0,  2.0,  3.0},
+            ds2 = Dataset.CreateWithData<double>(f, "T2", new double[,] {{ 0.0,  1.0,  2.0,  3.0},
                                                                          { 4.0,  5.0,  6.0,  7.0},
                                                                          { 8.0,  9.0, 10.0, 11.0},
                                                                          {12.0, 13.0, 14.0, 15.0}});
             Console.WriteLine("done.");
             Console.Write("Adding dataset ds3... ");
-            ds3 = Dataset.CreateFromData(g, "S1", new string[] {"String 1",
+            ds3 = Dataset.CreateWithData(g, "S1", new string[] {"String 1",
                                                                 "Some other string",
                                                                 "Third string which is quite a bit longer",
                                                                 "Last!"});
             Console.WriteLine("done.");
             Console.Write("Adding dataset ds4... ");
-            ds4 = Dataset.CreateFromData(g, "S2", new string[,] {{"S(1,1)", "S(1,2)"},
+            ds4 = Dataset.CreateWithData(g, "S2", new string[,] {{"S(1,1)", "S(1,2)"},
                                                                  {"S(2,1)", "S(2,2)"}});
             Console.WriteLine("done.");
             Console.Write("Adding dataset ds5... ");
-            ds5 = Dataset.CreateFromData<double>(f, "T3", new double[][] {new double[] { 0.0},
+            ds5 = Dataset.CreateWithData<double>(f, "T3", new double[][] {new double[] { 0.0},
                                                                           new double[] { 1.1,  2.2},
+                                                                          new double[] {},
                                                                           new double[] { 3.3,  4.4,  5.5},
                                                                           new double[] { 6.6,  7.7,  8.8,  9.9}});
             Console.WriteLine("done.");
             Console.Write("Adding dataset ds6... ");
-            ds6 = Dataset.CreateFromData<Triplet>(f, "T4", new Triplet[] {new Triplet(0, 0, 5.0),
+            ds6 = Dataset.CreateWithData<Triplet>(f, "T4", new Triplet[] {new Triplet(0, 0, 5.0),
                                                                           new Triplet(0, 1, 3.0),
                                                                           new Triplet(1, 0, 8.0),
                                                                           new Triplet(1, 2, 1.0),
@@ -67,6 +68,9 @@ namespace Hdf5
                                                                           new Triplet(3, 0, 2.0),
                                                                           new Triplet(3, 4, 4.0)});
             Console.WriteLine("done.");
+//            Console.Write("Adding dataset ds7... ");
+//            Dataset dsX = Dataset.CreateWithData<int>(f, "T5", new int[] {});
+//            Console.WriteLine("done.");
             
             Console.WriteLine("\nNumber of objects: {0}", f.NumObjects);
             Console.WriteLine("    object 0: {0}", f.GetObjectName(0));
@@ -81,7 +85,7 @@ namespace Hdf5
             Console.WriteLine("    size:  {0}", Datatype.CUSTOM_STRING.Size);
             
             Console.WriteLine("\nds1:");
-            int[,] T1 = (int[,])ds1.ReadValue<int>();
+            int[,] T1 = (int[,])ds1.ReadValueArray<int>();
             for (int i=0; i<T1.GetLength(0); i++)
             {
                 for (int j=0; j<T1.GetLength(1); j++)
@@ -89,7 +93,7 @@ namespace Hdf5
                 Console.WriteLine();
             }
             Console.WriteLine("\nds2:");
-            double[,] T2 = (double[,])ds2.ReadValue<double>();
+            double[,] T2 = (double[,])ds2.ReadValueArray<double>();
             for (int i=0; i<T2.GetLength(0); i++)
             {
                 for (int j=0; j<T2.GetLength(1); j++)
@@ -98,14 +102,14 @@ namespace Hdf5
             }
             
             Console.WriteLine("\nds3:");
-            string[] S1 = (string[])ds3.ReadString();
+            string[] S1 = (string[])ds3.ReadStringArray();
             for (int i=0; i<S1.GetLength(0); i++)
             {
                 Console.WriteLine(S1[i]);
             }
             
             Console.WriteLine("\nds4:");
-            string[,] S2 = (string[,])ds4.ReadString();
+            string[,] S2 = (string[,])ds4.ReadStringArray();
             for (int i=0; i<S2.GetLength(0); i++)
             {
                 for (int j=0; j<S2.GetLength(1); j++)
@@ -121,7 +125,7 @@ namespace Hdf5
             }
             
             Console.WriteLine("\nds6:");
-            Triplet[] T4 = (Triplet[])ds6.ReadValue<Triplet>();
+            Triplet[] T4 = (Triplet[])ds6.ReadValueArray<Triplet>();
             for (int i=0; i<T4.Length; i++)
             {
                 Console.WriteLine("({0},{1}): {2}", T4[i].i, T4[i].j, T4[i].v);

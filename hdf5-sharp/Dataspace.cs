@@ -21,9 +21,13 @@ namespace Hdf5
     {
         internal Dataspace(int raw) : base(raw) {}
         
-        public Dataspace(ulong[] dimensions)
+        public Dataspace(ulong[] dimensions) : this(dimensions, null)
         {
-            raw = H5Screate_simple(dimensions.Length, dimensions, null);
+        }
+        
+        public Dataspace(ulong[] dimensions, ulong[] maxdimensions)
+        {
+            raw = H5Screate_simple(dimensions.Length, dimensions, maxdimensions);
             if (raw < 0)
                 throw new ApplicationException();
         }
@@ -49,12 +53,27 @@ namespace Hdf5
             get { return H5Sget_simple_extent_ndims(raw); }
         }
         
+        public bool IsSimple
+        {
+            get
+            {
+                int err = H5Sis_simple(raw);
+                if (err < 0)
+                    throw new ApplicationException("Error determining whether dataspace is simple.");
+                return err > 0;
+            }
+        }
+        
         // IDisposable stuff
         
         protected override void Dispose(bool disposing)
         {
             if (raw > 0)
-                H5Sclose(raw);
+            {
+                int err = H5Sclose(raw);
+                if (err < 0)
+                    throw new ApplicationException("Error closing dataset.");
+            }
         }
         
         public static readonly Dataspace All = new Dataspace(0);
@@ -72,5 +91,8 @@ namespace Hdf5
         
         [DllImport("hdf5")]
         private static extern int H5Sget_simple_extent_dims(int space_id, IntPtr dims, IntPtr maxdims);
+        
+        [DllImport("hdf5")]
+        private static extern int H5Sis_simple(int space_id);
     }
 }

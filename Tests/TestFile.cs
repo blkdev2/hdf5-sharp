@@ -61,7 +61,7 @@ namespace Hdf5.Tests
             ds = Dataset.Open(f2, "T1");
             sp = ds.Space;
             Assert.AreEqual(2, sp.NumDimensions);
-            int[,] T1 = (int[,])ds.ReadValue<int>();
+            int[,] T1 = (int[,])ds.ReadValueArray<int>();
             Assert.AreEqual(4, T1.GetLength(0));
             Assert.AreEqual(4, T1.GetLength(1));
             Assert.AreEqual(0, T1[0,0]);
@@ -87,7 +87,7 @@ namespace Hdf5.Tests
             ds = Dataset.Open(f2, "T2");
             sp = ds.Space;
             Assert.AreEqual(2, sp.NumDimensions);
-            double[,] T2 = (double[,])ds.ReadValue<double>();
+            double[,] T2 = (double[,])ds.ReadValueArray<double>();
             Assert.AreEqual(4, T2.GetLength(0));
             Assert.AreEqual(4, T2.GetLength(1));
             Assert.AreEqual( 0.0, T2[0,0]);
@@ -136,7 +136,7 @@ namespace Hdf5.Tests
             ds = Dataset.Open(f2, "T4");
             sp = ds.Space;
             Assert.AreEqual(1, sp.NumDimensions);
-            Triplet[] T4 = (Triplet[])ds.ReadValue<Triplet>();
+            Triplet[] T4 = (Triplet[])ds.ReadValueArray<Triplet>();
             Assert.AreEqual(8, T4.Length);
             Assert.AreEqual(  0, T4[0].i);
             Assert.AreEqual(  0, T4[0].j);
@@ -172,7 +172,7 @@ namespace Hdf5.Tests
             ds = Dataset.Open(g1, "S1");
             sp = ds.Space;
             Assert.AreEqual(1, sp.NumDimensions);
-            string[] S1 = (string[])ds.ReadString();
+            string[] S1 = (string[])ds.ReadStringArray();
             Assert.AreEqual(4, S1.Length);
             Assert.AreEqual("String 1", S1[0]);
             Assert.AreEqual("Some other string", S1[1]);
@@ -185,7 +185,7 @@ namespace Hdf5.Tests
             ds = Dataset.Open(f2, "G1/S2");
             sp = ds.Space;
             Assert.AreEqual(2, sp.NumDimensions);
-            string[,] S2 = (string[,])ds.ReadString();
+            string[,] S2 = (string[,])ds.ReadStringArray();
             Assert.AreEqual(2, S2.GetLength(0));
             Assert.AreEqual(2, S2.GetLength(1));
             Assert.AreEqual("S(1,1)", S2[0,0]);
