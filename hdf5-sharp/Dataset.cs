@@ -40,24 +40,20 @@ namespace Hdf5
         
         public T ReadValue<T>() where T : struct
         {
-            // memory data type
-            Type t = typeof(T);
-            Datatype mt;
-            if (t.IsPrimitive)
-                mt = Datatype.Lookup(t);
-            else
-                mt = Datatype.FromStruct(t);
-            // memory data space
-            Dataspace ms = new Dataspace(new ulong[] {1});
-            // result
             T[] result = new T[1];
-            // pin and read
-            GCHandle hres = GCHandle.Alloc(result, GCHandleType.Pinned);
-            Read(mt, ms, Dataspace.All, hres.AddrOfPinnedObject());
-            // cleaning up
-            hres.Free();
-            ms.Close();
-            mt.Close();
+            using (Datatype mt = Datatype.FromValueType(typeof(T)))
+            {
+                using (Dataspace ms = new Dataspace(new ulong[] {1}))
+                {
+                    // pin and read
+                    GCHandle hres = GCHandle.Alloc(result, GCHandleType.Pinned);
+                    try {
+                        Read(mt, ms, Dataspace.All, hres.AddrOfPinnedObject());
+                    } finally {
+                        hres.Free();
+                    }
+                }
+            }
             return result[0];
         }
         
@@ -65,25 +61,20 @@ namespace Hdf5
         {
             if (fs != Dataspace.All && !fs.IsSimple)
                 throw new ArgumentException("Dataspace is not simple.");
-            // memory data type
-            Type t = typeof(T);
-            Datatype mt;
-            if (t.IsPrimitive)
-                mt = Datatype.Lookup(t);
-            else
-                mt = Datatype.FromStruct(t);
-            // create result array
             Array result;
-            if (fs == Dataspace.All)
-                result = Array.CreateInstance(typeof(T), Space.GetDimensions());
-            else
-                result = Array.CreateInstance(typeof(T), fs.GetDimensions());
-            // pin and read
-            GCHandle hres = GCHandle.Alloc(result, GCHandleType.Pinned);
-            Read(mt, Dataspace.All, fs, hres.AddrOfPinnedObject());
-            // cleaning up
-            hres.Free();
-            mt.Close();
+            using (Datatype mt = Datatype.FromValueType(typeof(T)))
+            {
+                if (fs == Dataspace.All)
+                    result = Array.CreateInstance(typeof(T), Space.GetDimensions());
+                else
+                    result = Array.CreateInstance(typeof(T), fs.GetDimensions());
+                GCHandle hres = GCHandle.Alloc(result, GCHandleType.Pinned);
+                try {
+                    Read(mt, Dataspace.All, fs, hres.AddrOfPinnedObject());
+                } finally {
+                    hres.Free();
+                }
+            }
             return result;
         }
         
@@ -128,7 +119,7 @@ namespace Hdf5
         public Array ReadStringArray()
         {
             // memory data type
-            Datatype mt = Datatype.Lookup(typeof(string));
+            Datatype mt = Datatype.VlenString;
             // memory data space
             Dataspace ms = Space;
             int rank = ms.NumDimensions;
@@ -205,43 +196,32 @@ namespace Hdf5
         
         public void Write<T>(T data) where T : struct
         {
-            // memory data type
-            Type t = typeof(T);
-            Datatype mt;
-            if (t.IsPrimitive)
-                mt = Datatype.Lookup(t);
-            else
-                mt = Datatype.FromStruct(t);
-            // pin down data
-            GCHandle hdata = GCHandle.Alloc(data, GCHandleType.Pinned);
-            // write data
-            Write(mt, Dataspace.All, Dataspace.All, hdata.AddrOfPinnedObject());
-            // cleaning up
-            hdata.Free();
-            mt.Close();
+            using (Datatype mt = Datatype.FromValueType(typeof(T)))
+            {
+                GCHandle hdata = GCHandle.Alloc(data, GCHandleType.Pinned);
+                try {
+                    Write(mt, Dataspace.All, Dataspace.All, hdata.AddrOfPinnedObject());
+                } finally {
+                    hdata.Free();
+                }
+            }
         }
         
         public void Write<T>(Dataspace ms, Dataspace fs, T[] data) where T : struct
         {
-            // memory data type
-            Type t = typeof(T);
-            Datatype mt;
-            if (t.IsPrimitive)
-                mt = Datatype.Lookup(t);
-            else
-                mt = Datatype.FromStruct(t);
-            // pin down data
-            GCHandle hdata = GCHandle.Alloc(data, GCHandleType.Pinned);
-            // write data
-            Write(mt, ms, fs, hdata.AddrOfPinnedObject());
-            // cleaning up
-            hdata.Free();
-            mt.Close();
+            using (Datatype mt = Datatype.FromValueType(typeof(T)))
+            {
+                GCHandle hdata = GCHandle.Alloc(data, GCHandleType.Pinned);
+                try {
+                    Write(mt, ms, fs, hdata.AddrOfPinnedObject());
+                } finally {
+                    hdata.Free();
+                }
+            }
         }
         
         public void Write<T>(Dataspace fs, T[] data) where T : struct
         {
-            // write data
             Write(Dataspace.All, fs, data);
         }
         
@@ -258,7 +238,7 @@ namespace Hdf5
         public void Write(string[] data)
         {
             // memory data type
-            Datatype mt = Datatype.Lookup(typeof(string));
+            Datatype mt = Datatype.VlenString;
             // marshal strings
             IntPtr[] mdata = new IntPtr[data.Length];
             for (int i=0; i<data.Length; i++)
@@ -276,20 +256,15 @@ namespace Hdf5
         
         public void Write<T>(Dataspace ms, Dataspace ds, T[,] data) where T : struct
         {
-            // memory data type
-            Type t = typeof(T);
-            Datatype mt;
-            if (t.IsPrimitive)
-                mt = Datatype.Lookup(t);
-            else
-                mt = Datatype.FromStruct(t);
-            // pin down data array
-            GCHandle hdata = GCHandle.Alloc(data, GCHandleType.Pinned);
-            // write data
-            Write(mt, ms, ds, hdata.AddrOfPinnedObject());
-            // cleaning up
-            hdata.Free();
-            mt.Close();
+            using (Datatype mt = Datatype.FromValueType(typeof(T)))
+            {
+                GCHandle hdata = GCHandle.Alloc(data, GCHandleType.Pinned);
+                try {
+                    Write(mt, ms, ds, hdata.AddrOfPinnedObject());
+                } finally {
+                    hdata.Free();
+                }
+            }
         }
         
         public void Write<T>(Dataspace ds, T[,] data) where T : struct
@@ -301,7 +276,7 @@ namespace Hdf5
         public void Write(Dataspace ms, Dataspace fs, string[,] data)
         {
             // memory data type
-            Datatype mt = Datatype.Lookup(typeof(string));
+            Datatype mt = Datatype.VlenString;
             // marshal strings
             IntPtr[,] mdata = new IntPtr[data.GetLength(0),data.GetLength(1)];
             for (int i=0; i<data.GetLength(0); i++)
@@ -411,132 +386,103 @@ namespace Hdf5
         
         public static Dataset CreateWithData<T>(Location loc, string name, T data) where T : struct
         {
-            // data type
-            Type t = typeof(T);
-            Datatype dt;
-            if (t.IsPrimitive)
-                dt = Datatype.Lookup(t);
-            else
-                dt = Datatype.FromStruct(t);
-            // data space
-            Dataspace ds = new Dataspace(new ulong[] {1});
-            // data set
-            Dataset result = Dataset.Create(loc, name, dt, ds);
-            // write data
-            result.Write<T>(data);
-            // cleaning up
-            ds.Close();
-            dt.Close();
+            Dataset result = null;
+            using (Datatype dt = Datatype.FromValueType(typeof(T)))
+            {
+                using (Dataspace ds = new Dataspace(new ulong[] {1}))
+                {
+                    result = Dataset.Create(loc, name, dt, ds);
+                    result.Write<T>(data);
+                }
+            }
             return result;
         }
         
         public static Dataset CreateWithData<T>(Location loc, string name, T[] data) where T : struct
         {
-            // data type
-            Type t = typeof(T);
-            Datatype dt;
-            if (t.IsPrimitive)
-                dt = Datatype.Lookup(t);
-            else
-                dt = Datatype.FromStruct(t);
-            // data space
-            Dataspace ds = new Dataspace(new ulong[] {(ulong)data.Length});
-            // data set
-            Dataset result = Dataset.Create(loc, name, dt, ds);
-            // write data
-            result.Write<T>(Dataspace.All, data);
-            // cleaning up
-            ds.Close();
-            dt.Close();
+            Dataset result = null;
+            using (Datatype dt = Datatype.FromValueType(typeof(T)))
+            {
+                using (Dataspace ds = new Dataspace(new ulong[] {(ulong)data.Length}))
+                {
+                    result = Dataset.Create(loc, name, dt, ds);
+                    result.Write<T>(Dataspace.All, data);
+                }
+            }
             return result;
         }
         
         public static Dataset CreateWithData(Location loc, string name, string data)
         {
-            // data type
-            Datatype dt = Datatype.C_S1.Copy();
-            dt.Size = data.Length;
-            // data space
-            Dataspace ds = new Dataspace(new ulong[] {1});
-            // data set
-            Dataset result = Dataset.Create(loc, name, dt, ds);
-            // write data
-            result.Write(data);
-            // cleaning up
-            ds.Close();
-            dt.Close();
+            Dataset result = null;
+            using (Datatype dt = Datatype.ConstString)
+            {
+                dt.Size = data.Length;
+                using (Dataspace ds = new Dataspace(new ulong[] {1}))
+                {
+                    result = Dataset.Create(loc, name, dt, ds);
+                    result.Write(data);
+                }
+            }
             return result;
         }
         
         public static Dataset CreateWithData(Location loc, string name, string[] data)
         {
-            // data type
-            Datatype dt = Datatype.Lookup(typeof(string));
-            // data space
-            Dataspace ds = new Dataspace(new ulong[] {(ulong)data.Length});
-            // data set
-            Dataset result = Dataset.Create(loc, name, dt, ds);
-            // write data
-            result.Write(data);
-            // cleaning up
-            ds.Close();
-            dt.Close();
+            Dataset result = null;
+            using (Datatype dt = Datatype.VlenString)
+            {
+                using (Dataspace ds = new Dataspace(new ulong[] {(ulong)data.Length}))
+                {
+                    result = Dataset.Create(loc, name, dt, ds);
+                    result.Write(data);
+                }
+            }
             return result;
         }
         
         public static Dataset CreateWithData<T>(Location loc, string name, T[,] data) where T : struct
         {
-            // data type
-            Type t = typeof(T);
-            Datatype dt;
-            if (t.IsPrimitive)
-                dt = Datatype.Lookup(t);
-            else
-                dt = Datatype.FromStruct(t);
-            // data space
-            Dataspace ds = new Dataspace(new ulong[] {(ulong)data.GetLength(0),
-                                                      (ulong)data.GetLength(1)});
-            // data set
-            Dataset result = Dataset.Create(loc, name, dt, ds);
-            // write data
-            result.Write(Dataspace.All, data);
-            // cleaning up
-            ds.Close();
-            dt.Close();
+            Dataset result = null;
+            using (Datatype dt = Datatype.FromValueType(typeof(T)))
+            {
+                using (Dataspace ds = new Dataspace(new ulong[] {(ulong)data.GetLength(0),
+                                                                 (ulong)data.GetLength(1)}))
+                {
+                    result = Dataset.Create(loc, name, dt, ds);
+                    result.Write(Dataspace.All, data);
+                }
+            }
             return result;
         }
         
         public static Dataset CreateWithData(Location loc, string name, string[,] data)
         {
-            // data type
-            Datatype dt = Datatype.Lookup(typeof(string));
-            // data space
-            Dataspace ds = new Dataspace(new ulong[] {(ulong)data.GetLength(0),
-                                                      (ulong)data.GetLength(1)});
-            // data set
-            Dataset result = Dataset.Create(loc, name, dt, ds);
-            // write data
-            result.Write(Dataspace.All, data);
-            // cleaning up
-            dt.Close();
-            ds.Close();
+            Dataset result = null;
+            using (Datatype dt = Datatype.VlenString)
+            {
+                using (Dataspace ds = new Dataspace(new ulong[] {(ulong)data.GetLength(0),
+                                                                 (ulong)data.GetLength(1)}))
+                {
+                    result = Dataset.Create(loc, name, dt, ds);
+                    result.Write(Dataspace.All, data);
+                }
+            }
             return result;
         }
         
         public static Dataset CreateWithData<T>(Location loc, string name, T[][] data) where T : struct
         {
             int len = data.Length;
-            // data type
-            Datatype dt = Datatype.VariableLength<T>();
-            // data space
-            Dataspace ds = new Dataspace(new ulong[] {(ulong)len});
-            // data set
-            Dataset result = Dataset.Create(loc, name, dt, ds);
-            // write data
-            result.Write(Dataspace.All, data);
-            // cleaning up
-            ds.Close();
-            dt.Close();
+            Dataset result = null;
+            using (Datatype dt = Datatype.VariableLength<T>())
+            {
+                using (Dataspace ds = new Dataspace(new ulong[] {(ulong)len}))
+                {
+                    result = Dataset.Create(loc, name, dt, ds);
+                    result.Write(Dataspace.All, data);
+                }
+            }
             return result;
         }
         
