@@ -25,9 +25,10 @@ namespace Hdf5
             Console.WriteLine("HDF5 library version {0}.{1}.{2}", maj, min, rel);
             
             File f = File.Create("first_test.h5", FileAccessFlags.Truncate);
-            Group g = Group.Create(f, "/G1");
+            Group g1 = Group.Create(f, "/G1");
+            Group g2 = Group.Create(f, "/G2");
             Console.WriteLine("Create file first_test.h5");
-            Dataset ds1, ds2, ds3, ds4, ds5, ds6;
+            Dataset ds1, ds2, ds3, ds4, ds5, ds6, ds7, ds8;
 //            ds = Dataset.CreateFromData<int>(f, "T1", new int[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9});
             Console.Write("Adding dataset ds1... ");
             ds1 = Dataset.CreateWithData<int>(f, "T1", new int[,] {{0, 1, 2, 3},
@@ -42,14 +43,14 @@ namespace Hdf5
                                                                          {12.0, 13.0, 14.0, 15.0}});
             Console.WriteLine("done.");
             Console.Write("Adding dataset ds3... ");
-            ds3 = Dataset.CreateWithData(g, "S1", new string[] {"String 1",
-                                                                "Some other string",
-                                                                "Third string which is quite a bit longer",
-                                                                "Last!"});
+            ds3 = Dataset.CreateWithData(g1, "S1", new string[] {"String 1",
+                                                                 "Some other string",
+                                                                 "Third string which is quite a bit longer",
+                                                                 "Last!"});
             Console.WriteLine("done.");
             Console.Write("Adding dataset ds4... ");
-            ds4 = Dataset.CreateWithData(g, "S2", new string[,] {{"S(1,1)", "S(1,2)"},
-                                                                 {"S(2,1)", "S(2,2)"}});
+            ds4 = Dataset.CreateWithData(g1, "S2", new string[,] {{"S(1,1)", "S(1,2)"},
+                                                                  {"S(2,1)", "S(2,2)"}});
             Console.WriteLine("done.");
             Console.Write("Adding dataset ds5... ");
             ds5 = Dataset.CreateWithData<double>(f, "T3", new double[][] {new double[] { 0.0},
@@ -68,21 +69,14 @@ namespace Hdf5
                                                                           new Triplet(3, 0, 2.0),
                                                                           new Triplet(3, 4, 4.0)});
             Console.WriteLine("done.");
-//            Console.Write("Adding dataset ds7... ");
-//            Dataset dsX = Dataset.CreateWithData<int>(f, "T5", new int[] {});
-//            Console.WriteLine("done.");
+            Console.Write("Adding dataset ds7... ");
+            ds7 = Dataset.CreateWithData<ulong>(g2, "SC1", 123456);
+            Console.WriteLine("done.");
+            Console.Write("Adding dataset ds8... ");
+            ds8 = Dataset.CreateWithData(g2, "SC2", "scalar string.");
+            Console.WriteLine("done.");
             
             Console.WriteLine("\nNumber of objects: {0}", f.NumObjects);
-            Console.WriteLine("    object 0: {0}", f.GetObjectName(0));
-            Console.WriteLine("    object 1: {0}", f.GetObjectName(1));
-            
-            Console.WriteLine("\nDatatype C_S1:");
-            Console.WriteLine("    class: {0}", Datatype.C_S1.Class);
-            Console.WriteLine("    size:  {0}", Datatype.C_S1.Size);
-            
-            Console.WriteLine("\nDatatype CUSTOM_STRING:");
-            Console.WriteLine("    class: {0}", Datatype.C_STRING.Class);
-            Console.WriteLine("    size:  {0}", Datatype.C_STRING.Size);
             
             Console.WriteLine("\nds1:");
             int[,] T1 = (int[,])ds1.ReadValueArray<int>();
@@ -131,12 +125,24 @@ namespace Hdf5
                 Console.WriteLine("({0},{1}): {2}", T4[i].i, T4[i].j, T4[i].v);
             }
             
+            Console.WriteLine("\nds7:");
+            ulong SC1 = ds7.ReadValue<ulong>();
+            Console.WriteLine(SC1);
+            
+            Console.WriteLine("\nds8:");
+            string SC2 = ds8.ReadString();
+            Console.WriteLine(SC2);
+            
             ds1.Close();
             ds2.Close();
             ds3.Close();
             ds4.Close();
             ds5.Close();
             ds6.Close();
+            ds7.Close();
+            ds8.Close();
+            g1.Close();
+            g2.Close();
             f.Close();
         }
     }

@@ -50,7 +50,7 @@ namespace Hdf5
             // memory data space
             Dataspace ms = new Dataspace(new ulong[] {1});
             // result
-            T result;
+            T[] result = new T[1];
             // pin and read
             GCHandle hres = GCHandle.Alloc(result, GCHandleType.Pinned);
             Read(mt, ms, Dataspace.All, hres.AddrOfPinnedObject());
@@ -58,7 +58,7 @@ namespace Hdf5
             hres.Free();
             ms.Close();
             mt.Close();
-            return result;
+            return result[0];
         }
         
         public Array ReadValueArray<T>(Dataspace fs) where T : struct
@@ -94,24 +94,34 @@ namespace Hdf5
         
         public string ReadString()
         {
-            // memory data type
-            Datatype mt = Datatype.Lookup(typeof(string));
-            // memory data space
-            Dataspace ms = Space;
-            int rank = ms.NumDimensions;
-            if (rank > 1)
+            if (Type.Class != DatatypeClass.String)
                 throw new InvalidOperationException();
-            long[] dim = ms.GetDimensions();
-            // create marshalled result array
-            IntPtr mresult = Marshal.AllocHGlobal((int)(dim[0]+1));
-            // read
-            Read(mt, Dataspace.All, Dataspace.All, mresult);
-            // marshal result string
-            string result = Marshal.PtrToStringAnsi(mresult);
-            // cleaning up
-            Marshal.FreeHGlobal(mresult);
-            ms.Close();
-            mt.Close();
+            string result = null;
+            // memory data space
+            using (Dataspace ms = Space)
+            {
+                long[] dim = ms.GetDimensions();
+                if (dim.Length != 1 || dim[0] != 1)
+                    throw new InvalidOperationException();
+                // memory data type
+                using (Datatype mt = Type)
+                {
+                    // create marshalled result array
+                    IntPtr mresult = Marshal.AllocHGlobal((int)(mt.Size+1));
+                    try
+                    {
+                        // read
+                        Read(mt, Dataspace.All, Dataspace.All, mresult);
+                        // marshal result string
+                        result = Marshal.PtrToStringAnsi(mresult);
+                    }
+                    finally
+                    {
+                        // cleaning up
+                        Marshal.FreeHGlobal(mresult);
+                    }
+                }
+            }
             return result;
         }
         
@@ -237,22 +247,12 @@ namespace Hdf5
         
         public void Write(string data)
         {
-            // memory data type
-            Datatype mt = Datatype.Lookup(typeof(string)).Copy();
-            mt.Size = Type.Size;
-            // marshal strings
-            IntPtr[] mdata = new IntPtr[data.Length];
-            for (int i=0; i<data.Length; i++)
-                mdata[i] = Marshal.StringToHGlobalAnsi(data);
-            // pin down data array
-            GCHandle hmdata = GCHandle.Alloc(mdata, GCHandleType.Pinned);
-            // write data
-            Write(mt, Dataspace.All, Dataspace.All, hmdata.AddrOfPinnedObject());
-            // cleaning up
-            hmdata.Free();
-            for (int i=0; i<data.Length; i++)
-                Marshal.FreeHGlobal(mdata[i]);
-            mt.Close();
+            IntPtr mdata = Marshal.StringToHGlobalAnsi(data);
+            try {
+                using (Datatype mt = Type) { Write(mt, Dataspace.All, Dataspace.All, mdata); }
+            } finally {
+                Marshal.FreeHGlobal(mdata);
+            }
         }
         
         public void Write(string[] data)
@@ -409,6 +409,27 @@ namespace Hdf5
             return new Dataset(H5Dcreate(loc.raw, name, type.raw, space.raw, 0));
         }
         
+        public static Dataset CreateWithData<T>(Location loc, string name, T data) where T : struct
+        {
+            // data type
+            Type t = typeof(T);
+            Datatype dt;
+            if (t.IsPrimitive)
+                dt = Datatype.Lookup(t);
+            else
+                dt = Datatype.FromStruct(t);
+            // data space
+            Dataspace ds = new Dataspace(new ulong[] {1});
+            // data set
+            Dataset result = Dataset.Create(loc, name, dt, ds);
+            // write data
+            result.Write<T>(data);
+            // cleaning up
+            ds.Close();
+            dt.Close();
+            return result;
+        }
+        
         public static Dataset CreateWithData<T>(Location loc, string name, T[] data) where T : struct
         {
             // data type
@@ -424,6 +445,23 @@ namespace Hdf5
             Dataset result = Dataset.Create(loc, name, dt, ds);
             // write data
             result.Write<T>(Dataspace.All, data);
+            // cleaning up
+            ds.Close();
+            dt.Close();
+            return result;
+        }
+        
+        public static Dataset CreateWithData(Location loc, string name, string data)
+        {
+            // data type
+            Datatype dt = Datatype.C_S1.Copy();
+            dt.Size = data.Length;
+            // data space
+            Dataspace ds = new Dataspace(new ulong[] {1});
+            // data set
+            Dataset result = Dataset.Create(loc, name, dt, ds);
+            // write data
+            result.Write(data);
             // cleaning up
             ds.Close();
             dt.Close();
