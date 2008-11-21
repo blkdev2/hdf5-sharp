@@ -38,6 +38,29 @@ namespace Hdf5
 //                throw new ApplicationException("Error writing data.");
 //        }
         
+        public T ReadValue<T>() where T : struct
+        {
+            // memory data type
+            Type t = typeof(T);
+            Datatype mt;
+            if (t.IsPrimitive)
+                mt = Datatype.Lookup(t);
+            else
+                mt = Datatype.FromStruct(t);
+            // memory data space
+            Dataspace ms = new Dataspace(new ulong[] {1});
+            // result
+            T result;
+            // pin and read
+            GCHandle hres = GCHandle.Alloc(result, GCHandleType.Pinned);
+            Read(mt, ms, Dataspace.All, hres.AddrOfPinnedObject());
+            // cleaning up
+            hres.Free();
+            ms.Close();
+            mt.Close();
+            return result;
+        }
+        
         public Array ReadValueArray<T>(Dataspace fs) where T : struct
         {
             if (fs != Dataspace.All && !fs.IsSimple)
@@ -67,6 +90,29 @@ namespace Hdf5
         public Array ReadValueArray<T>() where T : struct
         {
             return ReadValueArray<T>(Dataspace.All);
+        }
+        
+        public string ReadString()
+        {
+            // memory data type
+            Datatype mt = Datatype.Lookup(typeof(string));
+            // memory data space
+            Dataspace ms = Space;
+            int rank = ms.NumDimensions;
+            if (rank > 1)
+                throw new InvalidOperationException();
+            long[] dim = ms.GetDimensions();
+            // create marshalled result array
+            IntPtr mresult = Marshal.AllocHGlobal((int)(dim[0]+1));
+            // read
+            Read(mt, Dataspace.All, Dataspace.All, mresult);
+            // marshal result string
+            string result = Marshal.PtrToStringAnsi(mresult);
+            // cleaning up
+            Marshal.FreeHGlobal(mresult);
+            ms.Close();
+            mt.Close();
+            return result;
         }
         
         public Array ReadStringArray()
@@ -147,6 +193,24 @@ namespace Hdf5
                 throw new ApplicationException("Error reading data.");
         }
         
+        public void Write<T>(T data) where T : struct
+        {
+            // memory data type
+            Type t = typeof(T);
+            Datatype mt;
+            if (t.IsPrimitive)
+                mt = Datatype.Lookup(t);
+            else
+                mt = Datatype.FromStruct(t);
+            // pin down data
+            GCHandle hdata = GCHandle.Alloc(data, GCHandleType.Pinned);
+            // write data
+            Write(mt, Dataspace.All, Dataspace.All, hdata.AddrOfPinnedObject());
+            // cleaning up
+            hdata.Free();
+            mt.Close();
+        }
+        
         public void Write<T>(Dataspace ms, Dataspace fs, T[] data) where T : struct
         {
             // memory data type
@@ -169,6 +233,26 @@ namespace Hdf5
         {
             // write data
             Write(Dataspace.All, fs, data);
+        }
+        
+        public void Write(string data)
+        {
+            // memory data type
+            Datatype mt = Datatype.Lookup(typeof(string)).Copy();
+            mt.Size = Type.Size;
+            // marshal strings
+            IntPtr[] mdata = new IntPtr[data.Length];
+            for (int i=0; i<data.Length; i++)
+                mdata[i] = Marshal.StringToHGlobalAnsi(data);
+            // pin down data array
+            GCHandle hmdata = GCHandle.Alloc(mdata, GCHandleType.Pinned);
+            // write data
+            Write(mt, Dataspace.All, Dataspace.All, hmdata.AddrOfPinnedObject());
+            // cleaning up
+            hmdata.Free();
+            for (int i=0; i<data.Length; i++)
+                Marshal.FreeHGlobal(mdata[i]);
+            mt.Close();
         }
         
         public void Write(string[] data)
@@ -278,7 +362,24 @@ namespace Hdf5
         
         public Dataspace Space
         {
-            get { return new Dataspace(H5Dget_space(raw)); }
+            get
+            {
+                int id = H5Dget_space(raw);
+                if (id < 0)
+                    throw new ApplicationException("Error getting space of dataset.");
+                return new Dataspace(id);
+            }
+        }
+        
+        public Datatype Type
+        {
+            get
+            {
+                int id = H5Dget_type(raw);
+                if (id < 0)
+                    throw new ApplicationException("Error getting type of dataset.");
+                return new Datatype(id, true);
+            }
         }
         
         public SpaceStatus SpaceStatus
@@ -422,6 +523,9 @@ namespace Hdf5
         
         [DllImport("hdf5")]
         private static extern int H5Dget_space_status(int dataset_id, out SpaceStatus status);
+        
+        [DllImport("hdf5")]
+        private static extern int H5Dget_type(int dataset_id);
         
         [DllImport("hdf5")]
         private static extern int H5Dread(int dataset_id, int mem_type_id, int mem_space_id, int file_space_id, int xfer_plist_id, IntPtr buf);

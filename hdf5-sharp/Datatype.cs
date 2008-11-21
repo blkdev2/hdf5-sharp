@@ -109,7 +109,6 @@ namespace Hdf5
 //            NATIVE_CHAR     = new Datatype(Marshal.ReadInt32(H5T_NATIVE_CHAR_g),     false);
             C_S1            = new Datatype(Marshal.ReadInt32(H5T_C_S1_g),            false);
             CUSTOM_STRING   = C_S1.Copy();
-            CUSTOM_STRING.can_close = false;
             CUSTOM_STRING.Size = -1; // variable
             dlclose(dl_handle);
         }
@@ -185,7 +184,11 @@ namespace Hdf5
         public static Datatype IEEE_F64LE;
 //        public static Datatype NATIVE_CHAR;
         public static Datatype C_S1;
-        public static Datatype CUSTOM_STRING;
+        private static Datatype CUSTOM_STRING;
+        public static Datatype C_STRING
+        {
+            get { return CUSTOM_STRING.Copy(); }
+        }
         
         internal static Datatype Lookup(Type t)
         {
@@ -210,7 +213,7 @@ namespace Hdf5
             else if (t == typeof(double))
                 return IEEE_F64LE;
             else if (t == typeof(string))
-                return CUSTOM_STRING;
+                return C_STRING;
             throw new ArgumentException(String.Format("Unsupported type {0}", t));
         }
         

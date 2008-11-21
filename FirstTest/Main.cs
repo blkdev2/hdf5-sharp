@@ -81,8 +81,8 @@ namespace Hdf5
             Console.WriteLine("    size:  {0}", Datatype.C_S1.Size);
             
             Console.WriteLine("\nDatatype CUSTOM_STRING:");
-            Console.WriteLine("    class: {0}", Datatype.CUSTOM_STRING.Class);
-            Console.WriteLine("    size:  {0}", Datatype.CUSTOM_STRING.Size);
+            Console.WriteLine("    class: {0}", Datatype.C_STRING.Class);
+            Console.WriteLine("    size:  {0}", Datatype.C_STRING.Size);
             
             Console.WriteLine("\nds1:");
             int[,] T1 = (int[,])ds1.ReadValueArray<int>();
