@@ -382,10 +382,10 @@ namespace Hdf5
             return new Dataset(H5Dcreate(loc.raw, name, type.raw, space.raw, 0));
         }
         
-        public static Dataset CreateWithData<T>(Location loc, string name, T data) where T : struct
+        public static Dataset CreateWithData<T>(Location loc, string name, ByteOrder order, T data) where T : struct
         {
             Dataset result = null;
-            using (Datatype dt = Datatype.FromValueType(typeof(T)))
+            using (Datatype dt = Datatype.FromValueType(typeof(T), order))
             {
                 using (Dataspace ds = new Dataspace(new ulong[] {1}))
                 {
@@ -396,10 +396,15 @@ namespace Hdf5
             return result;
         }
         
-        public static Dataset CreateWithData<T>(Location loc, string name, T[] data) where T : struct
+        public static Dataset CreateWithData<T>(Location loc, string name, T data) where T : struct
+        {
+            return Dataset.CreateWithData<T>(loc, name, ByteOrder.Native, data);
+        }
+        
+        public static Dataset CreateWithData<T>(Location loc, string name, ByteOrder order, T[] data) where T : struct
         {
             Dataset result = null;
-            using (Datatype dt = Datatype.FromValueType(typeof(T)))
+            using (Datatype dt = Datatype.FromValueType(typeof(T), order))
             {
                 using (Dataspace ds = new Dataspace(new ulong[] {(ulong)data.Length}))
                 {
@@ -408,6 +413,11 @@ namespace Hdf5
                 }
             }
             return result;
+        }
+        
+        public static Dataset CreateWithData<T>(Location loc, string name, T[] data) where T : struct
+        {
+            return Dataset.CreateWithData<T>(loc, name, ByteOrder.Native, data);
         }
         
         public static Dataset CreateWithData(Location loc, string name, string data)
@@ -439,10 +449,10 @@ namespace Hdf5
             return result;
         }
         
-        public static Dataset CreateWithData<T>(Location loc, string name, T[,] data) where T : struct
+        public static Dataset CreateWithData<T>(Location loc, string name, ByteOrder order, T[,] data) where T : struct
         {
             Dataset result = null;
-            using (Datatype dt = Datatype.FromValueType(typeof(T)))
+            using (Datatype dt = Datatype.FromValueType(typeof(T), order))
             {
                 using (Dataspace ds = new Dataspace(new ulong[] {(ulong)data.GetLength(0),
                                                                  (ulong)data.GetLength(1)}))
@@ -452,6 +462,11 @@ namespace Hdf5
                 }
             }
             return result;
+        }
+        
+        public static Dataset CreateWithData<T>(Location loc, string name, T[,] data) where T : struct
+        {
+            return Dataset.CreateWithData(loc, name, ByteOrder.Native, data);
         }
         
         public static Dataset CreateWithData(Location loc, string name, string[,] data)
@@ -469,7 +484,7 @@ namespace Hdf5
             return result;
         }
         
-        public static Dataset CreateWithData<T>(Location loc, string name, T[][] data) where T : struct
+        public static Dataset CreateWithData<T>(Location loc, string name, ByteOrder order, T[][] data) where T : struct
         {
             int len = data.Length;
             Dataset result = null;
@@ -482,6 +497,11 @@ namespace Hdf5
                 }
             }
             return result;
+        }
+        
+        public static Dataset CreateWithData<T>(Location loc, string name, T[][] data) where T : struct
+        {
+            return Dataset.CreateWithData(loc, name, ByteOrder.Native, data);
         }
         
         public static Dataset Open(Location loc, string name)

@@ -27,7 +27,7 @@ namespace Hdf5
         Array            = 10   /* Array types                                */
     }
 
-    public enum ByteOrder
+    public enum DatatypeOrder
     {
         Error         = -1,  /* error                                      */
         LittleEndian  = 0,   /* little endian                              */
@@ -36,11 +36,18 @@ namespace Hdf5
         None          = 3    /* no particular order (strings, bits,..)     */
     }
     
-    public enum SignScheme
+    public enum DatatypeSign
     {
         Error   = -1,  /* error                                      */
         None    = 0,   /* this is an unsigned type                   */
         Twos    = 1,   /* two's complement                           */
+    }
+    
+    public enum ByteOrder
+    {
+        LittleEndian = 0,
+        BigEndian = 1,
+        Native = 2
     }
 
     public class Datatype : Base
@@ -53,24 +60,46 @@ namespace Hdf5
             IntPtr dl_handle = dlopen(null, RTLD_LAZY);
             if (dl_handle == IntPtr.Zero)
                 throw new ApplicationException(String.Format("Error loading libhdf5. Reason {0}", Marshal.PtrToStringAnsi(dlerror())));
-            STD_I8LE        = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_I8LE_g")), false);
-            STD_I16LE       = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_I16LE_g")), false);
-            STD_I32LE       = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_I32LE_g")), false);
-            STD_I32BE       = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_I32BE_g")), false);
-            NATIVE_INT32    = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_INT32_g")), false);
-            STD_I64LE       = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_I64LE_g")), false);
-            STD_U8LE        = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_U8LE_g")), false);
-            STD_U16LE       = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_U16LE_g")), false);
-            STD_U32LE       = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_U32LE_g")), false);
-            STD_U64LE       = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_U64LE_g")), false);
+            INT8        = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_I8LE_g")), false);
+            INT16       = new Datatype[] {
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_I16LE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_I16BE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_INT16_g")), false)};
+            INT32       = new Datatype[] {
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_I32LE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_I32BE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_INT32_g")), false)};
+            INT64       = new Datatype[] {
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_I64LE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_I64BE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_INT64_g")), false)};
+            UINT8       = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_U8LE_g")), false);
+            UINT16      = new Datatype[] {
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_U16LE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_U16BE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_UINT16_g")), false)};
+            UINT32      = new Datatype[] {
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_U32LE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_U32LE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_UINT32_g")), false)};
+            UINT64      = new Datatype[] {
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_U64LE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_U64BE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_UINT64_g")), false)};
 //            STD_B8LE        = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B8LE_g")), false);
 //            STD_B16LE       = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B16LE_g")), false);
 //            STD_B32LE       = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B32LE_g")), false);
 //            STD_B64LE       = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B64LE_g")), false);
 //            STD_REF_OBJ     = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_REF_OBJ_g")), false);
 //            STD_REF_DSETREG = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_REF_DSETREG_g")), false);
-            IEEE_F32LE      = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_IEEE_F32LE_g")), false);
-            IEEE_F64LE      = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_IEEE_F64LE_g")), false);
+            FLOAT       = new Datatype[] {
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_IEEE_F32LE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_IEEE_F32BE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_FLOAT_g")), false)};
+            DOUBLE      = new Datatype[] {
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_IEEE_F64LE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_IEEE_F64BE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_DOUBLE_g")), false)};
             CONST_STRING    = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_C_S1_g")), false);
             VLEN_STRING = CONST_STRING.Copy();
             VLEN_STRING.Size = -1; // variable
@@ -130,64 +159,100 @@ namespace Hdf5
         
         // built-in data types
         
-        private static Datatype STD_I8LE;
+        private static Datatype INT8;
         public static Datatype SByte
         {
-            get { return STD_I8LE.Copy(); }
+            get { return INT8.Copy(); }
         }
         
-        private static Datatype STD_I16LE;
+        private static Datatype[] INT16;
         public static Datatype Int16LE
         {
-            get { return STD_I16LE.Copy(); }
+            get { return INT16[0].Copy(); }
+        }
+        public static Datatype Int16BE
+        {
+            get { return INT16[1].Copy(); }
+        }
+        public static Datatype NativeInt16
+        {
+            get { return INT16[2].Copy(); }
         }
         
-        private static Datatype STD_I32LE;
+        private static Datatype[] INT32;
         public static Datatype Int32LE
         {
-            get { return STD_I32LE.Copy(); }
+            get { return INT32[0].Copy(); }
         }
-        
-        private static Datatype STD_I32BE;
         public static Datatype Int32BE
         {
-            get { return STD_I32BE.Copy(); }
+            get { return INT32[1].Copy(); }
         }
-        
-        private static Datatype NATIVE_INT32;
         public static Datatype NativeInt32
         {
-            get { return NATIVE_INT32.Copy(); }
+            get { return INT32[2].Copy(); }
         }
         
-        private static Datatype STD_I64LE;
+        private static Datatype[] INT64;
         public static Datatype Int64LE
         {
-            get { return STD_I64LE.Copy(); }
+            get { return INT64[0].Copy(); }
+        }
+        public static Datatype Int64BE
+        {
+            get { return INT64[0].Copy(); }
+        }
+        public static Datatype NativeInt64
+        {
+            get { return INT64[0].Copy(); }
         }
         
-        private static Datatype STD_U8LE;
+        private static Datatype UINT8;
         public static Datatype Byte
         {
-            get { return STD_U8LE.Copy(); }
+            get { return UINT8.Copy(); }
         }
         
-        private static Datatype STD_U16LE;
+        private static Datatype[] UINT16;
         public static Datatype UInt16LE
         {
-            get { return STD_U16LE.Copy(); }
+            get { return UINT16[0].Copy(); }
+        }
+        public static Datatype UInt16BE
+        {
+            get { return UINT16[1].Copy(); }
+        }
+        public static Datatype NativeUInt16
+        {
+            get { return UINT16[2].Copy(); }
         }
         
-        private static Datatype STD_U32LE;
+        private static Datatype[] UINT32;
         public static Datatype UInt32LE
         {
-            get { return STD_U32LE.Copy(); }
+            get { return UINT32[0].Copy(); }
+        }
+        public static Datatype UInt32BE
+        {
+            get { return UINT32[1].Copy(); }
+        }
+        public static Datatype NativeUInt32
+        {
+            get { return UINT32[2].Copy(); }
         }
         
-        private static Datatype STD_U64LE;
+        private static Datatype[] UINT64;
         public static Datatype UInt64LE
         {
-            get { return STD_U64LE.Copy(); }
+            get { return UINT64[0].Copy(); }
+        }
+        public static Datatype UInt64BE
+        {
+            get { return UINT64[1].Copy(); }
+        }
+        public static Datatype NativeUInt64
+        {
+            get { return UINT64[2].Copy(); }
         }
         
 //        private static Datatype STD_B8LE;
@@ -197,16 +262,32 @@ namespace Hdf5
 //        private static Datatype STD_REF_OBJ;
 //        private static Datatype STD_REF_DSETREG;
         
-        private static Datatype IEEE_F32LE;
+        private static Datatype[] FLOAT;
         public static Datatype SingleLE
         {
-            get { return IEEE_F32LE.Copy(); }
+            get { return FLOAT[0].Copy(); }
+        }
+        public static Datatype SingleBE
+        {
+            get { return FLOAT[1].Copy(); }
+        }
+        public static Datatype NativeSingle
+        {
+            get { return FLOAT[2].Copy(); }
         }
         
-        private static Datatype IEEE_F64LE;
+        private static Datatype[] DOUBLE;
         public static Datatype DoubleLE
         {
-            get { return IEEE_F64LE.Copy(); }
+            get { return DOUBLE[0].Copy(); }
+        }
+        public static Datatype DoubleBE
+        {
+            get { return DOUBLE[1].Copy(); }
+        }
+        public static Datatype NativeDouble
+        {
+            get { return DOUBLE[2].Copy(); }
         }
         
         private static Datatype CONST_STRING;
@@ -226,34 +307,32 @@ namespace Hdf5
 //            get { return CUSTOM_STRING.Copy(); }
 //        }
         
-        private static Datatype FromPrimitive(Type t)
+        private static Datatype FromPrimitive(Type t, ByteOrder o)
         {
             if (t == typeof(sbyte))
-                return STD_I8LE;
+                return INT8;
             else if (t == typeof(short))
-                return STD_I16LE;
+                return INT16[(int)o];
             else if (t == typeof(int))
-                return STD_I32LE;
+                return INT32[(int)o];
             else if (t == typeof(long))
-                return STD_I64LE;
+                return INT64[(int)o];
             else if (t == typeof(byte))
-                return STD_U8LE;
+                return UINT8;
             else if (t == typeof(ushort))
-                return STD_U16LE;
+                return UINT16[(int)o];
             else if (t == typeof(uint))
-                return STD_U32LE;
+                return UINT32[(int)o];
             else if (t == typeof(ulong))
-                return STD_U64LE;
+                return UINT64[(int)o];
             else if (t == typeof(float))
-                return IEEE_F32LE;
+                return FLOAT[(int)o];
             else if (t == typeof(double))
-                return IEEE_F64LE;
-//            else if (t == typeof(string))
-//                return C_STRING;
+                return DOUBLE[(int)o];
             throw new ArgumentException(String.Format("Unsupported type {0}", t));
         }
         
-        private static Datatype FromStruct(Type t)
+        private static Datatype FromStruct(Type t, ByteOrder o)
         {
             long size = Marshal.SizeOf(t);
 //            Console.WriteLine("*** size of compound type: {0}", size);
@@ -263,7 +342,14 @@ namespace Hdf5
             for (int i=0; i<mi.Length; i++)
             {
                 string mname = mi[i].Name;
-                Datatype mtype = FromPrimitive(((FieldInfo)mi[i]).FieldType);
+                Type mnative = ((FieldInfo)mi[i]).FieldType;
+                if (!mnative.IsValueType)
+                    throw new ArgumentException(String.Format("Member {0} is not a value type.", mname));
+                Datatype mtype;
+                if (mnative.IsPrimitive)
+                    mtype = Datatype.FromPrimitive(mnative, o);
+                else
+                    mtype = Datatype.FromStruct(mnative, o);
                 long msize = Marshal.SizeOf(((FieldInfo)mi[i]).FieldType);
 //                Console.WriteLine("*** offset of member type: {0}", offset);
 //                Console.WriteLine("*** size of member type: {0}", msize);
@@ -272,19 +358,26 @@ namespace Hdf5
                     throw new ApplicationException("Error inserting type into compound datatype.");
                 offset += msize;
             }
+            if (offset != size)
+                throw new ApplicationException(String.Format("Error computing field offsets. True size: {0}; computed: {1}.", size, offset));
             return result;
         }
         
-        public static Datatype FromValueType(Type t)
+        public static Datatype FromValueType(Type t, ByteOrder o)
         {
             if (!t.IsValueType)
                 throw new ArgumentException(String.Format("Type {0} is not a value type.", t));
             Datatype dt;
             if (t.IsPrimitive)
-                dt = Datatype.FromPrimitive(t);
+                dt = Datatype.FromPrimitive(t, o);
             else
-                dt = Datatype.FromStruct(t);
+                dt = Datatype.FromStruct(t, o);
             return dt;
+        }
+        
+        public static Datatype FromValueType(Type t)
+        {
+            return FromValueType(t, ByteOrder.Native);
         }
         
         internal static Datatype VariableLength<T>() where T : struct
