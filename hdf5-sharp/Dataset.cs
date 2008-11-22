@@ -57,36 +57,32 @@ namespace Hdf5
             return result[0];
         }
         
-        public Array ReadValueArray<T>(Dataspace fs) where T : struct
+        public void ReadValueArray<T>(Dataspace ms, Dataspace fs, Array buf) where T : struct
         {
-            if (fs != Dataspace.All && !fs.IsSimple)
-                throw new ArgumentException("Dataspace is not simple.");
-            Array result;
             using (Datatype mt = Datatype.FromValueType(typeof(T)))
             {
-                if (fs == Dataspace.All)
-                    result = Array.CreateInstance(typeof(T), Space.GetDimensions());
-                else
-                    result = Array.CreateInstance(typeof(T), fs.GetDimensions());
-                GCHandle hres = GCHandle.Alloc(result, GCHandleType.Pinned);
+                GCHandle hbuf = GCHandle.Alloc(buf, GCHandleType.Pinned);
                 try {
-                    Read(mt, Dataspace.All, fs, hres.AddrOfPinnedObject());
+                    Read(mt, Dataspace.All, fs, hbuf.AddrOfPinnedObject());
                 } finally {
-                    hres.Free();
+                    hbuf.Free();
                 }
             }
-            return result;
         }
         
         public Array ReadValueArray<T>() where T : struct
         {
-            return ReadValueArray<T>(Dataspace.All);
+            Array result;
+            using (Dataspace ds = Space)
+            {
+                result = Array.CreateInstance(typeof(T), Space.GetDimensions());
+                ReadValueArray<T>(Dataspace.All, Dataspace.All, result);
+            }
+            return result;
         }
         
         public string ReadString()
         {
-            if (Type.Class != DatatypeClass.String)
-                throw new InvalidOperationException();
             string result = null;
             // memory data space
             using (Dataspace ms = Space)
@@ -97,14 +93,16 @@ namespace Hdf5
                 // memory data type
                 using (Datatype mt = Type)
                 {
+                    if (mt.Class != DatatypeClass.String)
+                        throw new InvalidOperationException();
                     // create marshalled result array
-                    IntPtr mresult = Marshal.AllocHGlobal((int)(mt.Size+1));
+                    IntPtr mresult = Marshal.AllocHGlobal((int)mt.Size);
                     try
                     {
                         // read
                         Read(mt, Dataspace.All, Dataspace.All, mresult);
                         // marshal result string
-                        result = Marshal.PtrToStringAnsi(mresult);
+                        result = Marshal.PtrToStringAnsi(mresult, (int)mt.Size);
                     }
                     finally
                     {

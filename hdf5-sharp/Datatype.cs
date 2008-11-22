@@ -136,7 +136,7 @@ namespace Hdf5
             get { return STD_I8LE.Copy(); }
         }
         
-        public static Datatype STD_I16LE;
+        private static Datatype STD_I16LE;
         public static Datatype Int16LE
         {
             get { return STD_I16LE.Copy(); }

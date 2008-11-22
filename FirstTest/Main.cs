@@ -75,6 +75,13 @@ namespace Hdf5
             Console.Write("Adding dataset ds8... ");
             ds8 = Dataset.CreateWithData(g2, "SC2", "scalar string.");
             Console.WriteLine("done.");
+            Attribute a7, a8;
+            Console.Write("Adding attribute to dataset ds7... ");
+            a7 = Attribute.CreateWithData<sbyte>(ds7, "A7", 1);
+            Console.WriteLine("done.");
+            Console.Write("Adding attribute to dataset ds8... ");
+            a8 = Attribute.CreateWithData(ds8, "A8", "abc");
+            Console.WriteLine("done.");
             
             Console.WriteLine("\nNumber of objects: {0}", f.NumObjects);
             
@@ -128,10 +135,16 @@ namespace Hdf5
             Console.WriteLine("\nds7:");
             ulong SC1 = ds7.ReadValue<ulong>();
             Console.WriteLine(SC1);
+            Console.WriteLine("\nds7, attribute A7:");
+            sbyte a7b = a7.ReadValue<sbyte>();
+            Console.WriteLine(a7b);
             
             Console.WriteLine("\nds8:");
             string SC2 = ds8.ReadString();
             Console.WriteLine(SC2);
+            Console.WriteLine("\nds8, attribute A8:");
+            string a8s = a8.ReadString();
+            Console.WriteLine("{0}", a8s);
             
             ds1.Close();
             ds2.Close();
