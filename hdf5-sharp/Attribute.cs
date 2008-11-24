@@ -164,7 +164,7 @@ namespace Hdf5
         
         public static Attribute Open(Base obj, string name)
         {
-            int raw = H5Aopen(obj.raw, name, 0);
+            int raw = H5Aopen_name(obj.raw, name);
             if (raw < 0)
                 throw new ApplicationException("Error opening attribute.");
             return new Attribute(raw);
@@ -178,7 +178,7 @@ namespace Hdf5
         private static extern int H5Acreate(int obj_id, string attr_name, int type_id, int space_id, int acpl_id);
         
         [DllImport("hdf5")]
-        private static extern int H5Aopen(int obj_id, string attr_name, int aapl_id);
+        private static extern int H5Aopen_name(int obj_id, string attr_name);
         
         [DllImport("hdf5")]
         private static extern int H5Aread(int attr_id, int mem_type_id, IntPtr buf);
