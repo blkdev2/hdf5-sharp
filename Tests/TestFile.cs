@@ -43,11 +43,13 @@ namespace Hdf5.Tests
             f2.Close();
         }
         
+		[Test]
         public void TestFile1()
         {
             Assert.AreEqual("f1.h5", f1.Filename);
         }
         
+		[Test]
         public void TestFile2()
         {
             Assert.AreEqual("f2.h5", f2.Filename);
