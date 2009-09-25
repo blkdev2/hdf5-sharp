@@ -127,7 +127,7 @@ namespace Hdf5
         
         public static Attribute Create(Base obj, string name, Datatype dt, Dataspace ds)
         {
-            int raw = H5Acreate(obj.raw, name, dt.raw, ds.raw, 0);
+            int raw = H5Acreate2(obj.raw, name, dt.raw, ds.raw, 0, 0);
             if (raw < 0)
                 throw new ApplicationException("Error creating attribute.");
             return new Attribute(raw);
@@ -175,7 +175,7 @@ namespace Hdf5
         // imports
         
         [DllImport("hdf5")]
-        private static extern int H5Acreate(int obj_id, string attr_name, int type_id, int space_id, int acpl_id);
+        private static extern int H5Acreate2(int obj_id, string attr_name, int type_id, int space_id, int acpl_id, int aapl_id);
         
         [DllImport("hdf5")]
         private static extern int H5Aopen_name(int obj_id, string attr_name);

@@ -379,7 +379,7 @@ namespace Hdf5
 
         public static Dataset Create(Location loc, string name, Datatype type, Dataspace space)
         {
-            return new Dataset(H5Dcreate(loc.raw, name, type.raw, space.raw, 0));
+            return new Dataset(H5Dcreate2(loc.raw, name, type.raw, space.raw, 0, 0, 0));
         }
         
         public static Dataset CreateWithData<T>(Location loc, string name, ByteOrder order, T data) where T : struct
@@ -506,16 +506,16 @@ namespace Hdf5
         
         public static Dataset Open(Location loc, string name)
         {
-            return new Dataset(H5Dopen(loc.raw, name));
+            return new Dataset(H5Dopen2(loc.raw, name, 0));
         }
         
         // imports
         
         [DllImport("hdf5")]
-        private static extern int H5Dcreate(int loc_id, string name, int type_id, int space_id, int dcpl_id);
+        private static extern int H5Dcreate2(int loc_id, string name, int type_id, int space_id, int lcpl_id, int dcpl_id, int dapl_id);
         
         [DllImport("hdf5")]
-        private static extern int H5Dopen(int loc_id, string name);
+        private static extern int H5Dopen2(int loc_id, string name, int dapl_id);
         
         [DllImport("hdf5")]
         private static extern int H5Dclose(int dataset_id);

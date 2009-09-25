@@ -28,21 +28,21 @@ namespace Hdf5
         
         public static Group Create(Location loc, string name)
         {
-            return new Group(H5Gcreate(loc.raw, name, 0));
+            return new Group(H5Gcreate2(loc.raw, name, 0, 0, 0));
         }
         
         public static Group Open(Location loc, string name)
         {
-            return new Group(H5Gopen(loc.raw, name));
+            return new Group(H5Gopen2(loc.raw, name, 0));
         }
         
         // imports
 
         [DllImport("hdf5")]
-        private static extern int H5Gcreate(int loc, string name, long size_hint);
+        private static extern int H5Gcreate2(int loc, string name, long size_hint, int gcpl_id, int gapl_id);
 
         [DllImport("hdf5")]
-        private static extern int H5Gopen(int loc, string name);
+        private static extern int H5Gopen2(int loc, string name, int gapl_id);
 
         [DllImport("hdf5")]
         private static extern int H5Gclose(int group_id);
