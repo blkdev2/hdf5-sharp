@@ -75,7 +75,7 @@ namespace Hdf5
             Array result;
             using (Dataspace ds = Space)
             {
-                result = Array.CreateInstance(typeof(T), Space.GetDimensions());
+                result = Array.CreateInstance(typeof(T), ds.GetDimensions());
                 ReadValueArray<T>(Dataspace.All, Dataspace.All, result);
             }
             return result;
