@@ -15,29 +15,33 @@ namespace Hdf5.Tests
     [TestFixture]
     public class TestGroup
     {
-		[Test]
+        [Test]
         public void TestGroupCreate()
         {
-			string tmpfile = System.IO.Path.GetTempFileName();
-			
-			using (Hdf5.File h5file = Hdf5.File.Create(tmpfile, Hdf5.FileAccessFlags.Truncate))
-			using (Hdf5.Group h5group = Hdf5.Group.Create(h5file, "testgroup"));
-			
-			System.IO.File.Delete(tmpfile);
-		}
-			
-		[Test]
+            string tmpfile = System.IO.Path.GetTempFileName();
+            try
+            {
+                using (Hdf5.File h5file = Hdf5.File.Create(tmpfile, Hdf5.FileAccessFlags.Truncate))
+                using (Hdf5.Group h5group = Hdf5.Group.Create(h5file, "testgroup"));
+            } finally {
+                System.IO.File.Delete(tmpfile);
+            }
+        }
+            
+        [Test]
         public void TestGroupOpen()
         {
-			string tmpfile = System.IO.Path.GetTempFileName();
-			
-			using (Hdf5.File h5file = Hdf5.File.Create(tmpfile, Hdf5.FileAccessFlags.Truncate))
-			using (Hdf5.Group h5group = Hdf5.Group.Create(h5file, "testgroup"));
-			
-			using (Hdf5.File h5file = Hdf5.File.Open(tmpfile, Hdf5.FileAccessFlags.ReadOnly))
-			using (Hdf5.Group h5group = Hdf5.Group.Open(h5file, "testgroup"));
-			
-			System.IO.File.Delete(tmpfile);
-		}
+            string tmpfile = System.IO.Path.GetTempFileName();
+            try
+            {
+                using (Hdf5.File h5file = Hdf5.File.Create(tmpfile, Hdf5.FileAccessFlags.Truncate))
+                using (Hdf5.Group h5group = Hdf5.Group.Create(h5file, "testgroup"));
+            
+                using (Hdf5.File h5file = Hdf5.File.Open(tmpfile, Hdf5.FileAccessFlags.ReadOnly))
+                using (Hdf5.Group h5group = Hdf5.Group.Open(h5file, "testgroup"));
+            } finally {
+                System.IO.File.Delete(tmpfile);
+            }
+        }
     }
 }

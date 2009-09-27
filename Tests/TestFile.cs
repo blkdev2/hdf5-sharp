@@ -14,32 +14,36 @@ namespace Hdf5.Tests
     [TestFixture]
     public class TestFile
     {
-		[Test]
+        [Test]
         public void TestFileCreate()
         {
-			string tmpfile = System.IO.Path.GetTempFileName();
-			
-			using (Hdf5.File h5file = Hdf5.File.Create(tmpfile, Hdf5.FileAccessFlags.Truncate))
-			{
-				Assert.AreEqual(tmpfile, h5file.Filename);
-			}
-			
-			System.IO.File.Delete(tmpfile);
+            string tmpfile = System.IO.Path.GetTempFileName();
+            try
+            {
+                using (Hdf5.File h5file = Hdf5.File.Create(tmpfile, Hdf5.FileAccessFlags.Truncate))
+                {
+                    Assert.AreEqual(tmpfile, h5file.Filename);
+                }
+            } finally {
+                System.IO.File.Delete(tmpfile);
+            }
         }
         
-		[Test]
+        [Test]
         public void TestFileOpen()
         {
-			string tmpfile = System.IO.Path.GetTempFileName();
-			
-			using (Hdf5.File h5file = Hdf5.File.Create(tmpfile, Hdf5.FileAccessFlags.Truncate));
-			
-			using (Hdf5.File h5file = Hdf5.File.Open(tmpfile, Hdf5.FileAccessFlags.ReadOnly))
-			{
-				Assert.AreEqual(tmpfile, h5file.Filename);
-			}
-			
-			System.IO.File.Delete(tmpfile);
+            string tmpfile = System.IO.Path.GetTempFileName();
+            try
+            {
+                using (Hdf5.File h5file = Hdf5.File.Create(tmpfile, Hdf5.FileAccessFlags.Truncate));
+            
+                using (Hdf5.File h5file = Hdf5.File.Open(tmpfile, Hdf5.FileAccessFlags.ReadOnly))
+                {
+                    Assert.AreEqual(tmpfile, h5file.Filename);
+                }
+            } finally {
+                System.IO.File.Delete(tmpfile);
+            }
         }
     }
 }
