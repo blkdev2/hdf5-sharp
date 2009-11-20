@@ -5,6 +5,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Runtime.InteropServices;
 
 namespace Hdf5
@@ -31,6 +32,31 @@ namespace Hdf5
                 }
             }
             return buf[0];
+        }
+        
+        public BitArray ReadBitArray()
+        {
+            int[] mem;
+            using (Datatype mt = Datatype.BitArrayType(32))
+            {
+                long[] dim;
+                using (Dataspace sp = Space)
+                {
+                    dim = sp.GetDimensions();
+                }
+                if (dim.Length != 1)
+                    throw new NotSupportedException("Multidimensional bitfield attributes are not supported.");
+                mem = new int[dim[0]];
+                GCHandle hmem = GCHandle.Alloc(mem, GCHandleType.Pinned);
+                try {
+                    int err = H5Aread(raw, mt.raw, hmem.AddrOfPinnedObject());
+                    if (err < 0)
+                        throw new ApplicationException("Error reading value from attribute.");
+                } finally {
+                    hmem.Free();
+                }
+            }
+            return new BitArray(mem);
         }
         
         public string ReadString()
@@ -60,6 +86,22 @@ namespace Hdf5
             {
                 buf = new T[1];
                 buf[0] = data;
+                GCHandle hbuf = GCHandle.Alloc(buf, GCHandleType.Pinned);
+                try {
+                    H5Awrite(raw, mt.raw, hbuf.AddrOfPinnedObject());
+                } finally {
+                    hbuf.Free();
+                }
+            }
+        }
+        
+        public void Write(BitArray data)
+        {
+            int[] buf;
+            buf = new int[(data.Length+31)/32];
+            data.CopyTo(buf, 0);
+            using (Datatype mt = Datatype.BitArrayType(32))
+            {
                 GCHandle hbuf = GCHandle.Alloc(buf, GCHandleType.Pinned);
                 try {
                     H5Awrite(raw, mt.raw, hbuf.AddrOfPinnedObject());
@@ -142,6 +184,20 @@ namespace Hdf5
                 {
                     result = Attribute.Create(obj, name, dt, ds);
                     result.Write<T>(data);
+                }
+            }
+            return result;
+        }
+        
+        public static Attribute CreateWithData(Base obj, string name, BitArray data)
+        {
+            Attribute result;
+            using (Datatype dt = Datatype.BitArrayType(32))
+            {
+                using (Dataspace ds = new Dataspace(new ulong[] {(ulong)((data.Length+31)/32)}))
+                {
+                    result = Attribute.Create(obj, name, dt, ds);
+                    result.Write(data);
                 }
             }
             return result;

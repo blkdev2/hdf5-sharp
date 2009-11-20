@@ -5,6 +5,7 @@
 //
 
 using System;
+using System.Collections;
 using System.IO;
 using NUnit.Framework;
 
@@ -345,6 +346,74 @@ namespace Hdf5.Tests
                     Assert.AreEqual("S(1,2)", S2[0,1]);
                     Assert.AreEqual("S(2,1)", S2[1,0]);
                     Assert.AreEqual("S(2,2)", S2[1,1]);
+                }
+            } finally {
+                System.IO.File.Delete(tmpfile);
+            }
+        }
+        
+        [Test]
+        public void TestDataset_BitArray_1D()
+        {
+            string tmpfile = System.IO.Path.GetTempFileName();
+            try
+            {
+                using (Hdf5.File h5file = Hdf5.File.Create(tmpfile, Hdf5.FileAccessFlags.Truncate))
+                {
+                    int[] mem = new int[] {0x235897, 0x01234A};
+                    BitArray data = new BitArray(mem);
+                    using (Hdf5.Dataset h5ds = Hdf5.Dataset.CreateWithData(h5file, "BA1", data));
+                }
+            
+                using (Hdf5.File h5file = Hdf5.File.Open(tmpfile, Hdf5.FileAccessFlags.ReadOnly))
+                using (Hdf5.Dataset h5ds = Hdf5.Dataset.Open(h5file, "BA1"))
+                {
+                    using (Hdf5.Dataspace h5sp = h5ds.Space)
+                    {
+                        Assert.AreEqual(1, h5sp.NumDimensions);
+                    }
+                    BitArray data = h5ds.ReadBitArray();
+                    Assert.AreEqual(64, data.Length);
+
+                    Assert.AreEqual(true,  data[ 0]); Assert.AreEqual(true,  data[ 1]);
+                    Assert.AreEqual(true,  data[ 2]); Assert.AreEqual(false, data[ 3]);
+                    Assert.AreEqual(true,  data[ 4]); Assert.AreEqual(false, data[ 5]);
+                    Assert.AreEqual(false, data[ 6]); Assert.AreEqual(true,  data[ 7]);
+                    
+                    Assert.AreEqual(false, data[ 8]); Assert.AreEqual(false, data[ 9]);
+                    Assert.AreEqual(false, data[10]); Assert.AreEqual(true,  data[11]);
+                    Assert.AreEqual(true,  data[12]); Assert.AreEqual(false, data[13]);
+                    Assert.AreEqual(true,  data[14]); Assert.AreEqual(false, data[15]);
+                    
+                    Assert.AreEqual(true,  data[16]); Assert.AreEqual(true,  data[17]);
+                    Assert.AreEqual(false, data[18]); Assert.AreEqual(false, data[19]);
+                    Assert.AreEqual(false, data[20]); Assert.AreEqual(true,  data[21]);
+                    Assert.AreEqual(false, data[22]); Assert.AreEqual(false, data[23]);
+                    
+                    Assert.AreEqual(false, data[24]); Assert.AreEqual(false, data[25]);
+                    Assert.AreEqual(false, data[26]); Assert.AreEqual(false, data[27]);
+                    Assert.AreEqual(false, data[28]); Assert.AreEqual(false, data[29]);
+                    Assert.AreEqual(false, data[30]); Assert.AreEqual(false, data[31]);
+
+                    Assert.AreEqual(false, data[32]); Assert.AreEqual(true,  data[33]);
+                    Assert.AreEqual(false, data[34]); Assert.AreEqual(true,  data[35]);
+                    Assert.AreEqual(false, data[36]); Assert.AreEqual(false, data[37]);
+                    Assert.AreEqual(true,  data[38]); Assert.AreEqual(false, data[39]);
+                    
+                    Assert.AreEqual(true,  data[40]); Assert.AreEqual(true,  data[41]);
+                    Assert.AreEqual(false, data[42]); Assert.AreEqual(false, data[43]);
+                    Assert.AreEqual(false, data[44]); Assert.AreEqual(true,  data[45]);
+                    Assert.AreEqual(false, data[46]); Assert.AreEqual(false, data[47]);
+                    
+                    Assert.AreEqual(true,  data[48]); Assert.AreEqual(false, data[49]);
+                    Assert.AreEqual(false, data[50]); Assert.AreEqual(false, data[51]);
+                    Assert.AreEqual(false, data[52]); Assert.AreEqual(false, data[53]);
+                    Assert.AreEqual(false, data[54]); Assert.AreEqual(false, data[55]);
+                    
+                    Assert.AreEqual(false, data[56]); Assert.AreEqual(false, data[57]);
+                    Assert.AreEqual(false, data[58]); Assert.AreEqual(false, data[59]);
+                    Assert.AreEqual(false, data[60]); Assert.AreEqual(false, data[61]);
+                    Assert.AreEqual(false, data[62]); Assert.AreEqual(false, data[63]);
                 }
             } finally {
                 System.IO.File.Delete(tmpfile);

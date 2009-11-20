@@ -11,7 +11,7 @@ namespace Hdf5
 {
     public enum SpaceStatus
     {
-        Error	      = -1,
+        Error         = -1,
         NotAllocated  =  0,
         PartAllocated =  1,
         Allocated     =  2,

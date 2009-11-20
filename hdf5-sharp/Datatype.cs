@@ -86,10 +86,19 @@ namespace Hdf5
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_U64LE_g")), false),
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_U64BE_g")), false),
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_UINT64_g")), false)};
-//            STD_B8LE        = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B8LE_g")), false);
-//            STD_B16LE       = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B16LE_g")), false);
-//            STD_B32LE       = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B32LE_g")), false);
-//            STD_B64LE       = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B64LE_g")), false);
+            BINT8       = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B8LE_g")), false);
+            BINT16      = new Datatype[] {
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B16LE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B16BE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_B16_g")), false)};
+            BINT32      = new Datatype[] {
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B32LE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B32LE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_B32_g")), false)};
+            BINT64      = new Datatype[] {
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B64LE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B64BE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_B64_g")), false)};
 //            STD_REF_OBJ     = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_REF_OBJ_g")), false);
 //            STD_REF_DSETREG = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_REF_DSETREG_g")), false);
             FLOAT       = new Datatype[] {
@@ -255,10 +264,54 @@ namespace Hdf5
             get { return UINT64[2].Copy(); }
         }
         
-//        private static Datatype STD_B8LE;
-//        private static Datatype STD_B16LE;
-//        private static Datatype STD_B32LE;
-//        private static Datatype STD_B64LE;
+        private static Datatype BINT8;
+        public static Datatype BitArray8
+        {
+            get { return BINT8.Copy(); }
+        }
+        
+        private static Datatype[] BINT16;
+        public static Datatype BitArray16LE
+        {
+            get { return BINT16[0].Copy(); }
+        }
+        public static Datatype BitArray16BE
+        {
+            get { return BINT16[1].Copy(); }
+        }
+        public static Datatype NativeBitArray16
+        {
+            get { return BINT16[2].Copy(); }
+        }
+        
+        private static Datatype[] BINT32;
+        public static Datatype BitArray32LE
+        {
+            get { return BINT32[0].Copy(); }
+        }
+        public static Datatype BitArray32BE
+        {
+            get { return BINT32[1].Copy(); }
+        }
+        public static Datatype NativeBitArray32
+        {
+            get { return BINT32[2].Copy(); }
+        }
+        
+        private static Datatype[] BINT64;
+        public static Datatype BitArray64LE
+        {
+            get { return BINT64[0].Copy(); }
+        }
+        public static Datatype BitArray64BE
+        {
+            get { return BINT64[1].Copy(); }
+        }
+        public static Datatype NativeBitArray64
+        {
+            get { return BINT64[2].Copy(); }
+        }
+        
 //        private static Datatype STD_REF_OBJ;
 //        private static Datatype STD_REF_DSETREG;
         
@@ -378,6 +431,25 @@ namespace Hdf5
         public static Datatype FromValueType(Type t)
         {
             return FromValueType(t, ByteOrder.Native);
+        }
+        
+        public static Datatype BitArrayType(int w, ByteOrder o)
+        {
+            if (w == 8)
+                return BINT8;
+            else if (w == 16)
+                return BINT16[(int)o];
+            else if (w == 32)
+                return BINT32[(int)o];
+            else if (w == 64)
+                return BINT64[(int)o];
+            else
+                throw new ArgumentException(String.Format("Invalid value of parameter w ({0}).", w));
+        }
+        
+        public static Datatype BitArrayType(int w)
+        {
+            return BitArrayType(w, ByteOrder.Native);
         }
         
         internal static Datatype VariableLength<T>() where T : struct

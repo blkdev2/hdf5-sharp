@@ -11,11 +11,11 @@ namespace Hdf5
 {
     public enum ObjectType
     {
-        Unknown   =  -1, /* Unknown object type		*/
-        Link      =   0, /* Object is a symbolic link	*/
-        Group     =   1, /* Object is a group		*/
-        Dataset   =   2, /* Object is a dataset		*/
-        Type      =   3, /* Object is a named data type	*/
+        Unknown   =  -1, /* Unknown object type     */
+        Link      =   0, /* Object is a symbolic link   */
+        Group     =   1, /* Object is a group       */
+        Dataset   =   2, /* Object is a dataset     */
+        Type      =   3, /* Object is a named data type */
     }
     
     public abstract class Location : Base

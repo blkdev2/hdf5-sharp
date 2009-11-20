@@ -5,6 +5,7 @@
 //
 
 using System;
+using System.Collections;
 using System.Runtime.InteropServices;
 
 namespace Hdf5
@@ -78,6 +79,45 @@ namespace Hdf5
                 result = Array.CreateInstance(typeof(T), ds.GetDimensions());
                 ReadValueArray<T>(Dataspace.All, Dataspace.All, result);
             }
+            return result;
+        }
+        
+        public void ReadBitArray(Dataspace fs, BitArray buf)
+        {
+            int[] mem = new int[(buf.Length+31)/32];
+            using (Datatype mt = Datatype.NativeBitArray32)
+            {
+                GCHandle hmem = GCHandle.Alloc(mem, GCHandleType.Pinned);
+                try {
+                    Read(mt, Dataspace.All, fs, hmem.AddrOfPinnedObject());
+                } finally {
+                    hmem.Free();
+                }
+            }
+            // TODO: speed up copy
+            BitArray tmp = new BitArray(mem);
+            for (int i=0; i<tmp.Length; i++)
+                buf[i] = tmp[i];
+        }
+        
+        public BitArray ReadBitArray()
+        {
+            long[] dim;
+            using (Dataspace sp = Space)
+            {
+                dim = sp.GetDimensions();
+                if (dim.Length != 1)
+                    throw new ApplicationException("Unsupported data format.");
+            }
+            using (Datatype dt = Type)
+            {
+                if (dt.Class != DatatypeClass.Bitfield)
+                    throw new InvalidOperationException("Underlying datatype is not a bitfield.");
+                if (dt.Size != 4)
+                    throw new NotImplementedException();
+            }
+            BitArray result = new BitArray((int)(32*dim[0]));
+            ReadBitArray(Dataspace.All, result);
             return result;
         }
         
@@ -219,6 +259,26 @@ namespace Hdf5
         }
         
         public void Write<T>(Dataspace fs, T[] data) where T : struct
+        {
+            Write(Dataspace.All, fs, data);
+        }
+        
+        public void Write(Dataspace ms, Dataspace fs, BitArray data)
+        {
+            using (Datatype mt = Datatype.NativeBitArray32)
+            {
+                int[] mem = new int[(data.Length + 31)/32];
+                data.CopyTo(mem, 0);
+                GCHandle hmem = GCHandle.Alloc(mem, GCHandleType.Pinned);
+                try {
+                    Write(mt, ms, fs, hmem.AddrOfPinnedObject());
+                } finally {
+                    hmem.Free();
+                }
+            }
+        }
+        
+        public void Write(Dataspace fs, BitArray data)
         {
             Write(Dataspace.All, fs, data);
         }
@@ -399,6 +459,25 @@ namespace Hdf5
         public static Dataset CreateWithData<T>(Location loc, string name, T data) where T : struct
         {
             return Dataset.CreateWithData<T>(loc, name, ByteOrder.Native, data);
+        }
+        
+        public static Dataset CreateWithData(Location loc, string name, ByteOrder order, BitArray data)
+        {
+            Dataset result = null;
+            using (Datatype dt = Datatype.BitArrayType(32, order))
+            {
+                using (Dataspace ds = new Dataspace(new ulong[] {(ulong)(data.Length+31)/32}))
+                {
+                    result = Dataset.Create(loc, name, dt, ds);
+                    result.Write(ds, data);
+                }
+            }
+            return result;
+        }
+        
+        public static Dataset CreateWithData(Location loc, string name, BitArray data)
+        {
+            return Dataset.CreateWithData(loc, name, ByteOrder.LittleEndian, data);
         }
         
         public static Dataset CreateWithData<T>(Location loc, string name, ByteOrder order, T[] data) where T : struct
