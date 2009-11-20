@@ -1,7 +1,9 @@
-// Dataset.cs created with MonoDevelop
-// User: uhrm at 17:12 11/12/2008
+//  
+//  Dataset.cs
+//  hdf-sharp
 //
-// To change standard headers go to Edit->Preferences->Coding->Standard Headers
+//  Created by Markus Uhr on 12/11/2008.
+//  Copyright 2008 Markus Uhr. All rights reserved.
 //
 
 using System;

@@ -1,7 +1,9 @@
-// Dataspace.cs created with MonoDevelop
-// User: uhrm at 09:07 11/13/2008
+//  
+//  Dataspace.cs
+//  hdf-sharp
 //
-// To change standard headers go to Edit->Preferences->Coding->Standard Headers
+//  Created by Markus Uhr on 13/11/2008.
+//  Copyright 2008 Markus Uhr. All rights reserved.
 //
 
 using System;

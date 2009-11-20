@@ -1,7 +1,9 @@
-// Group.cs created with MonoDevelop
-// User: uhrm at 15:16 11/14/2008
+//  
+//  Group.cs
+//  hdf-sharp
 //
-// To change standard headers go to Edit->Preferences->Coding->Standard Headers
+//  Created by Markus Uhr on 14/11/2008.
+//  Copyright 2008 Markus Uhr. All rights reserved.
 //
 
 using System;

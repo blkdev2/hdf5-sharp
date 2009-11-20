@@ -1,3 +1,11 @@
+//  
+//  H5.cs
+//  hdf-sharp
+//
+//  Created by Markus Uhr on 12/11/2008.
+//  Copyright 2008 Markus Uhr. All rights reserved.
+//
+
 using System;
 using System.Runtime.InteropServices;
 

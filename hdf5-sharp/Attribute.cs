@@ -1,7 +1,9 @@
-// Attribute.cs created with MonoDevelop
-// User: uhrm at 14:47 11/22/2008
+//  
+//  Attribute.cs
+//  hdf-sharp
 //
-// To change standard headers go to Edit->Preferences->Coding->Standard Headers
+//  Created by Markus Uhr on 22/11/2008.
+//  Copyright 2008 Markus Uhr. All rights reserved.
 //
 
 using System;

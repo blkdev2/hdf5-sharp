@@ -1,13 +1,15 @@
-// AssemblyInfo.cs created with MonoDevelop
-// User: uhrm at 17:00 11/12/2008
+//  
+//  AssemblyInfo.cs
+//  hdf-sharp
 //
-// To change standard headers go to Edit->Preferences->Coding->Standard Headers
+//  Created by Markus Uhr on 12/11/2008.
+//  Copyright 2008 Markus Uhr. All rights reserved.
 //
+
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-// Information about this assembly is defined by the following attributes. 
-// Change them to the values specific to your project.
+// general stuff
 
 [assembly: AssemblyTitle("hdf5-sharp")]
 [assembly: AssemblyDescription("Bindings of the HDF5 library for the .NET platform.")]
@@ -18,13 +20,11 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-// The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
-// If the build and revision are set to '*' they will be updated automatically.
+// version stuff
 
 [assembly: AssemblyVersion("1.0.*.*")]
 
-// The following attributes are used to specify the signing key for the assembly, 
-// if desired. See the Mono documentation for more information about signing.
+// signing stuff
 
 [assembly: AssemblyDelaySign(false)]
 [assembly: AssemblyKeyFile("")]
