@@ -27,7 +27,7 @@ namespace Hdf5
                     int err = H5Aread(raw, mt.raw, hbuf.AddrOfPinnedObject());
                     if (err < 0)
                         throw new ApplicationException("Error reading value from attribute.");
-                } finally {
+                } finally {
                     hbuf.Free();
                 }
             }
@@ -52,7 +52,7 @@ namespace Hdf5
                     int err = H5Aread(raw, mt.raw, hmem.AddrOfPinnedObject());
                     if (err < 0)
                         throw new ApplicationException("Error reading value from attribute.");
-                } finally {
+                } finally {
                     hmem.Free();
                 }
             }
@@ -72,7 +72,7 @@ namespace Hdf5
                     if (err < 0)
                         throw new ApplicationException("Error reading string from attribute.");
                     result = Marshal.PtrToStringAuto(buf, (int)mt.Size);
-                } finally {
+                } finally {
                     Marshal.FreeHGlobal(buf);
                 }
             }
@@ -89,7 +89,7 @@ namespace Hdf5
                 GCHandle hbuf = GCHandle.Alloc(buf, GCHandleType.Pinned);
                 try {
                     H5Awrite(raw, mt.raw, hbuf.AddrOfPinnedObject());
-                } finally {
+                } finally {
                     hbuf.Free();
                 }
             }
@@ -105,7 +105,7 @@ namespace Hdf5
                 GCHandle hbuf = GCHandle.Alloc(buf, GCHandleType.Pinned);
                 try {
                     H5Awrite(raw, mt.raw, hbuf.AddrOfPinnedObject());
-                } finally {
+                } finally {
                     hbuf.Free();
                 }
             }
@@ -118,7 +118,7 @@ namespace Hdf5
                 IntPtr buf = Marshal.StringToHGlobalAnsi(data);
                 try {
                     H5Awrite(raw, mt.raw, buf);
-                } finally {
+                } finally {
                     Marshal.FreeHGlobal(buf);
                 }
             }
