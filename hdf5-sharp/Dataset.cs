@@ -193,6 +193,43 @@ namespace Hdf5
             return result;
         }
         
+        public string[][] ReadStringVlenArray()
+        {
+            // memory data type
+            Datatype mt = Datatype.VariableLengthString();
+            // memory data space
+            Dataspace ms = Space;
+            int rank = ms.NumDimensions;
+            if (rank != 1)
+                throw new ApplicationException("Invalid data space.");
+            long[] dim = ms.GetDimensions();
+            long len = dim[0];
+            // pin and read
+            VLen[] buf = new VLen[len];
+            GCHandle hbuf = GCHandle.Alloc(buf, GCHandleType.Pinned);
+            Read(mt, Dataspace.All, Dataspace.All, hbuf.AddrOfPinnedObject());
+            // alloc actual result array
+            string[][] result = new string[len][];
+            // marshal values
+            for (int i=0; i<len; i++)
+            {
+                if (buf[i].Len > 0)
+                {
+                IntPtr[] sptr = new IntPtr[buf[i].Len];
+                Marshal.Copy(buf[i].Ptr, sptr, 0, (int)buf[i].Len);
+                result[i] = new string[buf[i].Len];
+                for (int j=0; j<buf[i].Len; j++)
+                    result[i][j] = Marshal.PtrToStringAnsi(sptr[j]);
+                }
+            }
+            // cleaning up
+            H5Dvlen_reclaim(mt.raw, ms.raw, 0, hbuf.AddrOfPinnedObject());
+            hbuf.Free();
+            ms.Close();
+            mt.Close();
+            return result;
+        }
+        
         public T[][] ReadVariableLength<T>() where T : struct
         {
             // memory data type
@@ -384,6 +421,72 @@ namespace Hdf5
         }
         
         public void Write<T>(Dataspace fs, T[][] data) where T : struct
+        {
+            Write(Dataspace.All, fs, data);
+        }
+        
+        public void Write(Dataspace ms, Dataspace fs, string[][] data)
+        {
+            int len = data.Length;
+            // memory data type
+            Datatype mt = Datatype.VariableLengthString();
+            // marshal strings
+            IntPtr[][] mdata = new IntPtr[len][];
+            for (int i=0; i<len; i++)
+            {
+                if (data[i] != null)
+                {
+                int l = data[i].Length;
+                mdata[i] = new IntPtr[l];
+                for (int j=0; j<l; j++)
+                    mdata[i][j] = Marshal.StringToHGlobalAnsi(data[i][j]);
+                }
+                else
+                {
+                    mdata[i] = null;
+                }
+            }
+            // pin down all data arrays
+            GCHandle[] hmdata = new GCHandle[len];
+            VLen[] buf = new VLen[len];
+            for (int i=0; i<len; i++)
+            {
+                if (mdata[i] != null)
+                {
+                    hmdata[i] = GCHandle.Alloc(mdata[i], GCHandleType.Pinned);
+                    buf[i] = new VLen(data[i].Length, hmdata[i].AddrOfPinnedObject());
+                }
+                else
+                {
+//                    hmdata[i] = null;
+                    buf[i] = new VLen(0, IntPtr.Zero);
+                }
+            }
+            // write data
+            GCHandle hbuf = GCHandle.Alloc(buf, GCHandleType.Pinned);
+            try {
+                Write(mt, ms, fs, hbuf.AddrOfPinnedObject());
+            } finally {
+                hbuf.Free();
+            }
+            // cleaning up
+            for (int i=0; i<len; i++)
+                if (hmdata[i].IsAllocated)
+                    hmdata[i].Free();
+            // clean up string copies
+            for (int i=0; i<len; i++)
+            {
+                if (data[i] != null)
+                {
+                int l = data[i].Length;
+                for (int j=0; j<l; j++)
+                    Marshal.FreeHGlobal(mdata[i][j]);
+                }
+            }
+            mt.Close();
+        }
+        
+        public void Write(Dataspace fs, string[][] data)
         {
             Write(Dataspace.All, fs, data);
         }
@@ -583,6 +686,21 @@ namespace Hdf5
         public static Dataset CreateWithData<T>(Location loc, string name, T[][] data) where T : struct
         {
             return Dataset.CreateWithData(loc, name, ByteOrder.Native, data);
+        }
+        
+        public static Dataset CreateWithData(Location loc, string name, string[][] data)
+        {
+            int len = data.Length;
+            Dataset result = null;
+            using (Datatype dt = Datatype.VariableLengthString())
+            {
+                using (Dataspace ds = new Dataspace(new ulong[] {(ulong)len}))
+                {
+                    result = Dataset.Create(loc, name, dt, ds);
+                    result.Write(Dataspace.All, data);
+                }
+            }
+            return result;
         }
         
         public static Dataset Open(Location loc, string name)

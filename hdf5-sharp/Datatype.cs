@@ -459,7 +459,16 @@ namespace Hdf5
             Datatype dt = Datatype.FromValueType(typeof(T));
             int id = H5Tvlen_create(dt.raw);
             if (id < 0)
-                throw new ApplicationException(String.Format("Error creating variable length type (base {0})", typeof(T)));
+                throw new ApplicationException(String.Format("Error creating variable length type (base {0}).", typeof(T)));
+            return new Datatype(id, true);
+        }
+        
+        internal static Datatype VariableLengthString()
+        {
+            Datatype dt = Datatype.VlenString;
+            int id = H5Tvlen_create(dt.raw);
+            if (id < 0)
+                throw new ApplicationException("Error creating variable length type (base string).");
             return new Datatype(id, true);
         }
         

@@ -320,6 +320,59 @@ namespace Hdf5.Tests
         }
         
         [Test]
+        public void TestDataset_String_Var2D()
+        {
+            string tmpfile = System.IO.Path.GetTempFileName();
+            try
+            {
+                using (Hdf5.File h5file = Hdf5.File.Create(tmpfile, Hdf5.FileAccessFlags.Truncate))
+                {
+                    string[][] data = new string[][] {new string[] {"S(1,1)", "S(1,2)"},
+                                                      new string[] {"S(2,1)"},
+                                                      new string[] {},
+                                                      null,
+                                                      new string[] {"S(5,1)", null, "", "S(5,4)"},
+                                                      new string[] {"S(6,1)", "S(6,2)", "S(6,3)"}};
+                    using (Hdf5.Dataset h5ds = Hdf5.Dataset.CreateWithData(h5file, "Sx", data));
+                }
+                
+                using (Hdf5.File h5file = Hdf5.File.Open(tmpfile, Hdf5.FileAccessFlags.ReadOnly))
+                using (Hdf5.Dataset h5ds = Hdf5.Dataset.Open(h5file, "Sx"))
+                {
+                    using (Hdf5.Dataspace h5sp = h5ds.Space)
+                    {
+                        Assert.AreEqual(1, h5sp.NumDimensions);
+                    }
+                    string[][] Sx = h5ds.ReadStringVlenArray();
+                    Assert.AreEqual(6, Sx.Length);
+                    
+                    Assert.AreEqual(2, Sx[0].Length);
+                    Assert.AreEqual("S(1,1)", Sx[0][0]);
+                    Assert.AreEqual("S(1,2)", Sx[0][1]);
+                    
+                    Assert.AreEqual(1, Sx[1].Length);
+                    Assert.AreEqual("S(2,1)", Sx[1][0]);
+                    
+                    Assert.IsNull(Sx[2]);
+                    Assert.IsNull(Sx[3]);
+                    
+                    Assert.AreEqual(4, Sx[4].Length);
+                    Assert.AreEqual("S(5,1)", Sx[4][0]);
+                    Assert.AreEqual(null, Sx[4][1]);
+                    Assert.AreEqual("", Sx[4][2]);
+                    Assert.AreEqual("S(5,4)", Sx[4][3]);
+                    
+                    Assert.AreEqual(3, Sx[5].Length);
+                    Assert.AreEqual("S(6,1)", Sx[5][0]);
+                    Assert.AreEqual("S(6,2)", Sx[5][1]);
+                    Assert.AreEqual("S(6,3)", Sx[5][2]);
+                }
+            } finally {
+                System.IO.File.Delete(tmpfile);
+            }
+        }
+        
+        [Test]
         public void TestDataset_String_2D()
         {
             string tmpfile = System.IO.Path.GetTempFileName();
