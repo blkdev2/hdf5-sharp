@@ -2,9 +2,10 @@
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:output method="text" />
+<xsl:param name="prefix" />
 
 <xsl:template match="/">
-prefix=/usr
+prefix=<xsl:value-of select="$prefix"/>
 assemblies_dir=$(prefix)/lib/<xsl:value-of select="project/name" />
 Libraries=$(assemblies_dir)/hdf5-sharp.dll
 

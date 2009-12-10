@@ -18,14 +18,33 @@ Run with the following command:
         <property name="debug" value="false"/>
     </if>
 
-    <target name="all" depends="hdf5-sharp,Tests" />
+    <if test="${not property::exists('prefix')}">
+        <property name="prefix" value="/usr/local" />
+    </if>
 
-    <target name="hdf5-sharp">
+
+
+    <target name="all" depends="hdf5-sharp,tests" />
+
+    <target name="bin-dir">
         <if test="${not directory::exists('bin/'+build.configuration)}">
             <mkdir dir="bin/${build.configuration}" />
         </if>
-        <style style="hdf5-sharp/AssemblyInfo.xls" in="hdf5-sharp/project-properties.xml" out="hdf5-sharp/AssemblyInfo.cs">
+    </target>
+
+    <target name="hdf5-assembly-info">
+        <style style="hdf5-sharp/AssemblyInfo.xls" in="hdf5-sharp/project-properties.xml" out="hdf5-sharp/AssemblyInfo.cs" />
+    </target>
+
+    <target name="hdf5-pkgconfig">
+        <style style="hdf5-sharp/pc.xls" in="hdf5-sharp/project-properties.xml" out="hdf5-sharp/hdf5-sharp.pc">
+            <parameters>
+                <parameter name="prefix" namespaceuri="" value="${prefix}" />
+            </parameters>
         </style>
+    </target>
+
+    <target name="hdf5-sharp" depends="bin-dir,hdf5-assembly-info,hdf5-pkgconfig">
         <csc target="library" output="bin/${build.configuration}/hdf5-sharp.dll" debug="${debug}">
             <sources>
                 <include name="hdf5-sharp/AssemblyInfo.cs" />
@@ -46,16 +65,13 @@ Run with the following command:
                 <include name="System.dll" />
             </references>
         </csc>
-        <style style="hdf5-sharp/pc.xls" in="hdf5-sharp/project-properties.xml" out="hdf5-sharp/hdf5-sharp.pc">
-        </style>
     </target>
 
-    <target name="Tests" depends="hdf5-sharp">
-        <if test="${not directory::exists('bin/'+build.configuration)}">
-            <mkdir dir="bin/${build.configuration}" />
-        </if>
-        <style style="Tests/AssemblyInfo.xls" in="Tests/project-properties.xml" out="Tests/AssemblyInfo.cs">
-        </style>
+    <target name="tests-assembly-info">
+        <style style="Tests/AssemblyInfo.xls" in="Tests/project-properties.xml" out="Tests/AssemblyInfo.cs" />
+    </target>
+
+    <target name="tests" depends="bin-dir,hdf5-sharp,tests-assembly-info">
         <csc target="library" output="bin/${build.configuration}/Hdf5.Tests.dll" debug="${debug}">
             <sources>
                 <include name="Tests/AssemblyInfo.cs" />
@@ -76,29 +92,33 @@ Run with the following command:
         </csc>
     </target>
 
-    <target name="release" depends="hdf5-sharp">
-        <if test="${not property::exists('release.version')}">
-            <fail message="No release version specified." />
-        </if>
-        <delete dir="hdf5-sharp-${release.version}" />
-        <mkdir dir="hdf5-sharp-${release.version}" />
-        <mkdir dir="hdf5-sharp-${release.version}/lib/hdf-sharp" />
-        <mkdir dir="hdf5-sharp-${release.version}/lib/pkgconfig" />
-        <copy todir="hdf5-sharp-${release.version}/lib/hdf-sharp">
+    <target name="run-tests" depends="tests">
+        <nunit2>
+            <formatter type="Plain" />
+            <test>
+                <categories>
+                    <exclude name="LongRunning" />
+                </categories>
+                <assemblies>
+                    <include name="bin/${build.configuration}/Hdf5.Tests.dll" />
+                </assemblies>
+            </test>
+        </nunit2>
+    </target>
+
+    <target name="install" depends="hdf5-sharp">
+        <mkdir dir="${prefix}/lib/hdf-sharp" />
+        <mkdir dir="${prefix}/lib/pkgconfig" />
+        <copy todir="${prefix}/lib/hdf-sharp">
             <fileset basedir="bin/${build.configuration}">
                 <include name="hdf5-sharp.dll" />
             </fileset>
         </copy>
-        <copy todir="hdf5-sharp-${release.version}/lib/pkgconfig">
+        <copy todir="${prefix}/lib/pkgconfig">
             <fileset basedir="hdf5-sharp">
                 <include name="hdf5-sharp.pc" />
             </fileset>
         </copy>
-        <tar destfile="hdf5-sharp-${release.version}.tar.gz" compression="GZip">
-            <fileset basedir="hdf5-sharp-${release.version}">
-                <include name="**/*" />
-            </fileset>
-        </tar>
     </target>
 
     <target name="clean">
@@ -107,6 +127,7 @@ Run with the following command:
                 <include name="bin/${build.configuration}/hdf5-sharp.dll" />
                 <include name="bin/${build.configuration}/Hdf5.Tests.dll" />
                 <include name="hdf5-sharp/AssemblyInfo.cs" />
+                <include name="hdf5-sharp/hdf5-sharp.pc" />
                 <include name="Tests/AssemblyInfo.cs" />
             </fileset>
         </delete>
