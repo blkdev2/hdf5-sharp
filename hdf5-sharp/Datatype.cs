@@ -103,11 +103,11 @@ namespace Hdf5
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_B64_g")), false)};
 //            STD_REF_OBJ     = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_REF_OBJ_g")), false);
 //            STD_REF_DSETREG = new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_REF_DSETREG_g")), false);
-            FLOAT       = new Datatype[] {
+            FLOAT       = new Datatype[] {
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_IEEE_F32LE_g")), false),
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_IEEE_F32BE_g")), false),
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_FLOAT_g")), false)};
-            DOUBLE      = new Datatype[] {
+            DOUBLE      = new Datatype[] {
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_IEEE_F64LE_g")), false),
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_IEEE_F64BE_g")), false),
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_DOUBLE_g")), false)};
