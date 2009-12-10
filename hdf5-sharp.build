@@ -76,11 +76,38 @@ Run with the following command:
         </csc>
     </target>
 
+    <target name="release" depends="hdf5-sharp">
+        <if test="${not property::exists('release.version')}">
+            <fail message="No release version specified." />
+        </if>
+        <delete dir="hdf5-sharp-${release.version}" />
+        <mkdir dir="hdf5-sharp-${release.version}" />
+        <mkdir dir="hdf5-sharp-${release.version}/lib/hdf-sharp" />
+        <mkdir dir="hdf5-sharp-${release.version}/lib/pkgconfig" />
+        <copy todir="hdf5-sharp-${release.version}/lib/hdf-sharp">
+            <fileset basedir="bin/${build.configuration}">
+                <include name="hdf5-sharp.dll" />
+            </fileset>
+        </copy>
+        <copy todir="hdf5-sharp-${release.version}/lib/pkgconfig">
+            <fileset basedir="hdf5-sharp">
+                <include name="hdf5-sharp.pc" />
+            </fileset>
+        </copy>
+        <tar destfile="hdf5-sharp-${release.version}.tar.gz" compression="GZip">
+            <fileset basedir="hdf5-sharp-${release.version}">
+                <include name="**/*" />
+            </fileset>
+        </tar>
+    </target>
+
     <target name="clean">
         <delete>
             <fileset>
                 <include name="bin/${build.configuration}/hdf5-sharp.dll" />
                 <include name="bin/${build.configuration}/Hdf5.Tests.dll" />
+                <include name="hdf5-sharp/AssemblyInfo.cs" />
+                <include name="Tests/AssemblyInfo.cs" />
             </fileset>
         </delete>
     </target>
