@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:output method="text" />
+
+<xsl:template match="/">
+//  
+//  AssemblyInfo.cs
+//  <xsl:value-of select="project/name" />
+//
+//  Automatically generated file.
+//  Copyright 2009 Markus Uhr. All rights reserved.
+//
+
+using System.Reflection;
+using System.Runtime.CompilerServices;
+
+// general stuff
+
+[assembly: AssemblyTitle("<xsl:value-of select="project/name" />")]
+[assembly: AssemblyDescription("<xsl:value-of select="project/description" />")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("")]
+[assembly: AssemblyCopyright("<xsl:value-of select="project/copyright" />")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+
+// version stuff
+
+[assembly: AssemblyVersion("<xsl:value-of select="project/version" />")]
+
+// signing stuff
+
+[assembly: AssemblyDelaySign(false)]
+[assembly: AssemblyKeyFile("")]
+</xsl:template>
+
+</xsl:stylesheet>

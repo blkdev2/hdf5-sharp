@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+
+<!--
+Run with the following command:
+     
+     $ nant -D:build.configuration=Debug
+-->
+
+<project name="csb-tools" default="all">
+
+    <if test="${not property::exists('build.configuration')}">
+        <property name="build.configuration" value="Debug" />
+    </if>
+    <if test="${build.configuration=='Debug'}">
+        <property name="debug" value="true"/>
+    </if>
+    <if test="${not (build.configuration=='Debug')}">
+        <property name="debug" value="false"/>
+    </if>
+
+    <target name="all" depends="hdf5-sharp,Tests" />
+
+    <target name="hdf5-sharp">
+        <if test="${not directory::exists('bin/'+build.configuration)}">
+            <mkdir dir="bin/${build.configuration}" />
+        </if>
+        <style style="hdf5-sharp/AssemblyInfo.xls" in="hdf5-sharp/project-properties.xml" out="hdf5-sharp/AssemblyInfo.cs">
+        </style>
+        <csc target="library" output="bin/${build.configuration}/hdf5-sharp.dll" debug="${debug}">
+            <sources>
+                <include name="hdf5-sharp/AssemblyInfo.cs" />
+                <include name="hdf5-sharp/Attribute.cs" />
+                <include name="hdf5-sharp/Base.cs" />
+                <include name="hdf5-sharp/Dataset.cs" />
+                <include name="hdf5-sharp/Dataspace.cs" />
+                <include name="hdf5-sharp/Datatype.cs" />
+                <include name="hdf5-sharp/File.cs" />
+                <include name="hdf5-sharp/Group.cs" />
+                <include name="hdf5-sharp/H5.cs" />
+                <include name="hdf5-sharp/Location.cs" />
+            </sources>
+            <references>
+                <lib>
+                    <!--<include name="" />-->
+                </lib>
+                <include name="System.dll" />
+            </references>
+        </csc>
+        <style style="hdf5-sharp/pc.xls" in="hdf5-sharp/project-properties.xml" out="hdf5-sharp/hdf5-sharp.pc">
+        </style>
+    </target>
+
+    <target name="Tests" depends="hdf5-sharp">
+        <if test="${not directory::exists('bin/'+build.configuration)}">
+            <mkdir dir="bin/${build.configuration}" />
+        </if>
+        <style style="Tests/AssemblyInfo.xls" in="Tests/project-properties.xml" out="Tests/AssemblyInfo.cs">
+        </style>
+        <csc target="library" output="bin/${build.configuration}/Hdf5.Tests.dll" debug="${debug}">
+            <sources>
+                <include name="Tests/AssemblyInfo.cs" />
+                <include name="Tests/TestAttribute.cs" />
+                <include name="Tests/TestDataset.cs" />
+                <include name="Tests/TestFile.cs" />
+                <include name="Tests/TestGroup.cs" />
+            </sources>
+            <references>
+                <lib>
+                    <!--<include name="" />-->
+                </lib>
+                <include name="System.dll" />
+                <include name="nunit.core.dll" />
+                <include name="nunit.framework.dll" />
+                <include name="bin/${build.configuration}/hdf5-sharp.dll" />
+            </references>
+        </csc>
+    </target>
+
+    <target name="clean">
+        <delete>
+            <fileset>
+                <include name="bin/${build.configuration}/hdf5-sharp.dll" />
+                <include name="bin/${build.configuration}/Hdf5.Tests.dll" />
+            </fileset>
+        </delete>
+    </target>
+</project>
+

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+    <name>hdf5-sharp</name>
+    <version>0.4.0</version>
+    <description>Bindings of the HDF5 library for the .NET platform.</description>
+    <copyright>Copyright (c) 2009 Markus Uhr</copyright>
+</project>
