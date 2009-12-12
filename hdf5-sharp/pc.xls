@@ -6,8 +6,8 @@
 
 <xsl:template match="/">
 prefix=<xsl:value-of select="$prefix"/>
-assemblies_dir=$(prefix)/lib/<xsl:value-of select="project/name" />
-Libraries=$(assemblies_dir)/hdf5-sharp.dll
+assemblies_dir=${prefix}/lib/<xsl:value-of select="project/name" />
+Libraries=${assemblies_dir}/hdf5-sharp.dll
 
 Name: <xsl:value-of select="project/name" />
 Description: <xsl:value-of select="project/description" />
