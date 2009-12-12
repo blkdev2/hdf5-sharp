@@ -107,9 +107,9 @@ Run with the following command:
     </target>
 
     <target name="install" depends="hdf5-sharp">
-        <mkdir dir="${prefix}/lib/hdf-sharp" />
+        <mkdir dir="${prefix}/lib/hdf5-sharp" />
         <mkdir dir="${prefix}/lib/pkgconfig" />
-        <copy todir="${prefix}/lib/hdf-sharp">
+        <copy todir="${prefix}/lib/hdf5-sharp">
             <fileset basedir="bin/${build.configuration}">
                 <include name="hdf5-sharp.dll" />
             </fileset>
