@@ -1,5 +1,5 @@
 //  
-//  Attribute.cs
+//  Location.cs
 //  hdf-sharp
 //
 //  Created by Markus Uhr on 12/11/2008.

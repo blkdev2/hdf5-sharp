@@ -43,10 +43,13 @@ namespace Hdf5
         {
             long[] result = new long[NumDimensions];
             GCHandle hres = GCHandle.Alloc(result, GCHandleType.Pinned);
-            int err = H5Sget_simple_extent_dims(raw, hres.AddrOfPinnedObject(), IntPtr.Zero);
-            if (err < 0)
-                throw new ApplicationException("Error getting dimensions of dataspace.");
-            hres.Free();
+            try {
+                int err = H5Sget_simple_extent_dims(raw, hres.AddrOfPinnedObject(), IntPtr.Zero);
+                if (err < 0)
+                    throw new ApplicationException("Error getting dimensions of dataspace.");
+            } finally {
+                hres.Free();
+            }
             return result;
         }
         
@@ -76,6 +79,7 @@ namespace Hdf5
                 if (err < 0)
                     throw new ApplicationException("Error closing dataset.");
             }
+            base.Dispose(disposing);
         }
         
         public static readonly Dataspace All = new Dataspace(0);

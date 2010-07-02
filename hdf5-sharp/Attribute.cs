@@ -169,6 +169,16 @@ namespace Hdf5
             }
         }
         
+        // IDisposable stuff
+        
+        protected override void Dispose(bool disposing)
+        {
+            H5Aclose(raw);
+            base.Dispose(disposing);
+        }
+        
+        // static creation methods
+
         public static Attribute Create(Base obj, string name, Datatype dt, Dataspace ds)
         {
             int raw = H5Acreate2(obj.raw, name, dt.raw, ds.raw, 0, 0);
@@ -234,6 +244,9 @@ namespace Hdf5
         
         [DllImport("hdf5")]
         private static extern int H5Acreate2(int obj_id, string attr_name, int type_id, int space_id, int acpl_id, int aapl_id);
+        
+        [DllImport("hdf5")]
+        private static extern int H5Aclose(int obj_id);
         
         [DllImport("hdf5")]
         private static extern int H5Aopen_name(int obj_id, string attr_name);

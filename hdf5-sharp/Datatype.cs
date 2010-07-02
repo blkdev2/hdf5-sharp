@@ -165,6 +165,7 @@ namespace Hdf5
         {
             if (can_close)
                 H5Tclose(raw);
+            base.Dispose(disposing);
         }
 
         
