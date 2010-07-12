@@ -35,7 +35,7 @@ namespace Hdf5.Tests
             string tmpfile = System.IO.Path.GetTempFileName();
             try
             {
-                using (Hdf5.File h5file = Hdf5.File.Create(tmpfile, Hdf5.FileAccessFlags.Truncate));
+                using (Hdf5.File.Create(tmpfile, Hdf5.FileAccessFlags.Truncate));
             
                 using (Hdf5.File h5file = Hdf5.File.Open(tmpfile, Hdf5.FileAccessFlags.ReadOnly))
                 {

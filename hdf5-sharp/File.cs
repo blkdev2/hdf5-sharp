@@ -18,6 +18,18 @@ namespace Hdf5
         Down    = 2
     }
     
+    [Flags]
+    public enum FileObjectType
+    {
+        File     = 0x01,
+        Dataset  = 0x02,
+        Group    = 0x04,
+        Datatype = 0x08,
+        Attr     = 0x10,
+        All      = 0x1F,
+        Local    = 0x20
+    }
+    
     public class File : Location
     {
         internal File(int raw) : base(raw)
@@ -31,6 +43,11 @@ namespace Hdf5
         
         public void Flush(FileScope scope)
         {
+        }
+        
+        public long GetOpenObjCount(FileObjectType types)
+        {
+            return H5Fget_obj_count(raw, (uint)types);
         }
         
         public long Filesize
@@ -70,7 +87,9 @@ namespace Hdf5
         
         protected override void Dispose (bool disposing)
         {
-            H5Fclose(raw);
+            int err = H5Fclose(raw);
+            if (err < 0)
+                throw new ApplicationException("Error closing file.");
             base.Dispose(disposing);
         }
         
@@ -108,6 +127,12 @@ namespace Hdf5
 
         [DllImport("hdf5")]
         private static extern int H5Fget_name(int file_id, IntPtr name, long size);
+
+        [DllImport("hdf5")]
+        private static extern long H5Fget_obj_count(int file_id, uint types);
+
+        [DllImport("hdf5")]
+        private static extern long H5Fget_obj_ids(int file_id, uint types, long max_objs, IntPtr obj_id_list);
 
         [DllImport("hdf5")]
         private static extern int H5Fis_hdf5(string filename);
