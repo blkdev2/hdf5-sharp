@@ -66,7 +66,7 @@ namespace Hdf5
             {
                 GCHandle hbuf = GCHandle.Alloc(buf, GCHandleType.Pinned);
                 try {
-                    Read(mt, Dataspace.All, fs, hbuf.AddrOfPinnedObject());
+                    Read(mt, ms, fs, hbuf.AddrOfPinnedObject());
                 } finally {
                     hbuf.Free();
                 }
@@ -77,10 +77,8 @@ namespace Hdf5
         {
             Array result;
             using (Dataspace ds = Space)
-            {
                 result = Array.CreateInstance(typeof(T), ds.GetDimensions());
-                ReadValueArray<T>(Dataspace.All, Dataspace.All, result);
-            }
+            ReadValueArray<T>(Dataspace.All, Dataspace.All, result);
             return result;
         }
         
