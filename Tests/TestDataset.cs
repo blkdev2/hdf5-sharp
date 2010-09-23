@@ -126,6 +126,31 @@ namespace Hdf5.Tests
                     Assert.AreEqual(4, T1[3,1]);
                     Assert.AreEqual(5, T1[3,2]);
                     Assert.AreEqual(6, T1[3,3]);
+                    
+                    using (Hdf5.Dataspace h5fs = h5ds.Space)
+                    {
+                        h5fs.SelectHyperslab(SelectOperation.Set, new ulong[] {0,1}, null, new ulong[] {4,1}, null);
+                        Assert.IsTrue(h5fs.IsSelectionValid);
+                        int[,] V1 = new int[4,1];
+                        using (Hdf5.Dataspace h5ms = new Hdf5.Dataspace(new ulong[] {4,1}))
+                            h5ds.ReadValueArray<int>(h5ms, h5fs, V1);
+                        Assert.AreEqual(1, V1[0,0]);
+                        Assert.AreEqual(2, V1[1,0]);
+                        Assert.AreEqual(3, V1[2,0]);
+                        Assert.AreEqual(4, V1[3,0]);
+                    }
+                    
+                    using (Hdf5.Dataspace h5fs = h5ds.Space)
+                    {
+                        h5fs.SelectHyperslab(SelectOperation.Set, new ulong[] {2,1}, null, new ulong[] {1,3}, null);
+                        Assert.IsTrue(h5fs.IsSelectionValid);
+                        int[,] H2 = new int[1,3];
+                        using (Hdf5.Dataspace h5ms = new Hdf5.Dataspace(new ulong[] {1,3}))
+                            h5ds.ReadValueArray<int>(h5ms, h5fs, H2);
+                        Assert.AreEqual(3, H2[0,0]);
+                        Assert.AreEqual(4, H2[0,1]);
+                        Assert.AreEqual(5, H2[0,2]);
+                    }
                 }
             } finally {
                 System.IO.File.Delete(tmpfile);
