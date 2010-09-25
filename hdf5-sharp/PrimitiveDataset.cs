@@ -2,8 +2,8 @@
 //  Dataset.cs
 //  hdf-sharp
 //
-//  Created by Markus Uhr on 12/11/2008.
-//  Copyright 2008 Markus Uhr. All rights reserved.
+//  Created by Markus Uhr on 23/09/2010.
+//  Copyright 2010 Markus Uhr. All rights reserved.
 //
 
 using System;
@@ -12,62 +12,16 @@ using System.Runtime.InteropServices;
 
 namespace Hdf5
 {
-    public abstract class Dataset<T> : Base
+    internal class PrimitiveDataset<T> : Dataset<T> where T : struct
     {
-        private struct VLen
+        internal PrimitiveDataset(int raw) : base(raw)
         {
-            private IntPtr len;
-            private IntPtr ptr;
-            public VLen(long l, IntPtr p) { len = (IntPtr)l; ptr = p; }
-            public long Len { get { return (long)len; }}
-            public IntPtr Ptr { get { return ptr; }}
+            int ds_id = H5Dget_type(raw);
+            Datatype d1 = new Datatype(ds_id);
+            Datatype d2 = Datatype.FromPrimitive(typeof(T));
+            // TODO: check if datatypes are compatible (equal)
         }
         
-        internal Dataset(int raw) : base(raw)
-        {
-        }
-        
-        public void Close()
-        {
-            Dispose();
-        }
-        
-        public long[] GetDimensions()
-        {
-            long[] result;
-            using (Dataspace ds = Space)
-                result = ds.GetDimensions();
-            return result;
-        }
-        
-//        public void Read(Datatype t, Dataspace ms, Dataspace fs, Array buf)
-//        {
-//            GCHandle hbuf = GCHandle.Alloc(buf, GCHandleType.Pinned);
-//            int err = H5Dread(raw, t.raw, ms.raw, fs.raw, 0, hbuf.AddrOfPinnedObject());
-//            hbuf.Free();
-//            if (err < 0)
-//                throw new ApplicationException("Error writing data.");
-//        }
-        
-//        public T ReadValue<T>() where T : struct
-//        {
-//            T[] result = new T[1];
-//            using (Datatype mt = Datatype.FromValueType(typeof(T)))
-//            {
-//                using (Dataspace ms = new Dataspace(new ulong[] {1}))
-//                {
-//                    // pin and read
-//                    GCHandle hres = GCHandle.Alloc(result, GCHandleType.Pinned);
-//                    try {
-//                        Read(mt, ms, Dataspace.All, hres.AddrOfPinnedObject());
-//                    } finally {
-//                        hres.Free();
-//                    }
-//                }
-//            }
-//            return result[0];
-//        }
-
         // FIXME: this throws if T is not a value type.
         public void ReadValueArray(Dataspace ms, Dataspace fs, Array buf)
         {
