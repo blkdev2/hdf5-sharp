@@ -87,6 +87,54 @@ namespace Hdf5.Tests
         }
         
         [Test]
+        public void TestDataset_Int32_1D()
+        {
+            string tmpfile = System.IO.Path.GetTempFileName();
+            try
+            {
+                using (Hdf5.File h5file = Hdf5.File.Create(tmpfile, Hdf5.FileAccessFlags.Truncate))
+                {
+                    int[] data = new int[] {0, 2, 3, 7, 6, 9};
+                    using (Hdf5.Dataset<int> h5ds = Hdf5.Dataset<int>.CreateWithData(h5file, "T1", data));
+                }
+            
+                using (Hdf5.File h5file = Hdf5.File.Open(tmpfile, Hdf5.FileAccessFlags.ReadOnly))
+                using (Hdf5.Dataset<int> h5ds = Hdf5.Dataset<int>.Open(h5file, "T1"))
+                {
+                    using (Hdf5.Dataspace h5sp = h5ds.Space)
+                    {
+                        Assert.AreEqual(1, h5sp.NumDimensions);
+                    }
+                    
+                    Assert.AreEqual(0, h5ds[0]); Assert.AreEqual(2, h5ds[1]);
+                    Assert.AreEqual(3, h5ds[2]); Assert.AreEqual(7, h5ds[3]);
+                    Assert.AreEqual(6, h5ds[4]); Assert.AreEqual(9, h5ds[5]);
+                    
+                    int[] T1 = (int[])h5ds.Read();
+                    Assert.AreEqual(6, T1.GetLength(0));
+                    Assert.AreEqual(0, T1[0]); Assert.AreEqual(2, T1[1]);
+                    Assert.AreEqual(3, T1[2]); Assert.AreEqual(7, T1[3]);
+                    Assert.AreEqual(6, T1[4]); Assert.AreEqual(9, T1[5]);
+                    
+                    using (Hdf5.Dataspace h5fs = h5ds.Space)
+                    {
+                        h5fs.SelectHyperslab(SelectOperation.Set, new long[] {1}, null, new long[] {4}, null);
+                        Assert.IsTrue(h5fs.IsSelectionValid);
+                        int[] H1 = new int[4];
+                        using (Hdf5.Dataspace h5ms = new Hdf5.Dataspace(new long[] {4}))
+                            h5ds.Read(h5ms, h5fs, H1);
+                        Assert.AreEqual(2, H1[0]);
+                        Assert.AreEqual(3, H1[1]);
+                        Assert.AreEqual(7, H1[2]);
+                        Assert.AreEqual(6, H1[3]);
+                    }
+                }
+            } finally {
+                System.IO.File.Delete(tmpfile);
+            }
+        }
+        
+        [Test]
         public void TestDataset_Int32_2D()
         {
             string tmpfile = System.IO.Path.GetTempFileName();
@@ -153,6 +201,54 @@ namespace Hdf5.Tests
                         Assert.AreEqual(3, H2[0,0]);
                         Assert.AreEqual(4, H2[0,1]);
                         Assert.AreEqual(5, H2[0,2]);
+                    }
+                }
+            } finally {
+                System.IO.File.Delete(tmpfile);
+            }
+        }
+        
+        [Test]
+        public void TestDataset_Double_1D()
+        {
+            string tmpfile = System.IO.Path.GetTempFileName();
+            try
+            {
+                using (Hdf5.File h5file = Hdf5.File.Create(tmpfile, Hdf5.FileAccessFlags.Truncate))
+                {
+                    double[] data = new double[] { 0.0, 1.0, 6.0, 7.0, 2.0, 5.0};
+                    using (Hdf5.Dataset<double> h5ds = Hdf5.Dataset<double>.CreateWithData(h5file, "T2", data));
+                }
+            
+                using (Hdf5.File h5file = Hdf5.File.Open(tmpfile, Hdf5.FileAccessFlags.ReadOnly))
+                using (Hdf5.Dataset<double> h5ds = Hdf5.Dataset<double>.Open(h5file, "T2"))
+                {
+                    using (Hdf5.Dataspace h5sp = h5ds.Space)
+                    {
+                        Assert.AreEqual(1, h5sp.NumDimensions);
+                    }
+
+                    Assert.AreEqual(0.0, h5ds[0]); Assert.AreEqual(1.0, h5ds[1]);
+                    Assert.AreEqual(6.0, h5ds[2]); Assert.AreEqual(7.0, h5ds[3]);
+                    Assert.AreEqual(2.0, h5ds[4]); Assert.AreEqual(5.0, h5ds[5]);
+
+                    double[] T2 = (double[])h5ds.Read();
+                    Assert.AreEqual(6, T2.GetLength(0));
+                    Assert.AreEqual(0.0, T2[0]); Assert.AreEqual(1.0, T2[1]);
+                    Assert.AreEqual(6.0, T2[2]); Assert.AreEqual(7.0, T2[3]);
+                    Assert.AreEqual(2.0, T2[4]); Assert.AreEqual(5.0, T2[5]);
+
+                    using (Hdf5.Dataspace h5fs = h5ds.Space)
+                    {
+                        h5fs.SelectHyperslab(SelectOperation.Set, new long[] {1}, null, new long[] {4}, null);
+                        Assert.IsTrue(h5fs.IsSelectionValid);
+                        double[] H1 = new double[4];
+                        using (Hdf5.Dataspace h5ms = new Hdf5.Dataspace(new long[] {4}))
+                            h5ds.Read(h5ms, h5fs, H1);
+                        Assert.AreEqual(1.0, H1[0]);
+                        Assert.AreEqual(6.0, H1[1]);
+                        Assert.AreEqual(7.0, H1[2]);
+                        Assert.AreEqual(2.0, H1[3]);
                     }
                 }
             } finally {
