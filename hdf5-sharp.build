@@ -48,7 +48,7 @@ Run with the following command:
         <csc target="library" output="bin/${build.configuration}/hdf5-sharp.dll" debug="${debug}">
             <sources>
                 <include name="hdf5-sharp/AssemblyInfo.cs" />
-                <include name="hdf5-sharp/Attribute.cs" />
+                <!--<include name="hdf5-sharp/Attribute.cs" />-->
                 <include name="hdf5-sharp/Base.cs" />
                 <include name="hdf5-sharp/Dataset.cs" />
                 <include name="hdf5-sharp/Dataspace.cs" />
@@ -57,6 +57,8 @@ Run with the following command:
                 <include name="hdf5-sharp/Group.cs" />
                 <include name="hdf5-sharp/H5.cs" />
                 <include name="hdf5-sharp/Location.cs" />
+                <include name="hdf5-sharp/datasets/ValueTypeDataset.cs" />
+                <include name="hdf5-sharp/datasets/StringDataset.cs" />
             </sources>
             <references>
                 <lib>
@@ -75,7 +77,7 @@ Run with the following command:
         <csc target="library" output="bin/${build.configuration}/Hdf5.Tests.dll" debug="${debug}">
             <sources>
                 <include name="Tests/AssemblyInfo.cs" />
-                <include name="Tests/TestAttribute.cs" />
+                <!--<include name="Tests/TestAttribute.cs" />-->
                 <include name="Tests/TestDataset.cs" />
                 <include name="Tests/TestFile.cs" />
                 <include name="Tests/TestGroup.cs" />

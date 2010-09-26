@@ -148,7 +148,7 @@ namespace Hdf5
         // imports
         
         [DllImport("hdf5")]
-        private static extern int H5Screate_simple(int rank, ulong[] dims, ulong[] maxdims);
+        private static extern int H5Screate_simple(int rank, long[] dims, long[] maxdims);
         
         [DllImport("hdf5")]
         private static extern int H5Sclose(int space_id);
