@@ -6,6 +6,7 @@
 
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using NUnit.Framework;
 
 using Hdf5;
@@ -97,10 +98,7 @@ namespace Hdf5.Tests
                 using (Hdf5.Attribute<string> h5at = Hdf5.Attribute<string>.Open(h5ds, "A1"))
                 {
                     using (Hdf5.Datatype h5tp = h5at.Type)
-                    {
-                        Assert.AreEqual(Hdf5.DatatypeClass.String, h5tp.Class);
-                        Assert.AreEqual(8, h5tp.Size);
-                    }
+                        Assert.IsTrue(h5tp.IsVariableString);
                     using (Hdf5.Dataspace h5sp = h5at.Space)
                     {
                         Assert.AreEqual(1, h5sp.NumDimensions);
