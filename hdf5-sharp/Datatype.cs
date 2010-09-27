@@ -7,6 +7,7 @@
 //
 
 using System;
+using System.Collections.Specialized;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -82,7 +83,7 @@ namespace Hdf5
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_UINT16_g")), false)};
             UINT32      = new Datatype[] {
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_U32LE_g")), false),
-                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_U32LE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_U32BE_g")), false),
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_UINT32_g")), false)};
             UINT64      = new Datatype[] {
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_U64LE_g")), false),
@@ -95,7 +96,7 @@ namespace Hdf5
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_B16_g")), false)};
             BINT32      = new Datatype[] {
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B32LE_g")), false),
-                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B32LE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B32BE_g")), false),
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_B32_g")), false)};
             BINT64      = new Datatype[] {
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B64LE_g")), false),
@@ -396,6 +397,8 @@ namespace Hdf5
                 return FLOAT[(int)o];
             else if (t == typeof(double))
                 return DOUBLE[(int)o];
+            else if (t == typeof(BitVector32))
+                return BINT32[(int)o];
             throw new ArgumentException(String.Format("Unsupported type {0}", t));
         }
         
