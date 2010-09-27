@@ -15,8 +15,6 @@ namespace Hdf5
 {
     internal class StringAttribute : Attribute<string>
     {
-        private static ASCIIEncoding encoding = new ASCIIEncoding();
-        
         public StringAttribute(int raw) : base(raw)
         {
         }
