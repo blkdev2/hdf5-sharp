@@ -149,10 +149,5 @@ namespace Hdf5
                 }
             }
         }
-        
-        // imports
-        
-        [DllImport("hdf5")]
-        private static extern int H5Dvlen_reclaim(int type_id, int space_id, int plist_id, IntPtr buf);
     }
 }

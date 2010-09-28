@@ -241,12 +241,11 @@ namespace Hdf5
             }
             else if (t.IsArray)
             {
-                throw new NotImplementedException();
+                Type te = t.GetElementType();
+                if (te.IsValueType)
+                    return Datatype.VlenValueType(te, order);
             }
-            else
-            {
-                throw new ArgumentException(String.Format("Unsupported type {0}.", t));
-            }
+            throw new ArgumentException(String.Format("Unsupported type {0}.", t));
         }
         
 //        private static Dictionary<Type,Type> dstype = new Dictionary<Type,Type>()
@@ -267,6 +266,12 @@ namespace Hdf5
             else if (gt == typeof(string))
             {
                 dst = typeof(StringDataset);
+            }
+            else if (gt.IsArray)
+            {
+                gt = gt.GetElementType();
+                if (gt.IsValueType)
+                    dst = typeof(VlenValueTypeDataset<>).MakeGenericType(new Type[] {gt});
             }
             if (dst == null)
                 throw new ApplicationException(String.Format("Unsupported generic type {0}", gt));
@@ -331,33 +336,33 @@ namespace Hdf5
         // imports
         
         [DllImport("hdf5")]
-        private static extern int H5Dcreate2(int loc_id, string name, int type_id, int space_id, int lcpl_id, int dcpl_id, int dapl_id);
+        protected static extern int H5Dcreate2(int loc_id, string name, int type_id, int space_id, int lcpl_id, int dcpl_id, int dapl_id);
         
         [DllImport("hdf5")]
-        private static extern int H5Dopen2(int loc_id, string name, int dapl_id);
+        protected static extern int H5Dopen2(int loc_id, string name, int dapl_id);
         
         [DllImport("hdf5")]
-        private static extern int H5Dclose(int dataset_id);
+        protected static extern int H5Dclose(int dataset_id);
         
         [DllImport("hdf5")]
-        private static extern int H5Dget_space(int dataset_id);
+        protected static extern int H5Dget_space(int dataset_id);
         
         [DllImport("hdf5")]
-        private static extern int H5Dget_space_status(int dataset_id, out SpaceStatus status);
+        protected static extern int H5Dget_space_status(int dataset_id, out SpaceStatus status);
         
         [DllImport("hdf5")]
-        private static extern int H5Dget_type(int dataset_id);
+        protected static extern int H5Dget_type(int dataset_id);
         
         [DllImport("hdf5")]
-        private static extern int H5Dread(int dataset_id, int mem_type_id, int mem_space_id, int file_space_id, int xfer_plist_id, IntPtr buf);
+        protected static extern int H5Dread(int dataset_id, int mem_type_id, int mem_space_id, int file_space_id, int xfer_plist_id, IntPtr buf);
         
         [DllImport("hdf5")]
-        private static extern int H5Dwrite(int dataset_id, int mem_type_id, int mem_space_id, int file_space_id, int xfer_plist_id, IntPtr buf);
+        protected static extern int H5Dwrite(int dataset_id, int mem_type_id, int mem_space_id, int file_space_id, int xfer_plist_id, IntPtr buf);
         
         [DllImport("hdf5")]
-        private static extern int H5Dvlen_get_buf_size(int dataset_id, int type_id, int space_id, out ulong size);
+        protected static extern int H5Dvlen_get_buf_size(int dataset_id, int type_id, int space_id, out ulong size);
         
         [DllImport("hdf5")]
-        private static extern int H5Dvlen_reclaim(int type_id, int space_id, int plist_id, IntPtr buf);
+        protected static extern int H5Dvlen_reclaim(int type_id, int space_id, int plist_id, IntPtr buf);
     }
 }
