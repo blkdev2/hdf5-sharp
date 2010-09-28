@@ -328,7 +328,7 @@ namespace Hdf5.Tests
             }
         }
         
-/*        [Test]
+        [Test]
         public void TestDataset_Double_Var()
         {
             string tmpfile = System.IO.Path.GetTempFileName();
@@ -341,17 +341,17 @@ namespace Hdf5.Tests
                                                       new double[] {},
                                                       new double[] { 3.3,  4.4,  5.5},
                                                       new double[] { 6.6,  7.7,  8.8,  9.9}};
-                    using (Hdf5.Dataset h5ds = Hdf5.Dataset.CreateWithData(h5file, "T3", data));
+                    using (Hdf5.Dataset<double[]> h5ds = Hdf5.Dataset<double[]>.CreateWithData(h5file, "T3", data));
                 }
             
                 using (Hdf5.File h5file = Hdf5.File.Open(tmpfile, Hdf5.FileAccessFlags.ReadOnly))
-                using (Hdf5.Dataset h5ds = Hdf5.Dataset.Open(h5file, "T3"))
+                using (Hdf5.Dataset<double[]> h5ds = Hdf5.Dataset<double[]>.Open(h5file, "T3"))
                 {
                     using (Hdf5.Dataspace h5sp = h5ds.Space)
                     {
                         Assert.AreEqual(1, h5sp.NumDimensions);
                     }
-                    double[][] T3 = h5ds.ReadVariableLength<double>();
+                    double[][] T3 = (double[][])h5ds.Read();
                     Assert.AreEqual(5, T3.Length);
                     Assert.AreEqual(1, T3[0].Length);
                     Assert.AreEqual(0.0, T3[0][0]);
@@ -373,7 +373,7 @@ namespace Hdf5.Tests
                 System.IO.File.Delete(tmpfile);
             }
         }
-*/        
+        
         [Test]
         public void TestDataset_Struct_1D()
         {

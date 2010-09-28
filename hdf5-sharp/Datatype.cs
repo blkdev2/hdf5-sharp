@@ -450,31 +450,38 @@ namespace Hdf5
             return FromValueType(t, ByteOrder.Native);
         }
         
-        public static Datatype BitArrayType(int w, ByteOrder o)
+//        public static Datatype BitArrayType(int w, ByteOrder o)
+//        {
+//            if (w == 8)
+//                return BINT8;
+//            else if (w == 16)
+//                return BINT16[(int)o];
+//            else if (w == 32)
+//                return BINT32[(int)o];
+//            else if (w == 64)
+//                return BINT64[(int)o];
+//            else
+//                throw new ArgumentException(String.Format("Invalid value of parameter w ({0}).", w));
+//        }
+        
+//        public static Datatype BitArrayType(int w)
+//        {
+//            return BitArrayType(w, ByteOrder.Native);
+//        }
+        
+        public static Datatype VlenValueType(Type t)
         {
-            if (w == 8)
-                return BINT8;
-            else if (w == 16)
-                return BINT16[(int)o];
-            else if (w == 32)
-                return BINT32[(int)o];
-            else if (w == 64)
-                return BINT64[(int)o];
-            else
-                throw new ArgumentException(String.Format("Invalid value of parameter w ({0}).", w));
+            return VlenValueType(t, ByteOrder.Native);
         }
         
-        public static Datatype BitArrayType(int w)
+        public static Datatype VlenValueType(Type t, ByteOrder o)
         {
-            return BitArrayType(w, ByteOrder.Native);
-        }
-        
-        internal static Datatype VariableLength<T>() where T : struct
-        {
-            Datatype dt = Datatype.FromValueType(typeof(T));
+            if (!t.IsValueType)
+                throw new ArgumentException(String.Format("Type must be a value type (given {0}).", t));
+            Datatype dt = Datatype.FromValueType(t);
             int id = H5Tvlen_create(dt.raw);
             if (id < 0)
-                throw new ApplicationException(String.Format("Error creating variable length type (base {0}).", typeof(T)));
+                throw new ApplicationException(String.Format("Error creating variable length type (base {0}).", t));
             return new Datatype(id, true);
         }
         
