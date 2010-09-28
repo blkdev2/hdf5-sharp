@@ -522,7 +522,7 @@ namespace Hdf5.Tests
             }
         }
 */        
-/*        [Test]
+        [Test]
         public void TestDataset_String_2D()
         {
             string tmpfile = System.IO.Path.GetTempFileName();
@@ -532,17 +532,17 @@ namespace Hdf5.Tests
                 {
                     string[,] data = new string[,] {{"S(1,1)", "S(1,2)"},
                                                     {"S(2,1)", "S(2,2)"}};
-                    using (Hdf5.Dataset h5ds = Hdf5.Dataset.CreateWithData(h5file, "S2", data));
+                    using (Hdf5.Dataset<string> h5ds = Hdf5.Dataset<string>.CreateWithData(h5file, "S2", data));
                 }
             
                 using (Hdf5.File h5file = Hdf5.File.Open(tmpfile, Hdf5.FileAccessFlags.ReadOnly))
-                using (Hdf5.Dataset h5ds = Hdf5.Dataset.Open(h5file, "S2"))
+                using (Hdf5.Dataset<string> h5ds = Hdf5.Dataset<string>.Open(h5file, "S2"))
                 {
                     using (Hdf5.Dataspace h5sp = h5ds.Space)
                     {
                         Assert.AreEqual(2, h5sp.NumDimensions);
                     }
-                    string[,] S2 = (string[,])h5ds.ReadStringArray();
+                    string[,] S2 = (string[,])h5ds.Read();
                     Assert.AreEqual(2, S2.GetLength(0));
                     Assert.AreEqual(2, S2.GetLength(1));
                     Assert.AreEqual("S(1,1)", S2[0,0]);
@@ -554,7 +554,7 @@ namespace Hdf5.Tests
                 System.IO.File.Delete(tmpfile);
             }
         }
-*/
+
         [Test]
         public void TestDataset_BitField_1D()
         {
