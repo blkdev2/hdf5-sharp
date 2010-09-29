@@ -7,6 +7,7 @@
 //
 
 using System;
+using System.Collections.Specialized;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -82,7 +83,7 @@ namespace Hdf5
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_UINT16_g")), false)};
             UINT32      = new Datatype[] {
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_U32LE_g")), false),
-                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_U32LE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_U32BE_g")), false),
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_UINT32_g")), false)};
             UINT64      = new Datatype[] {
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_U64LE_g")), false),
@@ -95,7 +96,7 @@ namespace Hdf5
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_B16_g")), false)};
             BINT32      = new Datatype[] {
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B32LE_g")), false),
-                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B32LE_g")), false),
+                new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B32BE_g")), false),
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_NATIVE_B32_g")), false)};
             BINT64      = new Datatype[] {
                 new Datatype(Marshal.ReadInt32(dlsym(dl_handle, "H5T_STD_B64LE_g")), false),
@@ -145,6 +146,17 @@ namespace Hdf5
                 int err = H5Tset_size(raw, value);
                 if (err < 0)
                     throw new ApplicationException(String.Format("Error setting size to {0}.", value));
+            }
+        }
+        
+        public ByteOrder Order
+        {
+            get { return H5Tget_order(raw); }
+            set
+            {
+                int err = H5Tset_order(raw, value);
+                if (err < 0)
+                    throw new ApplicationException(String.Format("Error setting byte order to {0}.", value));
             }
         }
         
@@ -385,6 +397,8 @@ namespace Hdf5
                 return FLOAT[(int)o];
             else if (t == typeof(double))
                 return DOUBLE[(int)o];
+            else if (t == typeof(BitVector32))
+                return BINT32[(int)o];
             throw new ArgumentException(String.Format("Unsupported type {0}", t));
         }
         
@@ -436,31 +450,38 @@ namespace Hdf5
             return FromValueType(t, ByteOrder.Native);
         }
         
-        public static Datatype BitArrayType(int w, ByteOrder o)
+//        public static Datatype BitArrayType(int w, ByteOrder o)
+//        {
+//            if (w == 8)
+//                return BINT8;
+//            else if (w == 16)
+//                return BINT16[(int)o];
+//            else if (w == 32)
+//                return BINT32[(int)o];
+//            else if (w == 64)
+//                return BINT64[(int)o];
+//            else
+//                throw new ArgumentException(String.Format("Invalid value of parameter w ({0}).", w));
+//        }
+        
+//        public static Datatype BitArrayType(int w)
+//        {
+//            return BitArrayType(w, ByteOrder.Native);
+//        }
+        
+        public static Datatype VlenValueType(Type t)
         {
-            if (w == 8)
-                return BINT8;
-            else if (w == 16)
-                return BINT16[(int)o];
-            else if (w == 32)
-                return BINT32[(int)o];
-            else if (w == 64)
-                return BINT64[(int)o];
-            else
-                throw new ArgumentException(String.Format("Invalid value of parameter w ({0}).", w));
+            return VlenValueType(t, ByteOrder.Native);
         }
         
-        public static Datatype BitArrayType(int w)
+        public static Datatype VlenValueType(Type t, ByteOrder o)
         {
-            return BitArrayType(w, ByteOrder.Native);
-        }
-        
-        internal static Datatype VariableLength<T>() where T : struct
-        {
-            Datatype dt = Datatype.FromValueType(typeof(T));
+            if (!t.IsValueType)
+                throw new ArgumentException(String.Format("Type must be a value type (given {0}).", t));
+            Datatype dt = Datatype.FromValueType(t);
             int id = H5Tvlen_create(dt.raw);
             if (id < 0)
-                throw new ApplicationException(String.Format("Error creating variable length type (base {0}).", typeof(T)));
+                throw new ApplicationException(String.Format("Error creating variable length type (base {0}).", t));
             return new Datatype(id, true);
         }
         
@@ -514,6 +535,12 @@ namespace Hdf5
         
         [DllImport("hdf5")]
         private static extern int H5Tset_size(int type_id, long size);
+        
+        [DllImport("hdf5")]
+        private static extern ByteOrder H5Tget_order(int type_id);
+        
+        [DllImport("hdf5")]
+        private static extern int H5Tset_order(int type_id, ByteOrder order);
         
         [DllImport("hdf5")]
         private static extern int H5Tis_variable_str(int type_id);

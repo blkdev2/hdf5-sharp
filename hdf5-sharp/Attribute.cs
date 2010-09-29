@@ -12,118 +12,28 @@ using System.Runtime.InteropServices;
 
 namespace Hdf5
 {
-    public class Attribute : Base
+    public abstract class Attribute<T> : Base
     {
         public Attribute(int raw) : base(raw)
         {
         }
         
-        public T ReadValue<T>() where T : struct
+        public abstract T Read();
+        
+        protected void Read(Datatype mt, IntPtr buf)
         {
-            T[] buf;
-            using (Datatype mt = Datatype.FromValueType(typeof(T)))
-            {
-                buf = new T[1];
-                GCHandle hbuf = GCHandle.Alloc(buf, GCHandleType.Pinned);
-                try {
-                    int err = H5Aread(raw, mt.raw, hbuf.AddrOfPinnedObject());
-                    if (err < 0)
-                        throw new ApplicationException("Error reading value from attribute.");
-                } finally {
-                    hbuf.Free();
-                }
-            }
-            return buf[0];
+            int err = H5Aread(raw, mt.raw, buf);
+            if (err < 0)
+                throw new ApplicationException("Error reading attribute value.");
         }
         
-        public BitArray ReadBitArray()
-        {
-            int[] mem;
-            using (Datatype mt = Datatype.BitArrayType(32))
-            {
-                long[] dim;
-                using (Dataspace sp = Space)
-                {
-                    dim = sp.GetDimensions();
-                }
-                if (dim.Length != 1)
-                    throw new NotSupportedException("Multidimensional bitfield attributes are not supported.");
-                mem = new int[dim[0]];
-                GCHandle hmem = GCHandle.Alloc(mem, GCHandleType.Pinned);
-                try {
-                    int err = H5Aread(raw, mt.raw, hmem.AddrOfPinnedObject());
-                    if (err < 0)
-                        throw new ApplicationException("Error reading value from attribute.");
-                } finally {
-                    hmem.Free();
-                }
-            }
-            return new BitArray(mem);
-        }
+        public abstract void Write(T data);
         
-        public string ReadString()
+        protected void Write(Datatype mt, IntPtr buf)
         {
-            string result;
-            using (Datatype mt = Type)
-            {
-                if (mt.Class != DatatypeClass.String)
-                    throw new InvalidOperationException();
-                IntPtr buf = Marshal.AllocHGlobal((int)mt.Size);
-                try {
-                    int err = H5Aread(raw, mt.raw, buf);
-                    if (err < 0)
-                        throw new ApplicationException("Error reading string from attribute.");
-                    result = Marshal.PtrToStringAuto(buf, (int)mt.Size);
-                } finally {
-                    Marshal.FreeHGlobal(buf);
-                }
-            }
-            return result;
-        }
-        
-        public void Write<T>(T data) where T : struct
-        {
-            T[] buf;
-            using (Datatype mt = Datatype.FromValueType(typeof(T)))
-            {
-                buf = new T[1];
-                buf[0] = data;
-                GCHandle hbuf = GCHandle.Alloc(buf, GCHandleType.Pinned);
-                try {
-                    H5Awrite(raw, mt.raw, hbuf.AddrOfPinnedObject());
-                } finally {
-                    hbuf.Free();
-                }
-            }
-        }
-        
-        public void Write(BitArray data)
-        {
-            int[] buf;
-            buf = new int[(data.Length+31)/32];
-            data.CopyTo(buf, 0);
-            using (Datatype mt = Datatype.BitArrayType(32))
-            {
-                GCHandle hbuf = GCHandle.Alloc(buf, GCHandleType.Pinned);
-                try {
-                    H5Awrite(raw, mt.raw, hbuf.AddrOfPinnedObject());
-                } finally {
-                    hbuf.Free();
-                }
-            }
-        }
-        
-        public void Write(string data)
-        {
-            using (Datatype mt = Type)
-            {
-                IntPtr buf = Marshal.StringToHGlobalAnsi(data);
-                try {
-                    H5Awrite(raw, mt.raw, buf);
-                } finally {
-                    Marshal.FreeHGlobal(buf);
-                }
-            }
+            int err = H5Awrite(raw, mt.raw, buf);
+            if (err < 0)
+                throw new ApplicationException("Error writing attribute value.");
         }
         
         public string Name
@@ -179,66 +89,73 @@ namespace Hdf5
         
         // static creation methods
 
-        public static Attribute Create(Base obj, string name, Datatype dt, Dataspace ds)
+        private static Datatype GetDatatypeFromType(Type t)
         {
-            int raw = H5Acreate2(obj.raw, name, dt.raw, ds.raw, 0, 0);
+            return GetDatatypeFromType(t, ByteOrder.Native);
+        }
+        
+        private static Datatype GetDatatypeFromType(Type t, ByteOrder order)
+        {
+            if (t.IsValueType)
+            {
+                return Datatype.FromValueType(t, order);
+            }
+            else if (t == typeof(string))
+            {
+                return Datatype.VlenString;
+            }
+            else
+            {
+                throw new ArgumentException(String.Format("Unsupported type {0}.", t));
+            }
+        }
+        
+        private static Attribute<T> CreateInstance(int raw)
+        {
+            Type gt = typeof(T);
+            Type dst = null;
+            if (gt.IsValueType)
+            {
+                dst = typeof(ValueTypeAttribute<>).MakeGenericType(new Type[] {gt});
+            }
+            else if (gt == typeof(string))
+            {
+                dst = typeof(StringAttribute);
+            }
+            if (dst == null)
+                throw new ApplicationException(String.Format("Unsupported generic type {0}", gt));
+            object result = Activator.CreateInstance(dst, raw);
+            return (Attribute<T>)result;
+        }
+        
+        public static Attribute<T> Create(Base obj, string name)
+        {
+            int raw = -1;
+            using (Datatype dt = GetDatatypeFromType(typeof(T)))
+            using (Dataspace sp = new Dataspace(new long[] {1}))
+                raw = H5Acreate2(obj.raw, name, dt.raw, sp.raw, 0, 0);
             if (raw < 0)
                 throw new ApplicationException("Error creating attribute.");
-            return new Attribute(raw);
+            return CreateInstance(raw);
         }
         
-        public static Attribute CreateWithData<T>(Base obj, string name, T data) where T : struct
+        public static Attribute<T> CreateWithData(Base obj, string name, T data)
         {
-            Attribute result;
-            using (Datatype dt = Datatype.FromValueType(typeof(T)))
-            {
-                using (Dataspace ds = new Dataspace(new ulong[] {1}))
-                {
-                    result = Attribute.Create(obj, name, dt, ds);
-                    result.Write<T>(data);
-                }
-            }
+            Attribute<T> result = Create(obj, name);
+            result.Write(data);
             return result;
         }
         
-        public static Attribute CreateWithData(Base obj, string name, BitArray data)
+        public static Attribute<T> Open(Base obj, string name)
         {
-            Attribute result;
-            using (Datatype dt = Datatype.BitArrayType(32))
-            {
-                using (Dataspace ds = new Dataspace(new ulong[] {(ulong)((data.Length+31)/32)}))
-                {
-                    result = Attribute.Create(obj, name, dt, ds);
-                    result.Write(data);
-                }
-            }
-            return result;
-        }
-        
-        public static Attribute CreateWithData(Base obj, string name, string data)
-        {
-            Attribute result;
-            using (Datatype dt = Datatype.ConstString)
-            {
-                dt.Size = data.Length;
-                using (Dataspace ds = new Dataspace(new ulong[] {1}))
-                {
-                    result = Attribute.Create(obj, name, dt, ds);
-                    result.Write(data);
-                }
-            }
-            return result;
-        }
-        
-        public static Attribute Open(Base obj, string name)
-        {
-            int raw = H5Aopen_name(obj.raw, name);
+            int raw = -1;
+            using (Datatype dt = GetDatatypeFromType(typeof(T)))
+            using (Dataspace sp = new Dataspace(new long[] {1}))
+                raw = H5Aopen_name(obj.raw, name);
             if (raw < 0)
                 throw new ApplicationException("Error opening attribute.");
-            return new Attribute(raw);
+            return CreateInstance(raw);
         }
-        
-        
         
         // imports
         

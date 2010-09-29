@@ -57,6 +57,11 @@ Run with the following command:
                 <include name="hdf5-sharp/Group.cs" />
                 <include name="hdf5-sharp/H5.cs" />
                 <include name="hdf5-sharp/Location.cs" />
+                <include name="hdf5-sharp/datasets/ValueTypeDataset.cs" />
+                <include name="hdf5-sharp/datasets/VlenValueTypeDataset.cs" />
+                <include name="hdf5-sharp/datasets/StringDataset.cs" />
+                <include name="hdf5-sharp/attributes/ValueTypeAttribute.cs" />
+                <include name="hdf5-sharp/attributes/StringAttribute.cs" />
             </sources>
             <references>
                 <lib>

@@ -37,11 +37,11 @@ namespace Hdf5
     {
         internal Dataspace(int raw) : base(raw) {}
         
-        public Dataspace(ulong[] dimensions) : this(dimensions, null)
+        public Dataspace(long[] dimensions) : this(dimensions, null)
         {
         }
         
-        public Dataspace(ulong[] dimensions, ulong[] maxdimensions)
+        public Dataspace(long[] dimensions, long[] maxdimensions)
         {
             raw = H5Screate_simple(dimensions.Length, dimensions, maxdimensions);
             if (raw < 0)
@@ -81,7 +81,7 @@ namespace Hdf5
                 throw new ApplicationException("Error in deleting selection in dataspace.");
         }
         
-        public void SelectHyperslab(SelectOperation op, ulong[] start, ulong[] stride, ulong[] count, ulong[] block)
+        public void SelectHyperslab(SelectOperation op, long[] start, long[] stride, long[] count, long[] block)
         {
             GCHandle hstart  = GCHandle.Alloc(start,  GCHandleType.Pinned);
             GCHandle hstride = GCHandle.Alloc(stride, GCHandleType.Pinned);
@@ -148,7 +148,7 @@ namespace Hdf5
         // imports
         
         [DllImport("hdf5")]
-        private static extern int H5Screate_simple(int rank, ulong[] dims, ulong[] maxdims);
+        private static extern int H5Screate_simple(int rank, long[] dims, long[] maxdims);
         
         [DllImport("hdf5")]
         private static extern int H5Sclose(int space_id);

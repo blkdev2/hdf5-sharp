@@ -6,6 +6,7 @@
 
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 using NUnit.Framework;
 
 using Hdf5;
@@ -23,11 +24,11 @@ namespace Hdf5.Tests
             {
                 using (Hdf5.File h5file = Hdf5.File.Create(tmpfile, Hdf5.FileAccessFlags.Truncate))
                 {
-                    using (Hdf5.Attribute h5at = Hdf5.Attribute.CreateWithData<int>(h5file, "A1", 1));
+                    using (Hdf5.Attribute<int> h5at = Hdf5.Attribute<int>.CreateWithData(h5file, "A1", 1));
                 }
             
                 using (Hdf5.File h5file = Hdf5.File.Open(tmpfile, Hdf5.FileAccessFlags.ReadOnly))
-                using (Hdf5.Attribute h5at = Hdf5.Attribute.Open(h5file, "A1"))
+                using (Hdf5.Attribute<int> h5at = Hdf5.Attribute<int>.Open(h5file, "A1"))
                 {
                     using (Hdf5.Datatype h5tp = h5at.Type)
                     {
@@ -39,7 +40,7 @@ namespace Hdf5.Tests
                         Assert.AreEqual(1, h5sp.NumDimensions);
                         Assert.AreEqual(1, h5sp.GetDimensions()[0]);
                     }
-                    Assert.AreEqual(1, h5at.ReadValue<int>());
+                    Assert.AreEqual(1, h5at.Read());
                 }
             } finally {
                 System.IO.File.Delete(tmpfile);
@@ -55,12 +56,12 @@ namespace Hdf5.Tests
                 using (Hdf5.File h5file = Hdf5.File.Create(tmpfile, Hdf5.FileAccessFlags.Truncate))
                 using (Hdf5.Group h5group = Hdf5.Group.Create(h5file, "G1"))
                 {
-                    using (Hdf5.Attribute h5at = Hdf5.Attribute.CreateWithData<int>(h5group, "A1", 1));
+                    using (Hdf5.Attribute<int> h5at = Hdf5.Attribute<int>.CreateWithData(h5group, "A1", 1));
                 }
             
                 using (Hdf5.File h5file = Hdf5.File.Open(tmpfile, Hdf5.FileAccessFlags.ReadOnly))
                 using (Hdf5.Group h5group = Hdf5.Group.Open(h5file, "G1"))
-                using (Hdf5.Attribute h5at = Hdf5.Attribute.Open(h5group, "A1"))
+                using (Hdf5.Attribute<int> h5at = Hdf5.Attribute<int>.Open(h5group, "A1"))
                 {
                     using (Hdf5.Datatype h5tp = h5at.Type)
                     {
@@ -72,7 +73,7 @@ namespace Hdf5.Tests
                         Assert.AreEqual(1, h5sp.NumDimensions);
                         Assert.AreEqual(1, h5sp.GetDimensions()[0]);
                     }
-                    Assert.AreEqual(1, h5at.ReadValue<int>());
+                    Assert.AreEqual(1, h5at.Read());
                 }
             } finally {
                 System.IO.File.Delete(tmpfile);
@@ -87,26 +88,23 @@ namespace Hdf5.Tests
             {
                 using (Hdf5.File h5file = Hdf5.File.Create(tmpfile, Hdf5.FileAccessFlags.Truncate))
                 using (Hdf5.Group h5group = Hdf5.Group.Create(h5file, "G1"))
-                using (Hdf5.Dataset h5ds = Hdf5.Dataset.Create(h5group, "T1", Hdf5.Datatype.Int32LE, new Hdf5.Dataspace(new ulong[] {128}, new ulong[] {128})))
+                using (Hdf5.Dataset<int> h5ds = Hdf5.Dataset<int>.Create(h5group, "T1", new long[] {128}))
                 {
-                    using (Hdf5.Attribute h5at = Hdf5.Attribute.CreateWithData(h5ds, "A1", "attrtest"));
+                    using (Hdf5.Attribute<string> h5at = Hdf5.Attribute<string>.CreateWithData(h5ds, "A1", "attrtest"));
                 }
             
                 using (Hdf5.File h5file = Hdf5.File.Open(tmpfile, Hdf5.FileAccessFlags.ReadOnly))
-                using (Hdf5.Dataset h5ds = Hdf5.Dataset.Open(h5file, "G1/T1"))
-                using (Hdf5.Attribute h5at = Hdf5.Attribute.Open(h5ds, "A1"))
+                using (Hdf5.Dataset<int> h5ds = Hdf5.Dataset<int>.Open(h5file, "G1/T1"))
+                using (Hdf5.Attribute<string> h5at = Hdf5.Attribute<string>.Open(h5ds, "A1"))
                 {
                     using (Hdf5.Datatype h5tp = h5at.Type)
-                    {
-                        Assert.AreEqual(Hdf5.DatatypeClass.String, h5tp.Class);
-                        Assert.AreEqual(8, h5tp.Size);
-                    }
+                        Assert.IsTrue(h5tp.IsVariableString);
                     using (Hdf5.Dataspace h5sp = h5at.Space)
                     {
                         Assert.AreEqual(1, h5sp.NumDimensions);
                         Assert.AreEqual(1, h5sp.GetDimensions()[0]);
                     }
-                    Assert.AreEqual("attrtest", h5at.ReadString());
+                    Assert.AreEqual("attrtest", h5at.Read());
                 }
             } finally {
                 System.IO.File.Delete(tmpfile);
