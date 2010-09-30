@@ -460,7 +460,7 @@ namespace Hdf5
             if (!t.IsValueType)
                 throw new ArgumentException(String.Format("Type {0} is not a value type.", t));
             Datatype dt;
-            if (t.IsPrimitive)
+            if (t.IsPrimitive || t == typeof(BitVector32))
                 dt = Datatype.FromPrimitive(t, o);
             else
                 dt = Datatype.FromStruct(t, o);
