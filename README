@@ -1,0 +1,70 @@
+hdf5-sharp
+==========
+
+ABOUT
+-----
+
+The hdf5-sharp library allows access to files in the HDF5 format from programs
+written for the .NET framework.
+
+The hdf5-sharp library tries to provide an API for programming the HDF5
+library that does not feel alien to users of the .NET standard libraries. It
+seeks to follow the framework design guidelines for .NET libraries where
+possible. This means in particular that the HDF5 function names are adapted to
+a more .NET-friendly style.
+
+The library features a mapping of the HDF5 type system to the .NET types. This
+design goal trades feature completeness against ease of use. Since all
+supported datatypes must be binary compatible to existing .NET types, very
+special HDF5 files with arbitrary precision datatypes are not supported.
+
+
+REQUIREMENTS
+------------
+
+Runtime requirements:
+* UNIX: hdf5-sharp is tested on Linux (32 & 64 bit) and Mac OS X (64 bit).
+* Mono: http://www.mono-project.com.
+* HDF5: http://www.hdfgroup.org/HDF5/ (only version 1.8.x is supported).
+
+Build-time requirements (additionally to the above):
+* Nant: http://nant.sourceforge.net/
+
+
+COPYRIGHT/LICENSE
+-----------------
+
+Copyright 2008-2010, Markus Uhr <markus.uhr@bsse.ethz.ch>.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in
+      the documentation and/or other materials provided with the
+      distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+AUTHOR
+------
+
+Markus Uhr, <markus.uhr@bsse.ethz.ch>
+https://launchpad.net/hdf5-sharp
+
+The current version of the hdf5-sharp library is available on the
+web at 'https://launchpad.net/hdf5-sharp'.
