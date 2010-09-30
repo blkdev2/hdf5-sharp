@@ -1,0 +1,42 @@
+Basic Installation
+==================
+
+The build system for compiling the hdf5-sharp library is `nant'.
+
+The simplest way to compile this package is:
+
+  1. `cd' to the directory containing the package's source code.
+
+  2. Type `nant' to compile the package.
+
+  3. Optionally, type `nant run-tests' to run some unit-tests that come with
+     the package.
+
+  4. Type `nant install' to install the library and data files.
+
+
+Options
+=======
+
+Currently, the nant script supports two user-configurable options. The first
+is `prefix' to specify a different install location. By default, the library
+installs in `/usr/local'. The second option is `build-configuration' which can
+either be `Debug' (default) or `Release'.
+
+For example, if you want to install the release-version of the library in
+`/opt/hdf5-sharp', you would have to issue the following commands:
+
+     nant -D:prefix=/opt/hdf5-sharp -D:build-configuration=Release
+     nant run-tests -D:prefix=/opt/hdf5-sharp -D:build-configuration=Release
+     nant install -D:prefix=/opt/hdf5-sharp -D:build-configuration=Release
+
+
+Build Targets
+=============
+
+The following build targets are currently supported:
+
+* all (default): compiles everything.
+* run-tests: runs the unit tests.
+* install: copies the binary files to the configured location.
+* clean: deletes all generated and compiled files.
