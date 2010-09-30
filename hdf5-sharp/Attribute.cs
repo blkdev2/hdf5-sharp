@@ -36,7 +36,7 @@ namespace Hdf5
 {
     public abstract class Attribute<T> : Base
     {
-        public Attribute(int raw) : base(raw)
+        internal Attribute(int raw) : base(raw)
         {
         }
         
@@ -145,7 +145,7 @@ namespace Hdf5
                 dst = typeof(StringAttribute);
             }
             if (dst == null)
-                throw new ApplicationException(String.Format("Unsupported generic type {0}", gt));
+                throw new ApplicationException(String.Format("Unsupported generic type {0}.", gt));
             object result = Activator.CreateInstance(dst, raw);
             return (Attribute<T>)result;
         }
