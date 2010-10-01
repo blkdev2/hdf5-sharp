@@ -161,26 +161,6 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
-    <Member MemberName="Read">
-      <MemberSignature Language="C#" Value="protected void Read (Hdf5.Datatype mt, IntPtr buf);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyVersion>0.4.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="mt" Type="Hdf5.Datatype" />
-        <Parameter Name="buf" Type="System.IntPtr" />
-      </Parameters>
-      <Docs>
-        <param name="mt">To be added.</param>
-        <param name="buf">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
     <Member MemberName="Space">
       <MemberSignature Language="C#" Value="public Hdf5.Dataspace Space { get; }" />
       <MemberType>Property</MemberType>
@@ -226,26 +206,6 @@
       <Docs>
         <param name="data">The new value for the attribute.</param>
         <summary>Write a new value of the attribute.</summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Write">
-      <MemberSignature Language="C#" Value="protected void Write (Hdf5.Datatype mt, IntPtr buf);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyVersion>0.4.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="mt" Type="Hdf5.Datatype" />
-        <Parameter Name="buf" Type="System.IntPtr" />
-      </Parameters>
-      <Docs>
-        <param name="mt">To be added.</param>
-        <param name="buf">To be added.</param>
-        <summary>To be added.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
