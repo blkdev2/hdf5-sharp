@@ -9,8 +9,8 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Description of datatypes.</summary>
+    <remarks>Datatype objects are used to describe the binary layout of the elements stored in <see cref="T:Hdf5.Dataset" />s.</remarks>
   </Docs>
   <Members>
     <Member MemberName="BitArray16BE">
@@ -159,7 +159,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Closes the datatype object.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -189,9 +189,9 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Copies the datatype object.</summary>
+        <returns>A copy of the datatype object.</returns>
+        <remarks>The built-in datatypes are not modifiable. If you want to build datatypes derived from non-modifiable datatypes, you must first get a copy of it.</remarks>
       </Docs>
     </Member>
     <Member MemberName="Dispose">
@@ -255,9 +255,9 @@
         <Parameter Name="t" Type="System.Type" />
       </Parameters>
       <Docs>
-        <param name="t">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="t">A type object describing a .NET value type (struct).</param>
+        <summary>Returns a datatype description that is compatible with the given .NET type.</summary>
+        <returns>A compatible HDF5 datatype object.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -275,10 +275,10 @@
         <Parameter Name="o" Type="Hdf5.ByteOrder" />
       </Parameters>
       <Docs>
-        <param name="t">To be added.</param>
-        <param name="o">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="t">A type object describing a .NET value type (struct).</param>
+        <param name="o">The desired byte order.</param>
+        <summary>Returns a datatype description that is compatible with the given .NET type.</summary>
+        <returns>A compatible HDF5 datatype object with the specified byte order.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

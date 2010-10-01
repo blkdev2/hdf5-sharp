@@ -13,7 +13,7 @@
     </Interface>
   </Interfaces>
   <Docs>
-    <summary>To be added.</summary>
+    <summary>Base class that knows how to handle HDF5 resources.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -28,7 +28,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Disposes of the associated HDF5 resources.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -45,9 +45,12 @@
         <Parameter Name="disposing" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="disposing">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="disposing">True if called by the user, false if called by the garbage collector.</param>
+        <summary>Disposes of the associated HDF5 resources.</summary>
+        <remarks>
+          <para>Child classes must override this method to dispose of the actual resources that they are responsible for.</para>
+          <para>If overridden, child classes must call the parent method.</para>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Finalize">

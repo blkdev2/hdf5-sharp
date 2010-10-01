@@ -12,9 +12,9 @@
   </Base>
   <Interfaces />
   <Docs>
-    <typeparam name="T">To be added.</typeparam>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <typeparam name="T">Type of the dataset elements.</typeparam>
+    <summary>Gives access to HDF5 datasets.</summary>
+    <remarks>Datasets are the objects in HDF5 files that contain the actual data.</remarks>
   </Docs>
   <Members>
     <Member MemberName="Close">
@@ -28,8 +28,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Closes that dataset.</summary>
+        <remarks>Once a dataset is closed, you cannot access its data anymore.</remarks>
       </Docs>
     </Member>
     <Member MemberName="Create">
@@ -47,12 +47,15 @@
         <Parameter Name="space" Type="System.Int32[]" />
       </Parameters>
       <Docs>
-        <param name="loc">To be added.</param>
-        <param name="name">To be added.</param>
-        <param name="space">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="loc">The location where to create the dataset.</param>
+        <param name="name">The name of the dataset.</param>
+        <param name="space">The storage layout of the dataset.</param>
+        <summary>Create a new dataset at the specified location in the HDF5 hierarchy.</summary>
+        <returns>The new dataset.</returns>
+        <remarks>
+          <para>This method creates a new n-dimensional dataset, where n is the length of the <paramref name="space" /> parameter. The elements of the space array specify the size of the respective dimension.</para>
+          <para>The datasets byte order will be the native byte order of the platform.</para>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Create">
@@ -70,12 +73,15 @@
         <Parameter Name="space" Type="System.Int64[]" />
       </Parameters>
       <Docs>
-        <param name="loc">To be added.</param>
-        <param name="name">To be added.</param>
-        <param name="space">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="loc">The location where to create the dataset.</param>
+        <param name="name">The name of the dataset.</param>
+        <param name="space">The storage layout of the dataset.</param>
+        <summary>Create a new dataset at the specified location in the HDF5 hierarchy.</summary>
+        <returns>The new dataset.</returns>
+        <remarks>
+          <para>This method creates a new n-dimensional dataset, where n is the length of the <paramref name="space" /> parameter. The elements of the space array specify the size of the respective dimension.</para>
+          <para>The datasets byte order will be the native byte order of the platform.</para>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Create">
@@ -94,13 +100,16 @@
         <Parameter Name="space" Type="System.Int64[]" />
       </Parameters>
       <Docs>
-        <param name="loc">To be added.</param>
-        <param name="name">To be added.</param>
-        <param name="order">To be added.</param>
-        <param name="space">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="loc">The location where to create the dataset.</param>
+        <param name="name">The name of the dataset.</param>
+        <param name="order">The byte order of the dataset.</param>
+        <param name="space">The storage layout of the dataset.</param>
+        <summary>Create a new dataset at the specified location in the HDF5 hierarchy.</summary>
+        <returns>The new dataset.</returns>
+        <remarks>
+          <para>This method creates a new n-dimensional dataset, where n is the length of the <paramref name="space" /> parameter. The elements of the space array specify the size of the respective dimension.</para>
+          <para>The datasets byte order is specified by the <paramref name="order" />.</para>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CreateWithData">
@@ -118,11 +127,11 @@
         <Parameter Name="data" Type="System.Array" />
       </Parameters>
       <Docs>
-        <param name="loc">To be added.</param>
-        <param name="name">To be added.</param>
-        <param name="data">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="loc">The location where to create the dataset.</param>
+        <param name="name">The name of the dataset.</param>
+        <param name="data">The data to be stored in the dataset.</param>
+        <summary>Create a new dataset at the specified location with the given data.</summary>
+        <returns>The new dataset.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

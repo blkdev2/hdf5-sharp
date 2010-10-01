@@ -9,7 +9,7 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
+    <summary>Entry point for access to HDF5 files.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -29,7 +29,7 @@
       <Docs>
         <param name="filename">To be added.</param>
         <param name="flags">To be added.</param>
-        <summary>To be added.</summary>
+        <summary>Create a new HDF5 file.</summary>
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
@@ -62,8 +62,8 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Get the name of the HDF5 file.</summary>
+        <value>Name of the HDF5 file.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -77,8 +77,8 @@
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Get the size of the HDF5 file.</summary>
+        <value>Size of the file.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -93,7 +93,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Flush all pending changes to disk.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -111,7 +111,7 @@
       </Parameters>
       <Docs>
         <param name="scope">To be added.</param>
-        <summary>To be added.</summary>
+        <summary>Flush all pending changes to disk.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -128,9 +128,9 @@
         <Parameter Name="types" Type="Hdf5.FileObjectType" />
       </Parameters>
       <Docs>
-        <param name="types">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="types">Selects which objects to count.</param>
+        <summary>Return the number of open objects in the file.</summary>
+        <returns>Number of open objects.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -147,9 +147,9 @@
         <Parameter Name="filename" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="filename">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="filename">Name of file to check.</param>
+        <summary>Check whether a file is an HDF5 file.</summary>
+        <returns>True if the file is an HDF5 file, false otherwise.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -167,10 +167,10 @@
         <Parameter Name="flags" Type="Hdf5.FileAccessFlags" />
       </Parameters>
       <Docs>
-        <param name="filename">To be added.</param>
-        <param name="flags">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="filename">Name of file to open.</param>
+        <param name="flags">The mode in which the file will be opened.</param>
+        <summary>Open an existing HDF5 file.</summary>
+        <returns>The opened file.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

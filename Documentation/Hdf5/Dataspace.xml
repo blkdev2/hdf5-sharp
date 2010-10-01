@@ -9,8 +9,8 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Description of storage layout and selections.</summary>
+    <remarks>Dataspace objects fulfill two purposes. The first purpose is to describe the layout of data arrays in memory and in HDF5 files. The second purpose is to specify selections (e.g. hyperslabs) to access datasets only partially.</remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -23,9 +23,9 @@
         <Parameter Name="dimensions" Type="System.Int64[]" />
       </Parameters>
       <Docs>
-        <param name="dimensions">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="dimensions">Dimension and size of the dataspace.</param>
+        <summary>Construct a dataspace that describes a multi-dimensional array.</summary>
+        <remarks>The length  of the <paramref name="dimensions" /> array determines the dimension of the dataspace, the values of its elements give the respective sizes.</remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -39,10 +39,15 @@
         <Parameter Name="maxdimensions" Type="System.Int64[]" />
       </Parameters>
       <Docs>
-        <param name="dimensions">To be added.</param>
-        <param name="maxdimensions">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="dimensions">Dimension and size of the dataspace.</param>
+        <param name="maxdimensions">Maximum dimension and size of the dataspace.</param>
+        <summary>Construct a dataspace that describes a multi-dimensional array.</summary>
+        <remarks><para>
+The length of the <paramref name="dimensions" /> array determines the dimension of the dataspace, the values of its elements give the respective sizes.
+</para>
+<para>
+The <paramref name="maxdimensions" /> array specifies the maximal size of the dataspace (useful when a dataset must be resized).
+</para></remarks>
       </Docs>
     </Member>
     <Member MemberName="All">
@@ -55,8 +60,8 @@
         <ReturnType>Hdf5.Dataspace</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Generic description of the space of a complete dataset.</summary>
+        <remarks>This dataspace is mostly used as a shortcut to specify the complete selection of a dataset.</remarks>
       </Docs>
     </Member>
     <Member MemberName="Close">
@@ -70,7 +75,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Closes the dataspace.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -103,7 +108,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Returns the dimensions and size of the dataspace.</summary>
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
@@ -118,8 +123,8 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Returns whether the selection fits within the size of the dataspace.</summary>
+        <value>True if the selection fits within the bounds, false otherwise.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -133,9 +138,9 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Returns whether the dataspace is simple or not.</summary>
+        <value>True.</value>
+        <remarks>According to the HDF5 specification, all dataspaces are simple.</remarks>
       </Docs>
     </Member>
     <Member MemberName="NumDimensions">
@@ -148,8 +153,8 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Returns the number of dimensions of the dataspace.</summary>
+        <value>The number of dimensions.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -164,7 +169,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Selects all elements in the dataspace.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -190,7 +195,7 @@
         <param name="stride">To be added.</param>
         <param name="count">To be added.</param>
         <param name="block">To be added.</param>
-        <summary>To be added.</summary>
+        <summary>Selects a hyperslab of the dataspace.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -205,7 +210,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Deselects all elements of the dataspace.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

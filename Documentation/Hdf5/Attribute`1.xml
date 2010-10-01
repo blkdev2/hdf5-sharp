@@ -17,21 +17,6 @@
     <remarks>Attributes are "simple datatypes" that can be attached to <see cref="T:Hdf5.File" />s, <see cref="T:Hdf5.Group" />s and <see cref="T:Hdf5.Dataset" />s.</remarks>
   </Docs>
   <Members>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public Attribute (int raw);" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyVersion>0.4.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters>
-        <Parameter Name="raw" Type="System.Int32" />
-      </Parameters>
-      <Docs>
-        <param name="raw">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
     <Member MemberName="Create">
       <MemberSignature Language="C#" Value="public static Hdf5.Attribute&lt;T&gt; Create (Hdf5.Base obj, string name);" />
       <MemberType>Method</MemberType>
@@ -46,10 +31,10 @@
         <Parameter Name="name" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <param name="name">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="obj">HDF5 object which should be annotated with an attribute.</param>
+        <param name="name">The name of the attribute.</param>
+        <summary>Creates a new HDF5 attribute.</summary>
+        <returns>The new attribute object.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -68,11 +53,11 @@
         <Parameter Name="data" Type="T" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <param name="name">To be added.</param>
-        <param name="data">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="obj">HDF5 object which should be annotated with an attribute.</param>
+        <param name="name">The name of the attribute.</param>
+        <param name="data">The value of the attribute.</param>
+        <summary>Creates a new HDF5 attribute with the given data.</summary>
+        <returns>The new attribute object.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -89,8 +74,8 @@
         <Parameter Name="disposing" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="disposing">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="disposing">True if called by the user, false if called by the garbage collector.</param>
+        <summary>Disposes of the associated HDF5 resources.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -104,8 +89,8 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>The name of the attribute.</summary>
+        <value>Returns the name of this attribute.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -123,10 +108,10 @@
         <Parameter Name="name" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <param name="name">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="obj">Hdf5 object whose attribute should be opened.</param>
+        <param name="name">The name of the attribute.</param>
+        <summary>Opens an existing HDF5 attribute.</summary>
+        <returns>The opened attribute object.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -141,8 +126,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Read the attribute value.</summary>
+        <returns>The value of the attribute.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -176,8 +161,8 @@
         <ReturnType>Hdf5.Dataspace</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Dataspace description of the attribute.</summary>
+        <value>Dataspace object that describes the layout of the attribute.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -191,8 +176,8 @@
         <ReturnType>Hdf5.Datatype</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Datatype description of the attribute.</summary>
+        <value>HDF5 datatype of the attribute value.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -209,8 +194,8 @@
         <Parameter Name="data" Type="T" />
       </Parameters>
       <Docs>
-        <param name="data">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="data">The new value for the attribute.</param>
+        <summary>Write a new value of the attribute.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

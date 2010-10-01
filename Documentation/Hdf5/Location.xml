@@ -9,8 +9,8 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Base class for objects that represent locations in the HDF5 hierarchy (i.e. files and groups).</summary>
+    <remarks>Location classes build the hierarchical structure of HDF5 files. These are the classes that contain datasets.</remarks>
   </Docs>
   <Members>
     <Member MemberName="Close">
@@ -24,7 +24,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Closes the location.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -41,9 +41,9 @@
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="index">Index of the object.</param>
+        <summary>Return the name of the HDF5 object specified by <paramref name="index" />.</summary>
+        <returns>Name of the object.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -61,7 +61,7 @@
       </Parameters>
       <Docs>
         <param name="index">To be added.</param>
-        <summary>To be added.</summary>
+        <summary>Return the object type of the object specified by <paramref name="index" />.</summary>
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
@@ -76,8 +76,8 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Get the number of objects in the location.</summary>
+        <value>The number of objects.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
