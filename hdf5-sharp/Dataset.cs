@@ -78,7 +78,7 @@ namespace Hdf5
         
         public abstract void Read(Dataspace ms, Dataspace fs, Array buf);
         
-        protected void Read(Datatype mt, Dataspace ms, Dataspace fs, IntPtr buf)
+        internal void Read(Datatype mt, Dataspace ms, Dataspace fs, IntPtr buf)
         {
             int err = H5Dread(raw, mt.raw, ms.raw, fs.raw, 0, buf);
             if (err < 0)
@@ -97,7 +97,7 @@ namespace Hdf5
         
         public abstract void Write(Dataspace ms, Dataspace fs, Array buf);
         
-        protected void Write(Datatype mt, Dataspace ms, Dataspace fs, IntPtr buf)
+        internal void Write(Datatype mt, Dataspace ms, Dataspace fs, IntPtr buf)
         {
             int err = H5Dwrite(raw, mt.raw, ms.raw, fs.raw, 0, buf);
             if (err < 0)
@@ -363,33 +363,36 @@ namespace Hdf5
         // imports
         
         [DllImport("hdf5")]
-        protected internal static extern int H5Dcreate2(int loc_id, string name, int type_id, int space_id, int lcpl_id, int dcpl_id, int dapl_id);
+        private static extern int H5Fflush(int loc, FileScope scope);
+
+        [DllImport("hdf5")]
+        internal static extern int H5Dcreate2(int loc_id, string name, int type_id, int space_id, int lcpl_id, int dcpl_id, int dapl_id);
         
         [DllImport("hdf5")]
-        protected internal static extern int H5Dopen2(int loc_id, string name, int dapl_id);
+        internal static extern int H5Dopen2(int loc_id, string name, int dapl_id);
         
         [DllImport("hdf5")]
-        protected internal static extern int H5Dclose(int dataset_id);
+        internal static extern int H5Dclose(int dataset_id);
         
         [DllImport("hdf5")]
-        protected internal static extern int H5Dget_space(int dataset_id);
+        internal static extern int H5Dget_space(int dataset_id);
         
         [DllImport("hdf5")]
-        protected internal static extern int H5Dget_space_status(int dataset_id, out SpaceStatus status);
+        internal static extern int H5Dget_space_status(int dataset_id, out SpaceStatus status);
         
         [DllImport("hdf5")]
-        protected internal static extern int H5Dget_type(int dataset_id);
+        internal static extern int H5Dget_type(int dataset_id);
         
         [DllImport("hdf5")]
-        protected internal static extern int H5Dread(int dataset_id, int mem_type_id, int mem_space_id, int file_space_id, int xfer_plist_id, IntPtr buf);
+        internal static extern int H5Dread(int dataset_id, int mem_type_id, int mem_space_id, int file_space_id, int xfer_plist_id, IntPtr buf);
         
         [DllImport("hdf5")]
-        protected internal static extern int H5Dwrite(int dataset_id, int mem_type_id, int mem_space_id, int file_space_id, int xfer_plist_id, IntPtr buf);
+        internal static extern int H5Dwrite(int dataset_id, int mem_type_id, int mem_space_id, int file_space_id, int xfer_plist_id, IntPtr buf);
         
         [DllImport("hdf5")]
-        protected internal static extern int H5Dvlen_get_buf_size(int dataset_id, int type_id, int space_id, out ulong size);
+        internal static extern int H5Dvlen_get_buf_size(int dataset_id, int type_id, int space_id, out ulong size);
         
         [DllImport("hdf5")]
-        protected internal static extern int H5Dvlen_reclaim(int type_id, int space_id, int plist_id, IntPtr buf);
+        internal static extern int H5Dvlen_reclaim(int type_id, int space_id, int plist_id, IntPtr buf);
     }
 }

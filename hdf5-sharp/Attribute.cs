@@ -61,7 +61,7 @@ namespace Hdf5
         
         public abstract void Write(T data);
         
-        protected internal void Write(Datatype mt, IntPtr buf)
+        internal void Write(Datatype mt, IntPtr buf)
         {
             int err = H5Awrite(raw, mt.raw, buf);
             if (err < 0)
