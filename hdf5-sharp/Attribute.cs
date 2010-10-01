@@ -40,9 +40,19 @@ namespace Hdf5
         {
         }
         
+        public void Flush()
+        {
+            H5Fflush(raw, FileScope.Local);
+        }
+        
+        public void Close()
+        {
+            Dispose();
+        }
+        
         public abstract T Read();
         
-        protected internal void Read(Datatype mt, IntPtr buf)
+        internal void Read(Datatype mt, IntPtr buf)
         {
             int err = H5Aread(raw, mt.raw, buf);
             if (err < 0)
@@ -181,6 +191,9 @@ namespace Hdf5
         
         // imports
         
+        [DllImport("hdf5")]
+        private static extern int H5Fflush(int loc, FileScope scope);
+
         [DllImport("hdf5")]
         private static extern int H5Acreate2(int obj_id, string attr_name, int type_id, int space_id, int acpl_id, int aapl_id);
         

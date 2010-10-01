@@ -33,6 +33,13 @@ using System.Runtime.InteropServices;
 
 namespace Hdf5
 {
+    internal enum FileScope
+    {
+        Local   = 0,
+        Global  = 1,
+        Down    = 2
+    }
+    
     public enum ObjectType
     {
         Unknown   =  -1, /* Unknown object type     */
@@ -45,6 +52,11 @@ namespace Hdf5
     public abstract class Location : Base
     {
         internal Location(int raw) : base(raw) {}
+        
+        public void Flush()
+        {
+            H5Fflush(raw, FileScope.Local);
+        }
         
         public void Close()
         {
@@ -96,6 +108,9 @@ namespace Hdf5
         
         // imports
         
+        [DllImport("hdf5")]
+        private static extern int H5Fflush(int loc, FileScope scope);
+
         [DllImport("hdf5")]
         private static extern int H5Gget_num_objs(int loc, out ulong num_obj);
         

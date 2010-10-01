@@ -28,7 +28,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Closes that dataset.</summary>
+        <summary>Close that dataset and release all resources associated with it.</summary>
         <remarks>Once a dataset is closed, you cannot access its data anymore.</remarks>
       </Docs>
     </Member>
@@ -175,6 +175,21 @@
       <Docs>
         <param name="disposing">To be added.</param>
         <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Flush">
+      <MemberSignature Language="C#" Value="public void Flush ();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Flushes pending changes to disk.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

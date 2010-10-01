@@ -33,13 +33,6 @@ using System.Runtime.InteropServices;
 
 namespace Hdf5
 {
-    public enum FileScope
-    {
-        Local   = 0,
-        Global  = 1,
-        Down    = 2
-    }
-    
     [Flags]
     public enum FileObjectType
     {
@@ -55,15 +48,6 @@ namespace Hdf5
     public class File : Location
     {
         internal File(int raw) : base(raw)
-        {
-        }
-        
-        public void Flush()
-        {
-            Flush(FileScope.Local);
-        }
-        
-        public void Flush(FileScope scope)
         {
         }
         
@@ -115,6 +99,8 @@ namespace Hdf5
             base.Dispose(disposing);
         }
         
+        // static methods
+        
         public static File Create(string filename, FileAccessFlags flags)
         {
             return new File(H5Fcreate(filename, (uint)flags, 0, 0));
@@ -143,7 +129,7 @@ namespace Hdf5
 
         [DllImport("hdf5")]
         private static extern int H5Fclose(int file_id);
-
+        
         [DllImport("hdf5")]
         private static extern int H5Fget_filesize(int file_id, out ulong size);
 

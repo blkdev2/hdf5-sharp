@@ -71,6 +71,7 @@ namespace Hdf5.Tests
                         Assert.AreEqual(1, h5sp.NumDimensions);
                         Assert.AreEqual(128, h5sp.GetDimensions()[0]);
                     }
+                    h5file.Flush();
                 }
             } finally {
                 System.IO.File.Delete(tmpfile);
@@ -87,6 +88,7 @@ namespace Hdf5.Tests
                 using (Hdf5.Group h5group = Hdf5.Group.Create(h5file, "G1"))
                 {
                     using (Hdf5.Dataset<int> h5ds = Hdf5.Dataset<int>.Create(h5group, "T1", new long[] {128}));
+                    h5group.Flush();
                 }
             
                 using (Hdf5.File h5file = Hdf5.File.Open(tmpfile, Hdf5.FileAccessFlags.ReadOnly))
@@ -117,7 +119,8 @@ namespace Hdf5.Tests
                 using (Hdf5.File h5file = Hdf5.File.Create(tmpfile, Hdf5.FileAccessFlags.Truncate))
                 {
                     int[] data = new int[] {0, 2, 3, 7, 6, 9};
-                    using (Hdf5.Dataset<int> h5ds = Hdf5.Dataset<int>.CreateWithData(h5file, "T1", data));
+                    using (Hdf5.Dataset<int> h5ds = Hdf5.Dataset<int>.CreateWithData(h5file, "T1", data))
+                        h5ds.Flush();
                 }
             
                 using (Hdf5.File h5file = Hdf5.File.Open(tmpfile, Hdf5.FileAccessFlags.ReadOnly))

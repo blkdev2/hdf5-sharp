@@ -82,39 +82,6 @@
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
-    <Member MemberName="Flush">
-      <MemberSignature Language="C#" Value="public void Flush ();" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyVersion>0.4.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters />
-      <Docs>
-        <summary>Flush all pending changes to disk.</summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="Flush">
-      <MemberSignature Language="C#" Value="public void Flush (Hdf5.FileScope scope);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyVersion>0.4.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="scope" Type="Hdf5.FileScope" />
-      </Parameters>
-      <Docs>
-        <param name="scope">To be added.</param>
-        <summary>Flush all pending changes to disk.</summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
     <Member MemberName="GetOpenObjCount">
       <MemberSignature Language="C#" Value="public long GetOpenObjCount (Hdf5.FileObjectType types);" />
       <MemberType>Method</MemberType>

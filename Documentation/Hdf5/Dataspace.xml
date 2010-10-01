@@ -42,12 +42,14 @@
         <param name="dimensions">Dimension and size of the dataspace.</param>
         <param name="maxdimensions">Maximum dimension and size of the dataspace.</param>
         <summary>Construct a dataspace that describes a multi-dimensional array.</summary>
-        <remarks><para>
+        <remarks>
+          <para>
 The length of the <paramref name="dimensions" /> array determines the dimension of the dataspace, the values of its elements give the respective sizes.
 </para>
-<para>
+          <para>
 The <paramref name="maxdimensions" /> array specifies the maximal size of the dataspace (useful when a dataset must be resized).
-</para></remarks>
+</para>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="All">
@@ -75,7 +77,7 @@ The <paramref name="maxdimensions" /> array specifies the maximal size of the da
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Closes the dataspace.</summary>
+        <summary>Close the dataspace and release all resources associated with it.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

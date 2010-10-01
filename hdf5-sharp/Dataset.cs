@@ -49,6 +49,11 @@ namespace Hdf5
         {
         }
         
+        public void Flush()
+        {
+            H5Fflush(raw, FileScope.Local);
+        }
+        
         public void Close()
         {
             Dispose();

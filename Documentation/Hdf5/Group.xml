@@ -9,7 +9,7 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
+    <summary>Groups are intermediate locations (like directories in a file system).</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -29,7 +29,7 @@
       <Docs>
         <param name="loc">To be added.</param>
         <param name="name">To be added.</param>
-        <summary>To be added.</summary>
+        <summary>Create a new group object.</summary>
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
@@ -66,10 +66,10 @@
         <Parameter Name="name" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="loc">To be added.</param>
-        <param name="name">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="loc">Location containing the group.</param>
+        <param name="name">Name of the group.</param>
+        <summary>Open an existing group object.</summary>
+        <returns>The opened group.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

@@ -17,6 +17,21 @@
     <remarks>Attributes are "simple datatypes" that can be attached to <see cref="T:Hdf5.File" />s, <see cref="T:Hdf5.Group" />s and <see cref="T:Hdf5.Dataset" />s.</remarks>
   </Docs>
   <Members>
+    <Member MemberName="Close">
+      <MemberSignature Language="C#" Value="public void Close ();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Close the attribute and release all resources associated with it.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="Create">
       <MemberSignature Language="C#" Value="public static Hdf5.Attribute&lt;T&gt; Create (Hdf5.Base obj, string name);" />
       <MemberType>Method</MemberType>
@@ -76,6 +91,21 @@
       <Docs>
         <param name="disposing">True if called by the user, false if called by the garbage collector.</param>
         <summary>Disposes of the associated HDF5 resources.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Flush">
+      <MemberSignature Language="C#" Value="public void Flush ();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Flushes pending changes to disk.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

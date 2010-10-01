@@ -24,7 +24,22 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Closes the location.</summary>
+        <summary>Close the location and release all resources associated with it.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Flush">
+      <MemberSignature Language="C#" Value="public void Flush ();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>Flushes pending changes in the location to disk.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

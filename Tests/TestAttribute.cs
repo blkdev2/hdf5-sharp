@@ -48,7 +48,8 @@ namespace Hdf5.Tests
             {
                 using (Hdf5.File h5file = Hdf5.File.Create(tmpfile, Hdf5.FileAccessFlags.Truncate))
                 {
-                    using (Hdf5.Attribute<int> h5at = Hdf5.Attribute<int>.CreateWithData(h5file, "A1", 1));
+                    using (Hdf5.Attribute<int> h5at = Hdf5.Attribute<int>.CreateWithData(h5file, "A1", 1))
+                        h5at.Flush();
                 }
             
                 using (Hdf5.File h5file = Hdf5.File.Open(tmpfile, Hdf5.FileAccessFlags.ReadOnly))

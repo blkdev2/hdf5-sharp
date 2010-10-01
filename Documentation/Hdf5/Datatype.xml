@@ -159,7 +159,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Closes the datatype object.</summary>
+        <summary>Close the datatype object and release all resources associated with it.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

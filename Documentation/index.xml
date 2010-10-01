@@ -48,7 +48,6 @@
       <Type Name="File" Kind="Class" />
       <Type Name="FileAccessFlags" Kind="Enumeration" />
       <Type Name="FileObjectType" Kind="Enumeration" />
-      <Type Name="FileScope" Kind="Enumeration" />
       <Type Name="Group" Kind="Class" />
       <Type Name="H5" Kind="Class" />
       <Type Name="Location" Kind="Class" />
