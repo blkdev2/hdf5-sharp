@@ -1,0 +1,721 @@
+<Type Name="Dataset&lt;T&gt;" FullName="Hdf5.Dataset&lt;T&gt;">
+  <TypeSignature Language="C#" Value="public abstract class Dataset&lt;T&gt; : Hdf5.Base" />
+  <AssemblyInfo>
+    <AssemblyName>hdf5-sharp</AssemblyName>
+    <AssemblyVersion>0.4.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <TypeParameters>
+    <TypeParameter Name="T" />
+  </TypeParameters>
+  <Base>
+    <BaseTypeName>Hdf5.Base</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <typeparam name="T">To be added.</typeparam>
+    <summary>To be added.</summary>
+    <remarks>To be added.</remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Close">
+      <MemberSignature Language="C#" Value="public void Close ();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Create">
+      <MemberSignature Language="C#" Value="public static Hdf5.Dataset&lt;T&gt; Create (Hdf5.Location loc, string name, int[] space);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Hdf5.Dataset&lt;T&gt;</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="loc" Type="Hdf5.Location" />
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="space" Type="System.Int32[]" />
+      </Parameters>
+      <Docs>
+        <param name="loc">To be added.</param>
+        <param name="name">To be added.</param>
+        <param name="space">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Create">
+      <MemberSignature Language="C#" Value="public static Hdf5.Dataset&lt;T&gt; Create (Hdf5.Location loc, string name, long[] space);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Hdf5.Dataset&lt;T&gt;</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="loc" Type="Hdf5.Location" />
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="space" Type="System.Int64[]" />
+      </Parameters>
+      <Docs>
+        <param name="loc">To be added.</param>
+        <param name="name">To be added.</param>
+        <param name="space">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Create">
+      <MemberSignature Language="C#" Value="public static Hdf5.Dataset&lt;T&gt; Create (Hdf5.Location loc, string name, Hdf5.ByteOrder order, long[] space);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Hdf5.Dataset&lt;T&gt;</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="loc" Type="Hdf5.Location" />
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="order" Type="Hdf5.ByteOrder" />
+        <Parameter Name="space" Type="System.Int64[]" />
+      </Parameters>
+      <Docs>
+        <param name="loc">To be added.</param>
+        <param name="name">To be added.</param>
+        <param name="order">To be added.</param>
+        <param name="space">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateWithData">
+      <MemberSignature Language="C#" Value="public static Hdf5.Dataset&lt;T&gt; CreateWithData (Hdf5.Location loc, string name, Array data);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Hdf5.Dataset&lt;T&gt;</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="loc" Type="Hdf5.Location" />
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="data" Type="System.Array" />
+      </Parameters>
+      <Docs>
+        <param name="loc">To be added.</param>
+        <param name="name">To be added.</param>
+        <param name="data">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateWithData">
+      <MemberSignature Language="C#" Value="public static Hdf5.Dataset&lt;T&gt; CreateWithData (Hdf5.Location loc, string name, Hdf5.ByteOrder order, Array data);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Hdf5.Dataset&lt;T&gt;</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="loc" Type="Hdf5.Location" />
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="order" Type="Hdf5.ByteOrder" />
+        <Parameter Name="data" Type="System.Array" />
+      </Parameters>
+      <Docs>
+        <param name="loc">To be added.</param>
+        <param name="name">To be added.</param>
+        <param name="order">To be added.</param>
+        <param name="data">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected override void Dispose (bool disposing);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetDimensions">
+      <MemberSignature Language="C#" Value="public virtual long[] GetDimensions ();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int64[]</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="H5Dclose">
+      <MemberSignature Language="C#" Value="protected static int H5Dclose (int dataset_id);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dataset_id" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="dataset_id">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="H5Dcreate2">
+      <MemberSignature Language="C#" Value="protected static int H5Dcreate2 (int loc_id, string name, int type_id, int space_id, int lcpl_id, int dcpl_id, int dapl_id);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="loc_id" Type="System.Int32" />
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="type_id" Type="System.Int32" />
+        <Parameter Name="space_id" Type="System.Int32" />
+        <Parameter Name="lcpl_id" Type="System.Int32" />
+        <Parameter Name="dcpl_id" Type="System.Int32" />
+        <Parameter Name="dapl_id" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="loc_id">To be added.</param>
+        <param name="name">To be added.</param>
+        <param name="type_id">To be added.</param>
+        <param name="space_id">To be added.</param>
+        <param name="lcpl_id">To be added.</param>
+        <param name="dcpl_id">To be added.</param>
+        <param name="dapl_id">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="H5Dget_space">
+      <MemberSignature Language="C#" Value="protected static int H5Dget_space (int dataset_id);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dataset_id" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="dataset_id">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="H5Dget_space_status">
+      <MemberSignature Language="C#" Value="protected static int H5Dget_space_status (int dataset_id, out Hdf5.SpaceStatus status);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dataset_id" Type="System.Int32" />
+        <Parameter Name="status" Type="Hdf5.SpaceStatus&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="dataset_id">To be added.</param>
+        <param name="status">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="H5Dget_type">
+      <MemberSignature Language="C#" Value="protected static int H5Dget_type (int dataset_id);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dataset_id" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="dataset_id">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="H5Dopen2">
+      <MemberSignature Language="C#" Value="protected static int H5Dopen2 (int loc_id, string name, int dapl_id);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="loc_id" Type="System.Int32" />
+        <Parameter Name="name" Type="System.String" />
+        <Parameter Name="dapl_id" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="loc_id">To be added.</param>
+        <param name="name">To be added.</param>
+        <param name="dapl_id">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="H5Dread">
+      <MemberSignature Language="C#" Value="protected static int H5Dread (int dataset_id, int mem_type_id, int mem_space_id, int file_space_id, int xfer_plist_id, IntPtr buf);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dataset_id" Type="System.Int32" />
+        <Parameter Name="mem_type_id" Type="System.Int32" />
+        <Parameter Name="mem_space_id" Type="System.Int32" />
+        <Parameter Name="file_space_id" Type="System.Int32" />
+        <Parameter Name="xfer_plist_id" Type="System.Int32" />
+        <Parameter Name="buf" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="dataset_id">To be added.</param>
+        <param name="mem_type_id">To be added.</param>
+        <param name="mem_space_id">To be added.</param>
+        <param name="file_space_id">To be added.</param>
+        <param name="xfer_plist_id">To be added.</param>
+        <param name="buf">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="H5Dvlen_get_buf_size">
+      <MemberSignature Language="C#" Value="protected static int H5Dvlen_get_buf_size (int dataset_id, int type_id, int space_id, out ulong size);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dataset_id" Type="System.Int32" />
+        <Parameter Name="type_id" Type="System.Int32" />
+        <Parameter Name="space_id" Type="System.Int32" />
+        <Parameter Name="size" Type="System.UInt64&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="dataset_id">To be added.</param>
+        <param name="type_id">To be added.</param>
+        <param name="space_id">To be added.</param>
+        <param name="size">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="H5Dvlen_reclaim">
+      <MemberSignature Language="C#" Value="protected static int H5Dvlen_reclaim (int type_id, int space_id, int plist_id, IntPtr buf);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="type_id" Type="System.Int32" />
+        <Parameter Name="space_id" Type="System.Int32" />
+        <Parameter Name="plist_id" Type="System.Int32" />
+        <Parameter Name="buf" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="type_id">To be added.</param>
+        <param name="space_id">To be added.</param>
+        <param name="plist_id">To be added.</param>
+        <param name="buf">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="H5Dwrite">
+      <MemberSignature Language="C#" Value="protected static int H5Dwrite (int dataset_id, int mem_type_id, int mem_space_id, int file_space_id, int xfer_plist_id, IntPtr buf);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dataset_id" Type="System.Int32" />
+        <Parameter Name="mem_type_id" Type="System.Int32" />
+        <Parameter Name="mem_space_id" Type="System.Int32" />
+        <Parameter Name="file_space_id" Type="System.Int32" />
+        <Parameter Name="xfer_plist_id" Type="System.Int32" />
+        <Parameter Name="buf" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="dataset_id">To be added.</param>
+        <param name="mem_type_id">To be added.</param>
+        <param name="mem_space_id">To be added.</param>
+        <param name="file_space_id">To be added.</param>
+        <param name="xfer_plist_id">To be added.</param>
+        <param name="buf">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Item">
+      <MemberSignature Language="C#" Value="public T this[int i] { set; get; }" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>T</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">To be added.</param>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Item">
+      <MemberSignature Language="C#" Value="public T this[long i] { set; get; }" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>T</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int64" />
+      </Parameters>
+      <Docs>
+        <param name="i">To be added.</param>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Item">
+      <MemberSignature Language="C#" Value="public T this[int i, int j] { set; get; }" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>T</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int32" />
+        <Parameter Name="j" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="i">To be added.</param>
+        <param name="j">To be added.</param>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Item">
+      <MemberSignature Language="C#" Value="public T this[long i, long j] { set; get; }" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>T</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="i" Type="System.Int64" />
+        <Parameter Name="j" Type="System.Int64" />
+      </Parameters>
+      <Docs>
+        <param name="i">To be added.</param>
+        <param name="j">To be added.</param>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Open">
+      <MemberSignature Language="C#" Value="public static Hdf5.Dataset&lt;T&gt; Open (Hdf5.Location loc, string name);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Hdf5.Dataset&lt;T&gt;</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="loc" Type="Hdf5.Location" />
+        <Parameter Name="name" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="loc">To be added.</param>
+        <param name="name">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Read">
+      <MemberSignature Language="C#" Value="public virtual Array Read ();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Array</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Read">
+      <MemberSignature Language="C#" Value="public abstract void Read (Hdf5.Dataspace ms, Hdf5.Dataspace fs, Array buf);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="ms" Type="Hdf5.Dataspace" />
+        <Parameter Name="fs" Type="Hdf5.Dataspace" />
+        <Parameter Name="buf" Type="System.Array" />
+      </Parameters>
+      <Docs>
+        <param name="ms">To be added.</param>
+        <param name="fs">To be added.</param>
+        <param name="buf">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Read">
+      <MemberSignature Language="C#" Value="protected void Read (Hdf5.Datatype mt, Hdf5.Dataspace ms, Hdf5.Dataspace fs, IntPtr buf);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="mt" Type="Hdf5.Datatype" />
+        <Parameter Name="ms" Type="Hdf5.Dataspace" />
+        <Parameter Name="fs" Type="Hdf5.Dataspace" />
+        <Parameter Name="buf" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="mt">To be added.</param>
+        <param name="ms">To be added.</param>
+        <param name="fs">To be added.</param>
+        <param name="buf">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Space">
+      <MemberSignature Language="C#" Value="public Hdf5.Dataspace Space { get; }" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Hdf5.Dataspace</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SpaceStatus">
+      <MemberSignature Language="C#" Value="public Hdf5.SpaceStatus SpaceStatus { get; }" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Hdf5.SpaceStatus</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Type">
+      <MemberSignature Language="C#" Value="public Hdf5.Datatype Type { get; }" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>Hdf5.Datatype</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>To be added.</summary>
+        <value>To be added.</value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Write">
+      <MemberSignature Language="C#" Value="public virtual void Write (Array buf);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="buf" Type="System.Array" />
+      </Parameters>
+      <Docs>
+        <param name="buf">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Write">
+      <MemberSignature Language="C#" Value="public virtual void Write (Hdf5.Dataspace fs, Array buf);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="fs" Type="Hdf5.Dataspace" />
+        <Parameter Name="buf" Type="System.Array" />
+      </Parameters>
+      <Docs>
+        <param name="fs">To be added.</param>
+        <param name="buf">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Write">
+      <MemberSignature Language="C#" Value="public abstract void Write (Hdf5.Dataspace ms, Hdf5.Dataspace fs, Array buf);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="ms" Type="Hdf5.Dataspace" />
+        <Parameter Name="fs" Type="Hdf5.Dataspace" />
+        <Parameter Name="buf" Type="System.Array" />
+      </Parameters>
+      <Docs>
+        <param name="ms">To be added.</param>
+        <param name="fs">To be added.</param>
+        <param name="buf">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Write">
+      <MemberSignature Language="C#" Value="protected void Write (Hdf5.Datatype mt, Hdf5.Dataspace ms, Hdf5.Dataspace fs, IntPtr buf);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyVersion>0.4.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="mt" Type="Hdf5.Datatype" />
+        <Parameter Name="ms" Type="Hdf5.Dataspace" />
+        <Parameter Name="fs" Type="Hdf5.Dataspace" />
+        <Parameter Name="buf" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="mt">To be added.</param>
+        <param name="ms">To be added.</param>
+        <param name="fs">To be added.</param>
+        <param name="buf">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

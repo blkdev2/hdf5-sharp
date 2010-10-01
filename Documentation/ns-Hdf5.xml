@@ -1,0 +1,6 @@
+<Namespace Name="Hdf5">
+  <Docs>
+    <summary>The namespace of hdf5-sharp.</summary>
+    <remarks>The Hdf5 namespace is the only namespace and contains all classes in the library.</remarks>
+  </Docs>
+</Namespace>

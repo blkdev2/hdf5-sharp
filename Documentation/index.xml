@@ -1,0 +1,61 @@
+<Overview>
+  <Assemblies>
+    <Assembly Name="hdf5-sharp" Version="0.4.0.0">
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyCompany("")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyConfiguration("")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyCopyright("Copyright (c) 2009 Markus Uhr")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyDescription("Bindings of the HDF5 library for the .NET platform.")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyProduct("")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyTitle("hdf5-sharp")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Reflection.AssemblyTrademark("")</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Runtime.CompilerServices.RuntimeCompatibility(WrapNonExceptionThrows=true)</AttributeName>
+        </Attribute>
+      </Attributes>
+    </Assembly>
+  </Assemblies>
+  <Remarks>
+    <para>This is the reference documentation of the hdf5-sharp library.</para>
+    <para>The hdf5-sharp library enables reading and writing of files in the HDF5 format from programs targetting the .NET framework.</para>
+  </Remarks>
+  <Copyright>Copyright 2008-2010, Markus Uhr.</Copyright>
+  <Types>
+    <Namespace Name="Hdf5">
+      <Type Name="Attribute`1" DisplayName="Attribute&lt;T&gt;" Kind="Class" />
+      <Type Name="Base" Kind="Class" />
+      <Type Name="ByteOrder" Kind="Enumeration" />
+      <Type Name="Dataset`1" DisplayName="Dataset&lt;T&gt;" Kind="Class" />
+      <Type Name="Dataspace" Kind="Class" />
+      <Type Name="Datatype" Kind="Class" />
+      <Type Name="DatatypeClass" Kind="Enumeration" />
+      <Type Name="DatatypeOrder" Kind="Enumeration" />
+      <Type Name="DatatypeSign" Kind="Enumeration" />
+      <Type Name="File" Kind="Class" />
+      <Type Name="FileAccessFlags" Kind="Enumeration" />
+      <Type Name="FileObjectType" Kind="Enumeration" />
+      <Type Name="FileScope" Kind="Enumeration" />
+      <Type Name="Group" Kind="Class" />
+      <Type Name="H5" Kind="Class" />
+      <Type Name="Location" Kind="Class" />
+      <Type Name="ObjectType" Kind="Enumeration" />
+      <Type Name="SelectOperation" Kind="Enumeration" />
+      <Type Name="SpaceStatus" Kind="Enumeration" />
+    </Namespace>
+  </Types>
+  <Title>hdf5-sharp</Title>
+</Overview>
