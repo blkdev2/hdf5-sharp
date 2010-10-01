@@ -42,7 +42,7 @@ namespace Hdf5
         
         public abstract T Read();
         
-        protected void Read(Datatype mt, IntPtr buf)
+        protected internal void Read(Datatype mt, IntPtr buf)
         {
             int err = H5Aread(raw, mt.raw, buf);
             if (err < 0)
@@ -51,7 +51,7 @@ namespace Hdf5
         
         public abstract void Write(T data);
         
-        protected void Write(Datatype mt, IntPtr buf)
+        protected internal void Write(Datatype mt, IntPtr buf)
         {
             int err = H5Awrite(raw, mt.raw, buf);
             if (err < 0)
