@@ -60,14 +60,18 @@ namespace Hdf5
                 throw new ApplicationException("Error determining length of object name.");
             else if (size == 0)
                 return null;
+            string name = null;
             IntPtr hname = Marshal.AllocHGlobal((int)size+1);
             size = (long)H5Gget_objname_by_idx(raw, (ulong)index, hname, (IntPtr)(size+1));
-            if (size < 0)
-                throw new ApplicationException("Error getting object name.");
-            else if (size == 0)
-                return null;
-            string name = Marshal.PtrToStringAnsi(hname);
-            Marshal.FreeHGlobal(hname);
+            try {
+                if (size < 0)
+                    throw new ApplicationException("Error getting object name.");
+                else if (size == 0)
+                    return null;
+                name = Marshal.PtrToStringAnsi(hname);
+            } finally {
+                Marshal.FreeHGlobal(hname);
+            }
             return name;
         }
         
