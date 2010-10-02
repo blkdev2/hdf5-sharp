@@ -8,7 +8,7 @@
     <BaseTypeName>System.Enum</BaseTypeName>
   </Base>
   <Docs>
-    <summary>To be added.</summary>
+    <summary>Indicates the kind of HDF5 object.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -22,7 +22,7 @@
         <ReturnType>Hdf5.ObjectType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Object is a dataset.</summary>
       </Docs>
     </Member>
     <Member MemberName="Group">
@@ -35,7 +35,7 @@
         <ReturnType>Hdf5.ObjectType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Object is a group.</summary>
       </Docs>
     </Member>
     <Member MemberName="Link">
@@ -48,7 +48,7 @@
         <ReturnType>Hdf5.ObjectType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Object is a link.</summary>
       </Docs>
     </Member>
     <Member MemberName="Type">
@@ -61,7 +61,7 @@
         <ReturnType>Hdf5.ObjectType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Object is a type.</summary>
       </Docs>
     </Member>
     <Member MemberName="Unknown">
@@ -74,7 +74,7 @@
         <ReturnType>Hdf5.ObjectType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Object has unknown type (error).</summary>
       </Docs>
     </Member>
   </Members>

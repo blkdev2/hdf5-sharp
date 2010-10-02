@@ -43,7 +43,6 @@
       <Type Name="Dataspace" Kind="Class" />
       <Type Name="Datatype" Kind="Class" />
       <Type Name="DatatypeClass" Kind="Enumeration" />
-      <Type Name="DatatypeOrder" Kind="Enumeration" />
       <Type Name="DatatypeSign" Kind="Enumeration" />
       <Type Name="File" Kind="Class" />
       <Type Name="FileAccessFlags" Kind="Enumeration" />

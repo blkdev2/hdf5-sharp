@@ -13,7 +13,7 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
+    <summary>Indicates mode for creating and opening files.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -27,7 +27,7 @@
         <ReturnType>Hdf5.FileAccessFlags</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Create file if it does not exist.</summary>
       </Docs>
     </Member>
     <Member MemberName="Debug">
@@ -40,7 +40,7 @@
         <ReturnType>Hdf5.FileAccessFlags</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Print debug information.</summary>
       </Docs>
     </Member>
     <Member MemberName="Exclusive">
@@ -53,7 +53,7 @@
         <ReturnType>Hdf5.FileAccessFlags</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Fail if file does not exist.</summary>
       </Docs>
     </Member>
     <Member MemberName="ReadOnly">
@@ -66,7 +66,7 @@
         <ReturnType>Hdf5.FileAccessFlags</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Read-only file mode (default).</summary>
       </Docs>
     </Member>
     <Member MemberName="ReadWrite">
@@ -79,7 +79,7 @@
         <ReturnType>Hdf5.FileAccessFlags</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Read-write file mode.</summary>
       </Docs>
     </Member>
     <Member MemberName="Truncate">
@@ -92,7 +92,7 @@
         <ReturnType>Hdf5.FileAccessFlags</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Overwrite file if it exists.</summary>
       </Docs>
     </Member>
   </Members>

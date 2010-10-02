@@ -13,8 +13,8 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Indicates which object types should be counted/enumerated.</summary>
+    <remarks>These flags are used to indicate which object types should be considered in <see cref="M:Hdf5.File.GetOpenObjCount(Hdf5.FileObjectType)" />.</remarks>
   </Docs>
   <Members>
     <Member MemberName="All">
@@ -27,7 +27,7 @@
         <ReturnType>Hdf5.FileObjectType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Shortcut for all object types.</summary>
       </Docs>
     </Member>
     <Member MemberName="Attr">
@@ -40,7 +40,7 @@
         <ReturnType>Hdf5.FileObjectType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>HDF5 attributes.</summary>
       </Docs>
     </Member>
     <Member MemberName="Dataset">
@@ -53,7 +53,7 @@
         <ReturnType>Hdf5.FileObjectType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>HDF5 datasets.</summary>
       </Docs>
     </Member>
     <Member MemberName="Datatype">
@@ -66,7 +66,7 @@
         <ReturnType>Hdf5.FileObjectType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>HDF5 named datatypes.</summary>
       </Docs>
     </Member>
     <Member MemberName="File">
@@ -79,7 +79,7 @@
         <ReturnType>Hdf5.FileObjectType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>HDF5 files.</summary>
       </Docs>
     </Member>
     <Member MemberName="Group">
@@ -92,7 +92,7 @@
         <ReturnType>Hdf5.FileObjectType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>HDF5 groups.</summary>
       </Docs>
     </Member>
     <Member MemberName="Local">
@@ -105,7 +105,7 @@
         <ReturnType>Hdf5.FileObjectType</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Restrict search to local object.</summary>
       </Docs>
     </Member>
   </Members>

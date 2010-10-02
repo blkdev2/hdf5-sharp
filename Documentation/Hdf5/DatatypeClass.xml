@@ -8,7 +8,7 @@
     <BaseTypeName>System.Enum</BaseTypeName>
   </Base>
   <Docs>
-    <summary>To be added.</summary>
+    <summary>Indicates the class of an HDF5 datatype.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -22,7 +22,7 @@
         <ReturnType>Hdf5.DatatypeClass</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Array data type.</summary>
       </Docs>
     </Member>
     <Member MemberName="Bitfield">
@@ -35,7 +35,7 @@
         <ReturnType>Hdf5.DatatypeClass</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Bitfield data type.</summary>
       </Docs>
     </Member>
     <Member MemberName="Compound">
@@ -48,7 +48,7 @@
         <ReturnType>Hdf5.DatatypeClass</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Compound data type.</summary>
       </Docs>
     </Member>
     <Member MemberName="Enum">
@@ -61,7 +61,7 @@
         <ReturnType>Hdf5.DatatypeClass</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Enumeration.</summary>
       </Docs>
     </Member>
     <Member MemberName="Float">
@@ -74,7 +74,7 @@
         <ReturnType>Hdf5.DatatypeClass</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Floating point data type.</summary>
       </Docs>
     </Member>
     <Member MemberName="Integer">
@@ -87,7 +87,7 @@
         <ReturnType>Hdf5.DatatypeClass</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Integer data type.</summary>
       </Docs>
     </Member>
     <Member MemberName="NoClass">
@@ -100,7 +100,7 @@
         <ReturnType>Hdf5.DatatypeClass</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Indicates an error.</summary>
       </Docs>
     </Member>
     <Member MemberName="Opaque">
@@ -113,7 +113,7 @@
         <ReturnType>Hdf5.DatatypeClass</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Opaque data type.</summary>
       </Docs>
     </Member>
     <Member MemberName="Reference">
@@ -126,7 +126,7 @@
         <ReturnType>Hdf5.DatatypeClass</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Reference data type.</summary>
       </Docs>
     </Member>
     <Member MemberName="String">
@@ -139,7 +139,7 @@
         <ReturnType>Hdf5.DatatypeClass</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>String data type.</summary>
       </Docs>
     </Member>
     <Member MemberName="Time">
@@ -152,7 +152,7 @@
         <ReturnType>Hdf5.DatatypeClass</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Unsupported (as of the HDF5 specification).</summary>
       </Docs>
     </Member>
     <Member MemberName="Vlen">
@@ -165,7 +165,7 @@
         <ReturnType>Hdf5.DatatypeClass</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Variable-length data type.</summary>
       </Docs>
     </Member>
   </Members>

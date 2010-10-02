@@ -8,7 +8,7 @@
     <BaseTypeName>System.Enum</BaseTypeName>
   </Base>
   <Docs>
-    <summary>To be added.</summary>
+    <summary>Indicates the allocation status of a dataset.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -22,7 +22,7 @@
         <ReturnType>Hdf5.SpaceStatus</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>The complete dataspace of a dataset has been allocated.</summary>
       </Docs>
     </Member>
     <Member MemberName="Error">
@@ -35,7 +35,7 @@
         <ReturnType>Hdf5.SpaceStatus</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Error.</summary>
       </Docs>
     </Member>
     <Member MemberName="NotAllocated">
@@ -48,7 +48,7 @@
         <ReturnType>Hdf5.SpaceStatus</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>The dataspace of a dataset is not allocated.</summary>
       </Docs>
     </Member>
     <Member MemberName="PartAllocated">
@@ -61,7 +61,7 @@
         <ReturnType>Hdf5.SpaceStatus</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>The dataspace of a dataset is partially allocated (chunked storage).</summary>
       </Docs>
     </Member>
   </Members>

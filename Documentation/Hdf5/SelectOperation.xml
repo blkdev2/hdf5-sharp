@@ -8,7 +8,7 @@
     <BaseTypeName>System.Enum</BaseTypeName>
   </Base>
   <Docs>
-    <summary>To be added.</summary>
+    <summary>Indicates how to modify a dataspace selection.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -22,7 +22,7 @@
         <ReturnType>Hdf5.SelectOperation</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Intersect specified elements with current selection.</summary>
       </Docs>
     </Member>
     <Member MemberName="Append">
@@ -35,7 +35,7 @@
         <ReturnType>Hdf5.SelectOperation</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Add elements at end of point selection.</summary>
       </Docs>
     </Member>
     <Member MemberName="Invalid">
@@ -48,7 +48,7 @@
         <ReturnType>Hdf5.SelectOperation</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Invalid selection operation.</summary>
       </Docs>
     </Member>
     <Member MemberName="NoOp">
@@ -61,7 +61,7 @@
         <ReturnType>Hdf5.SelectOperation</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Ignore selection operation (error).</summary>
       </Docs>
     </Member>
     <Member MemberName="NotA">
@@ -74,7 +74,7 @@
         <ReturnType>Hdf5.SelectOperation</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Only select specified elements that are not currently selected.</summary>
       </Docs>
     </Member>
     <Member MemberName="NotB">
@@ -87,7 +87,7 @@
         <ReturnType>Hdf5.SelectOperation</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Only retain elements that are currently selected but not specified.</summary>
       </Docs>
     </Member>
     <Member MemberName="Or">
@@ -100,7 +100,7 @@
         <ReturnType>Hdf5.SelectOperation</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Union specified elements with current selection.</summary>
       </Docs>
     </Member>
     <Member MemberName="Prepend">
@@ -113,7 +113,7 @@
         <ReturnType>Hdf5.SelectOperation</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Add elements at beginning of point selection.</summary>
       </Docs>
     </Member>
     <Member MemberName="Set">
@@ -126,7 +126,7 @@
         <ReturnType>Hdf5.SelectOperation</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Select the specified elements.</summary>
       </Docs>
     </Member>
     <Member MemberName="Xor">
@@ -139,7 +139,7 @@
         <ReturnType>Hdf5.SelectOperation</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Select elements that are either currently selected or specified (but not both).</summary>
       </Docs>
     </Member>
   </Members>

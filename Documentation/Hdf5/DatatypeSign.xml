@@ -8,7 +8,7 @@
     <BaseTypeName>System.Enum</BaseTypeName>
   </Base>
   <Docs>
-    <summary>To be added.</summary>
+    <summary>Indicates the sign representation of integer types.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -22,7 +22,7 @@
         <ReturnType>Hdf5.DatatypeSign</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Indicates an error.</summary>
       </Docs>
     </Member>
     <Member MemberName="None">
@@ -35,7 +35,7 @@
         <ReturnType>Hdf5.DatatypeSign</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Unsigned data type.</summary>
       </Docs>
     </Member>
     <Member MemberName="Twos">
@@ -48,7 +48,7 @@
         <ReturnType>Hdf5.DatatypeSign</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Sign represented as two's complement.</summary>
       </Docs>
     </Member>
   </Members>

@@ -1,5 +1,5 @@
 <Type Name="H5" FullName="Hdf5.H5">
-  <TypeSignature Language="C#" Value="public class H5" />
+  <TypeSignature Language="C#" Value="public static class H5" />
   <AssemblyInfo>
     <AssemblyName>hdf5-sharp</AssemblyName>
     <AssemblyVersion>0.4.0.0</AssemblyVersion>
@@ -9,22 +9,10 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
+    <summary>Contains general HDF5 library routines.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
-    <Member MemberName=".ctor">
-      <MemberSignature Language="C#" Value="public H5 ();" />
-      <MemberType>Constructor</MemberType>
-      <AssemblyInfo>
-        <AssemblyVersion>0.4.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Parameters />
-      <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
     <Member MemberName="CheckVersion">
       <MemberSignature Language="C#" Value="public static void CheckVersion (uint majnum, uint minnum, uint relnum);" />
       <MemberType>Method</MemberType>
@@ -40,11 +28,11 @@
         <Parameter Name="relnum" Type="System.UInt32" />
       </Parameters>
       <Docs>
-        <param name="majnum">To be added.</param>
-        <param name="minnum">To be added.</param>
-        <param name="relnum">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="majnum">Major version.</param>
+        <param name="minnum">Minor version.</param>
+        <param name="relnum">Release number.</param>
+        <summary>Check whether the HDF5 library has the given version number.</summary>
+        <remarks>If the given library version does not match, this method causes the program to abort (no exception is thrown).</remarks>
       </Docs>
     </Member>
     <Member MemberName="GarbageCollect">
@@ -58,7 +46,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Frees unused memory in the library.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -77,10 +65,10 @@
         <Parameter Name="relnum" Type="System.UInt32&amp;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="majnum">To be added.</param>
-        <param name="minnum">To be added.</param>
-        <param name="relnum">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="majnum">Major version.</param>
+        <param name="minnum">Minor version.</param>
+        <param name="relnum">Release number.</param>
+        <summary>Returns the version number of the HDF5 library.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -95,8 +83,8 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Initialize the HDF5 library.</summary>
+        <remarks>It is generally not necessary to call this method.</remarks>
       </Docs>
     </Member>
   </Members>
