@@ -29,7 +29,6 @@
 //
 
 using System;
-using System.Collections;
 using System.Runtime.InteropServices;
 
 namespace Hdf5
@@ -188,34 +187,5 @@ namespace Hdf5
                 throw new ApplicationException("Error opening attribute.");
             return CreateInstance(raw);
         }
-        
-        // imports
-        
-        [DllImport("hdf5")]
-        private static extern int H5Fflush(int loc, FileScope scope);
-
-        [DllImport("hdf5")]
-        private static extern int H5Acreate2(int obj_id, string attr_name, int type_id, int space_id, int acpl_id, int aapl_id);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Aclose(int obj_id);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Aopen_name(int obj_id, string attr_name);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Aread(int attr_id, int mem_type_id, IntPtr buf);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Awrite(int attr_id, int mem_type_id, IntPtr buf);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Aget_name(int attr_id, IntPtr size, IntPtr buf);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Aget_space(int attr_id);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Aget_type(int attr_id);
     }
 }

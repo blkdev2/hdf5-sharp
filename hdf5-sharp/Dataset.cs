@@ -359,40 +359,5 @@ namespace Hdf5
             int raw = H5Dopen2(loc.raw, name, 0);
             return CreateInstance(raw);
         }
-        
-        // imports
-        
-        [DllImport("hdf5")]
-        private static extern int H5Fflush(int loc, FileScope scope);
-
-        [DllImport("hdf5")]
-        internal static extern int H5Dcreate2(int loc_id, string name, int type_id, int space_id, int lcpl_id, int dcpl_id, int dapl_id);
-        
-        [DllImport("hdf5")]
-        internal static extern int H5Dopen2(int loc_id, string name, int dapl_id);
-        
-        [DllImport("hdf5")]
-        internal static extern int H5Dclose(int dataset_id);
-        
-        [DllImport("hdf5")]
-        internal static extern int H5Dget_space(int dataset_id);
-        
-        [DllImport("hdf5")]
-        internal static extern int H5Dget_space_status(int dataset_id, out SpaceStatus status);
-        
-        [DllImport("hdf5")]
-        internal static extern int H5Dget_type(int dataset_id);
-        
-        [DllImport("hdf5")]
-        internal static extern int H5Dread(int dataset_id, int mem_type_id, int mem_space_id, int file_space_id, int xfer_plist_id, IntPtr buf);
-        
-        [DllImport("hdf5")]
-        internal static extern int H5Dwrite(int dataset_id, int mem_type_id, int mem_space_id, int file_space_id, int xfer_plist_id, IntPtr buf);
-        
-        [DllImport("hdf5")]
-        internal static extern int H5Dvlen_get_buf_size(int dataset_id, int type_id, int space_id, out ulong size);
-        
-        [DllImport("hdf5")]
-        internal static extern int H5Dvlen_reclaim(int type_id, int space_id, int plist_id, IntPtr buf);
     }
 }

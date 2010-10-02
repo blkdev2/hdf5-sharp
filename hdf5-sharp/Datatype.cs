@@ -531,40 +531,5 @@ namespace Hdf5
         
         [DllImport("dl")]
         private static extern IntPtr dlerror();
-        
-        // hdf5 import
-        
-        [DllImport("hdf5")]
-        private static extern int H5Tcreate(DatatypeClass klass, IntPtr size);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Tvlen_create(int base_type_id);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Tcopy(int type_id);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Tinsert(int type_id, string name, IntPtr offset, int field_id);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Tclose(int type_id);
-        
-        [DllImport("hdf5")]
-        private static extern DatatypeClass H5Tget_class(int type_id);
-        
-        [DllImport("hdf5")]
-        private static extern IntPtr H5Tget_size(int type_id);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Tset_size(int type_id, long size);
-        
-        [DllImport("hdf5")]
-        private static extern ByteOrder H5Tget_order(int type_id);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Tset_order(int type_id, ByteOrder order);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Tis_variable_str(int type_id);
     }
 }

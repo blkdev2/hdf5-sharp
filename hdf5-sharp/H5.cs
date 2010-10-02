@@ -69,20 +69,19 @@ namespace Hdf5
             H5get_libversion(out majnum, out minnum, out relnum);
         }
 
-        // imports
+        // HDF5 library imports
 
         [DllImport("hdf5")]
-        private static extern int H5open();
+        internal static extern int H5open();
 
         [DllImport("hdf5")]
-        private static extern int H5check_version(uint majnum, uint minnum, uint relnum);
+        internal static extern int H5check_version(uint majnum, uint minnum, uint relnum);
 
         [DllImport("hdf5")]
-        private static extern int H5garbage_collect();
+        internal static extern int H5garbage_collect();
 
         [DllImport("hdf5")]
-        private static extern int H5get_libversion(out uint majnum, out uint minnum, out uint relnum);
+        internal static extern int H5get_libversion(out uint majnum, out uint minnum, out uint relnum);
     }
-
 }
 

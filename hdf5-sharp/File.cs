@@ -118,31 +118,5 @@ namespace Hdf5
                 throw new ApplicationException("Error determining file type.");
             return result > 0;
         }
-        
-        // imports
-
-        [DllImport("hdf5")]
-        private static extern int H5Fcreate(string filename, uint flags, int create_id, int access_id);
-
-        [DllImport("hdf5")]
-        private static extern int H5Fopen(string filename, uint flags, int access_id);
-
-        [DllImport("hdf5")]
-        private static extern int H5Fclose(int file_id);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Fget_filesize(int file_id, out ulong size);
-
-        [DllImport("hdf5")]
-        private static extern int H5Fget_name(int file_id, IntPtr name, long size);
-
-        [DllImport("hdf5")]
-        private static extern long H5Fget_obj_count(int file_id, uint types);
-
-        [DllImport("hdf5")]
-        private static extern long H5Fget_obj_ids(int file_id, uint types, long max_objs, IntPtr obj_id_list);
-
-        [DllImport("hdf5")]
-        private static extern int H5Fis_hdf5(string filename);
     }
 }

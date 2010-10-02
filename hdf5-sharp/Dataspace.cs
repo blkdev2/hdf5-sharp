@@ -166,34 +166,5 @@ namespace Hdf5
         }
         
         public static readonly Dataspace All = new Dataspace(0);
-        
-        // imports
-        
-        [DllImport("hdf5")]
-        private static extern int H5Screate_simple(int rank, long[] dims, long[] maxdims);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Sclose(int space_id);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Sget_simple_extent_ndims(int space_id);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Sget_simple_extent_dims(int space_id, IntPtr dims, IntPtr maxdims);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Sis_simple(int space_id);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Sselect_all(int space_id);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Sselect_none(int space_id);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Sselect_hyperslab(int space_id, SelectOperation op, IntPtr start, IntPtr stride, IntPtr count, IntPtr block);
-        
-        [DllImport("hdf5")]
-        private static extern int H5Sselect_valid(int space_id);
     }
 }

@@ -105,19 +105,5 @@ namespace Hdf5
                 return (int)num_obj;
             }
         }
-        
-        // imports
-        
-        [DllImport("hdf5")]
-        private static extern int H5Fflush(int loc, FileScope scope);
-
-        [DllImport("hdf5")]
-        private static extern int H5Gget_num_objs(int loc, out ulong num_obj);
-        
-        [DllImport("hdf5")]
-        private static extern IntPtr H5Gget_objname_by_idx(int loc, ulong idx, IntPtr name, IntPtr size);
-        
-        [DllImport("hdf5")]
-        private static extern ObjectType H5Gget_objtype_by_idx(int loc, ulong idx);
     }
 }

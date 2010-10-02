@@ -29,8 +29,8 @@
 //
 
 using System;
-using System.IO;
-using System.Runtime.InteropServices;
+//using System.IO;
+//using System.Runtime.InteropServices;
 
 namespace Hdf5
 {
@@ -59,16 +59,5 @@ namespace Hdf5
         {
             return new Group(H5Gopen2(loc.raw, name, 0));
         }
-        
-        // imports
-
-        [DllImport("hdf5")]
-        private static extern int H5Gcreate2(int loc, string name, long size_hint, int gcpl_id, int gapl_id);
-
-        [DllImport("hdf5")]
-        private static extern int H5Gopen2(int loc, string name, int gapl_id);
-
-        [DllImport("hdf5")]
-        private static extern int H5Gclose(int group_id);
     }
 }

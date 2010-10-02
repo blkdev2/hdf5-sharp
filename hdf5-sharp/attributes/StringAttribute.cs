@@ -31,7 +31,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Hdf5
 {
@@ -84,10 +83,5 @@ namespace Hdf5
                 }
             }
         }
-        
-        // imports
-        
-        [DllImport("hdf5")]
-        private static extern int H5Dvlen_reclaim(int type_id, int space_id, int plist_id, IntPtr buf);
     }
 }
