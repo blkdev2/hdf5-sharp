@@ -39,33 +39,33 @@ namespace Hdf5
     public enum DatatypeClass
     {
         NoClass          = -1,  /* error                                      */
-        Integer          = 0,   /* integer types                              */
-        Float            = 1,   /* floating-point types                       */
-        Time             = 2,   /* date and time types                        */
-        String           = 3,   /* character string types                     */
-        Bitfield         = 4,   /* bit field types                            */
-        Opaque           = 5,   /* opaque types                               */
-        Compound         = 6,   /* compound types                             */
-        Reference        = 7,   /* reference types                            */
-        Enum             = 8,   /* enumeration types                          */
-        Vlen             = 9,   /* Variable-Length types                      */
+        Integer          =  0,  /* integer types                              */
+        Float            =  1,  /* floating-point types                       */
+        Time             =  2,  /* date and time types                        */
+        String           =  3,  /* character string types                     */
+        Bitfield         =  4,  /* bit field types                            */
+        Opaque           =  5,  /* opaque types                               */
+        Compound         =  6,  /* compound types                             */
+        Reference        =  7,  /* reference types                            */
+        Enum             =  8,  /* enumeration types                          */
+        Vlen             =  9,  /* Variable-Length types                      */
         Array            = 10   /* Array types                                */
     }
 
-    public enum DatatypeOrder
-    {
-        Error         = -1,  /* error                                      */
-        LittleEndian  = 0,   /* little endian                              */
-        BigEndian     = 1,   /* bit endian                                 */
-        Vax           = 2,   /* VAX mixed endian                           */
-        None          = 3    /* no particular order (strings, bits,..)     */
-    }
+//    public enum DatatypeOrder
+//    {
+//        Error         = -1,  /* error                                      */
+//        LittleEndian  =  0,  /* little endian                              */
+//        BigEndian     =  1,  /* bit endian                                 */
+//        Vax           =  2,  /* VAX mixed endian                           */
+//        None          =  3   /* no particular order (strings, bits,..)     */
+//    }
     
     public enum DatatypeSign
     {
         Error   = -1,  /* error                                      */
-        None    = 0,   /* this is an unsigned type                   */
-        Twos    = 1,   /* two's complement                           */
+        None    =  0,  /* this is an unsigned type                   */
+        Twos    =  1,  /* two's complement                           */
     }
     
     public enum ByteOrder
