@@ -45,7 +45,7 @@ namespace Hdf5
         Create    = 0x0010
     }
     
-    public class H5
+    public static class H5
     {
         public static void Open()
         {
