@@ -72,13 +72,13 @@ namespace Hdf5
             get
             {
                 string result;
-                long size = H5Aget_name(raw, (IntPtr)0, IntPtr.Zero);
+                long size = H5Aget_name(raw, 0, IntPtr.Zero);
                 if (size < 0)
                     throw new ApplicationException("Error determining length of attribute name.");
                 IntPtr buf = Marshal.AllocHGlobal((int)(size+1));
                 try {
-                    int err = H5Aget_name(raw, (IntPtr)(size+1), buf);
-                    if (err < 0)
+                    size = H5Aget_name(raw, size+1, buf);
+                    if (size < 0)
                         throw new ApplicationException("Error getting attribute name.");
                     result = Marshal.PtrToStringAnsi(buf);
                 } finally {

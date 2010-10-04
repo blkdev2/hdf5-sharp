@@ -53,10 +53,10 @@ namespace Hdf5
         
         public long GetOpenObjCount(FileObjectType types)
         {
-            return H5Fget_obj_count(raw, (uint)types);
+            return (long)H5Fget_obj_count(raw, (uint)types);
         }
         
-        public long Filesize
+        public long Size
         {
             get
             {
@@ -68,7 +68,7 @@ namespace Hdf5
             }
         }
         
-        public string Filename
+        public string Name
         {
             get
             {
@@ -77,14 +77,18 @@ namespace Hdf5
                     throw new ApplicationException("Error determining length of file name.");
                 else if (size == 0)
                     return null;
+                string name = null;
                 IntPtr hname = Marshal.AllocHGlobal((int)size+1);
-                size = H5Fget_name(raw, hname, size+1);
-                if (size < 0)
-                    throw new ApplicationException("Error getting file name.");
-                else if (size == 0)
-                    return null;
-                string name = Marshal.PtrToStringAnsi(hname);
-                Marshal.FreeHGlobal(hname);
+                try {
+                    size = H5Fget_name(raw, hname, size+1);
+                    if (size < 0)
+                        throw new ApplicationException("Error getting file name.");
+                    else if (size == 0)
+                        return null;
+                    name = Marshal.PtrToStringAnsi(hname);
+                } finally {
+                    Marshal.FreeHGlobal(hname);
+                }
                 return name;
             }
         }

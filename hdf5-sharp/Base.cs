@@ -88,8 +88,13 @@ namespace Hdf5
         [DllImport("hdf5")]
         internal static extern int H5Awrite(int attr_id, int mem_type_id, IntPtr buf);
         
+        internal static long H5Aget_name(int attr_id, long size, IntPtr buf)
+        {
+            return (long)H5Aget_name(attr_id, (IntPtr)size, buf);
+        }
+        
         [DllImport("hdf5")]
-        internal static extern int H5Aget_name(int attr_id, IntPtr size, IntPtr buf);
+        internal static extern IntPtr H5Aget_name(int attr_id, IntPtr size, IntPtr buf);
         
         [DllImport("hdf5")]
         internal static extern int H5Aget_space(int attr_id);
@@ -123,8 +128,16 @@ namespace Hdf5
         [DllImport("hdf5")]
         internal static extern int H5Dwrite(int dataset_id, int mem_type_id, int mem_space_id, int file_space_id, int xfer_plist_id, IntPtr buf);
         
-        [DllImport("hdf5")]
-        internal static extern int H5Dvlen_get_buf_size(int dataset_id, int type_id, int space_id, out ulong size);
+//        internal static int H5Dvlen_get_buf_size(int dataset_id, int type_id, int space_id, out long size)
+//        {
+//            IntPtr tmp;
+//            int result = H5Dvlen_get_buf_size(dataset_id, type_id, space_id, out tmp);
+//            size = (long)tmp;
+//            return result;
+//        }
+        
+//        [DllImport("hdf5")]
+//        internal static extern int H5Dvlen_get_buf_size(int dataset_id, int type_id, int space_id, out IntPtr size);
         
         [DllImport("hdf5")]
         internal static extern int H5Dvlen_reclaim(int type_id, int space_id, int plist_id, IntPtr buf);
@@ -146,14 +159,24 @@ namespace Hdf5
         [DllImport("hdf5")]
         internal static extern int H5Fget_filesize(int file_id, out ulong size);
 
-        [DllImport("hdf5")]
-        internal static extern int H5Fget_name(int file_id, IntPtr name, long size);
+        internal static long H5Fget_name(int file_id, IntPtr name, long size)
+        {
+            return (long)H5Fget_name(file_id, name, (IntPtr)size);
+        }
 
         [DllImport("hdf5")]
-        internal static extern long H5Fget_obj_count(int file_id, uint types);
+        internal static extern IntPtr H5Fget_name(int file_id, IntPtr name, IntPtr size);
 
         [DllImport("hdf5")]
-        internal static extern long H5Fget_obj_ids(int file_id, uint types, long max_objs, IntPtr obj_id_list);
+        internal static extern IntPtr H5Fget_obj_count(int file_id, uint types);
+
+        internal static long H5Fget_obj_ids(int file_id, uint types, long max_objs, IntPtr obj_id_list)
+        {
+            return (long)H5Fget_obj_ids(file_id, types, (IntPtr)max_objs, obj_id_list);
+        }
+
+        [DllImport("hdf5")]
+        internal static extern IntPtr H5Fget_obj_ids(int file_id, uint types, IntPtr max_objs, IntPtr obj_id_list);
 
         [DllImport("hdf5")]
         internal static extern int H5Fis_hdf5(string filename);
@@ -169,8 +192,16 @@ namespace Hdf5
         [DllImport("hdf5")]
         internal static extern int H5Gclose(int group_id);
 
+        internal static int H5Gget_num_objs(int loc, out long num_obj)
+        {
+            IntPtr tmp;
+            int result = H5Gget_num_objs(loc, out tmp);
+            num_obj = (long)tmp;
+            return result;
+        }
+        
         [DllImport("hdf5")]
-        internal static extern int H5Gget_num_objs(int loc, out ulong num_obj);
+        internal static extern int H5Gget_num_objs(int loc, out IntPtr num_obj);
         
         [DllImport("hdf5")]
         internal static extern IntPtr H5Gget_objname_by_idx(int loc, ulong idx, IntPtr name, IntPtr size);

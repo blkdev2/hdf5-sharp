@@ -98,7 +98,7 @@ namespace Hdf5
         {
             get
             {
-                ulong num_obj;
+                long num_obj;
                 int err = H5Gget_num_objs(raw, out num_obj);
                 if (err < 0)
                     throw new ApplicationException("Error determining number of objects.");

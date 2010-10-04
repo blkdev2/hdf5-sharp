@@ -46,7 +46,7 @@ namespace Hdf5.Tests
             {
                 using (Hdf5.File h5file = Hdf5.File.Create(tmpfile, Hdf5.FileAccessFlags.Truncate))
                 {
-                    Assert.AreEqual(tmpfile, h5file.Filename);
+                    Assert.AreEqual(tmpfile, h5file.Name);
                 }
             } finally {
                 System.IO.File.Delete(tmpfile);
@@ -63,7 +63,7 @@ namespace Hdf5.Tests
             
                 using (Hdf5.File h5file = Hdf5.File.Open(tmpfile, Hdf5.FileAccessFlags.ReadOnly))
                 {
-                    Assert.AreEqual(tmpfile, h5file.Filename);
+                    Assert.AreEqual(tmpfile, h5file.Name);
                 }
             } finally {
                 System.IO.File.Delete(tmpfile);
