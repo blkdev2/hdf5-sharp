@@ -6,7 +6,7 @@
     <ProjectGuid>{33C1C8BC-4041-4E53-A6C4-2111C90A9F43}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>hdf5sharp</RootNamespace>
-    <AssemblyName>hdf5-sharp</AssemblyName>
+    <AssemblyName>hdf5sharp</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -53,5 +53,10 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="hdf5sharp.dll.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

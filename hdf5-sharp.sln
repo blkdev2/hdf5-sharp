@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hdf5-sharp", "hdf5-sharp\hd
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{94623CEF-0CA1-462B-AAA1-16EF2186C790}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FirstTest", "FirstTest\FirstTest.csproj", "{812ADB98-4256-4030-98AB-67DE954D50F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -15,6 +17,10 @@ Global
 		{33C1C8BC-4041-4E53-A6C4-2111C90A9F43}.Debug|x86.Build.0 = Debug|x86
 		{33C1C8BC-4041-4E53-A6C4-2111C90A9F43}.Release|x86.ActiveCfg = Release|x86
 		{33C1C8BC-4041-4E53-A6C4-2111C90A9F43}.Release|x86.Build.0 = Release|x86
+		{812ADB98-4256-4030-98AB-67DE954D50F2}.Debug|x86.ActiveCfg = Debug|x86
+		{812ADB98-4256-4030-98AB-67DE954D50F2}.Debug|x86.Build.0 = Debug|x86
+		{812ADB98-4256-4030-98AB-67DE954D50F2}.Release|x86.ActiveCfg = Release|x86
+		{812ADB98-4256-4030-98AB-67DE954D50F2}.Release|x86.Build.0 = Release|x86
 		{94623CEF-0CA1-462B-AAA1-16EF2186C790}.Debug|x86.ActiveCfg = Debug|x86
 		{94623CEF-0CA1-462B-AAA1-16EF2186C790}.Debug|x86.Build.0 = Debug|x86
 		{94623CEF-0CA1-462B-AAA1-16EF2186C790}.Release|x86.ActiveCfg = Release|x86
